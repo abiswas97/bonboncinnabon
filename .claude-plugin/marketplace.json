@@ -1,0 +1,22 @@
+{
+  "$schema": "https://claude.ai/schemas/marketplace.json",
+  "name": "bonboncinnabon",
+  "description": "Claude Code plugins by bonboncinnabon",
+  "owner": {
+    "name": "bonboncinnabon",
+    "email": "avishek.biswas.1997@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "postgres",
+      "source": {
+        "source": "github",
+        "repo": "abiswas97/postgres-mcp"
+      },
+      "description": "PostgreSQL database access with health diagnostics, slow query analysis, and connection monitoring",
+      "category": "database",
+      "homepage": "https://github.com/abiswas97/postgres-mcp",
+      "tags": ["postgresql", "database", "mcp", "diagnostics"]
+    }
+  ]
+}
