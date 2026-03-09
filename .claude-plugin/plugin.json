@@ -1,0 +1,11 @@
+{
+  "name": "devlab",
+  "version": "0.1.0",
+  "description": "Syncs Dev Lab project repos with Notion pages, runs PM-style brainstorming to a Features DB, and supports debate-driven task creation.",
+  "author": {
+    "name": "Avi Biswas",
+    "email": "avishek.biswas.1997@gmail.com"
+  },
+  "repository": "https://github.com/abiswas97/devlab",
+  "license": "MIT"
+}
