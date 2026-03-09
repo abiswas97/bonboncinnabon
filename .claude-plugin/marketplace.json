@@ -17,6 +17,17 @@
       "category": "database",
       "homepage": "https://github.com/abiswas97/postgres-mcp",
       "tags": ["postgresql", "database", "mcp", "diagnostics"]
+    },
+    {
+      "name": "devlab",
+      "source": {
+        "source": "github",
+        "repo": "abiswas97/devlab"
+      },
+      "description": "Syncs Dev Lab project repos with Notion pages, runs PM-style brainstorming to a Features DB, and supports debate-driven task creation",
+      "category": "productivity",
+      "homepage": "https://github.com/abiswas97/devlab",
+      "tags": ["notion", "project-management", "brainstorming", "sync"]
     }
   ]
 }
