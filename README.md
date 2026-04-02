@@ -1,11 +1,11 @@
-# bonboncinnabon Claude Plugins
+# bonboncinnabon
 
 Claude Code plugin marketplace.
 
 ## Install
 
 ```
-/plugin marketplace add abiswas97/claude-plugins
+/plugin marketplace add abiswas97/bonboncinnabon
 ```
 
 ## Plugins
