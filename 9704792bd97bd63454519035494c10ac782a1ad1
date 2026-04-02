@@ -1,0 +1,25 @@
+.claude-plugin/marketplace.json
+  ac7fbcc99a6d8179 27,30
+README.md
+  ac7fbcc99a6d8179 15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.4",
+  "base_commit_sha": "9704792bd97bd63454519035494c10ac782a1ad1",
+  "prompts": {
+    "ac7fbcc99a6d8179": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "bf37c86c-fa63-4f62-b081-eecc1ad342d8",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Avi",
+      "messages": [],
+      "total_additions": 3,
+      "total_deletions": 2,
+      "accepted_lines": 3,
+      "overriden_lines": 0
+    }
+  }
+}
