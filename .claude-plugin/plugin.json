@@ -1,7 +1,7 @@
 {
   "name": "devlab",
-  "version": "0.1.0",
-  "description": "Syncs Dev Lab project repos with Notion pages, runs PM-style brainstorming to a Features DB, and supports debate-driven task creation.",
+  "version": "0.2.0",
+  "description": "Task-centric project management for Dev Lab repos. Debate-driven task creation, terminal dashboards, and Notion sync.",
   "author": {
     "name": "Avi Biswas",
     "email": "avishek.biswas.1997@gmail.com"
