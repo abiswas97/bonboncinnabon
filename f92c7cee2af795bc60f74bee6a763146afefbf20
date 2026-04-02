@@ -1,0 +1,23 @@
+README.md
+  0fb3a9f445962f63 1,8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.4",
+  "base_commit_sha": "f92c7cee2af795bc60f74bee6a763146afefbf20",
+  "prompts": {
+    "0fb3a9f445962f63": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5fbfbe56-7f0b-4efc-90d4-32a5e7b0f52c",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Avi",
+      "messages": [],
+      "total_additions": 2,
+      "total_deletions": 2,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    }
+  }
+}
