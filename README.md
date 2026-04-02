@@ -12,6 +12,7 @@ Claude Code plugin marketplace.
 
 | Plugin | Description |
 |--------|-------------|
+| `devlab` | Task-centric project management with debate-driven task creation, dashboards, and Notion sync |
 | `postgres` | PostgreSQL diagnostics, slow query analysis, connection monitoring |
 
 ## Usage

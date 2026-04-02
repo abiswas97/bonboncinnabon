@@ -24,10 +24,10 @@
         "source": "github",
         "repo": "abiswas97/devlab"
       },
-      "description": "Syncs Dev Lab project repos with Notion pages, runs PM-style brainstorming to a Features DB, and supports debate-driven task creation",
+      "description": "Task-centric project management for Dev Lab repos. Debate-driven task creation, terminal dashboards, and Notion sync.",
       "category": "productivity",
       "homepage": "https://github.com/abiswas97/devlab",
-      "tags": ["notion", "project-management", "brainstorming", "sync"]
+      "tags": ["notion", "project-management", "brainstorming", "sync", "dashboard", "tasks"]
     }
   ]
 }
