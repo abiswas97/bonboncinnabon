@@ -17,7 +17,8 @@ agents/      -> Personas spawned by skills (proposer, critic, brainstormer)
 ## Notion Integration
 
 - Tasks DB is the single work unit. No Features DB.
-- Sub-tasks: one level deep only. Always link Project relation.
+- Hierarchy: Epic (container) > Task (deliverable, default) > Sub-task (leaf under Task). Sub-tasks one level deep under Tasks only.
+- `--epic` flag: `/devlab:task` and `/devlab:task-pick` accept `--epic <Issue Key>` to scope to an Epic.
 - Story Points: number field (1, 2, 3, 5). Not select.
 - Task Template has AI-guiding gray callouts under each section.
 - Schema/template changes are manual (via Notion AI prompts), never programmatic.

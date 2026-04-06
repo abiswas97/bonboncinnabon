@@ -1,6 +1,6 @@
 {
   "name": "devlab",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Task-centric project management for Dev Lab repos. Debate-driven task creation, terminal dashboards, and Notion sync.",
   "author": {
     "name": "Avi Biswas",

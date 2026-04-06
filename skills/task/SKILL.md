@@ -27,6 +27,16 @@ allowed-tools: Read, Grep, Glob, Bash, Agent
     This prevents duplicate work and informs the debate.
   </gate>
 
+  <gate name="epic-context">
+    If $ARGUMENTS contains --epic <key>:
+      Fetch the Epic page by Issue Key from Tasks DB.
+      If not found or Level != "Epic": STOP with error "Epic not found or not an Epic."
+      Store epic_url, epic_name, epic_description for debate context.
+      Auto-set: Level = "Task", Parent Issue = epic_url.
+      Remove --epic <key> from $ARGUMENTS before passing to topic gate.
+    Otherwise: epic_context = null.
+  </gate>
+
   <gate name="topic">
     The user's input is in $ARGUMENTS. If empty, ask:
     "What task do you want to plan? Describe it in a sentence."
@@ -56,6 +66,13 @@ allowed-tools: Read, Grep, Glob, Bash, Agent
       3 = medium (a day), 5 = large (multiple days, likely needs sub-tasks).
     </section>
 
+    <section name="level" required="true" values="Epic,Task" default="Task"
+             condition="epic-context is null">
+      Epic = strategic container (child Tasks created separately via /devlab:task --epic).
+      Task = deliverable work item (default). May have sub-tasks scoped in this debate.
+      When epic-context is set, Level is auto-locked to "Task".
+    </section>
+
     <section name="goals-nongoals" required="true">
       Goals: what is in scope (bulleted deliverables).
       Non-Goals: what is explicitly out of scope (link sibling tasks if they exist).
@@ -66,10 +83,11 @@ allowed-tools: Read, Grep, Glob, Bash, Agent
       Each criterion must be verifiable: "X happens when Y" not "X works correctly".
     </section>
 
-    <section name="sub-tasks" required="false">
-      Only needed for 3+ point tasks.
+    <section name="sub-tasks" required="false" condition="level == Task">
+      Only needed for 3+ point Tasks.
       One level deep. Each sub-task gets: name, points, brief description.
       If a sub-task exceeds 3 points, it should be its own task.
+      NOT available for Epics. Epic children are separate Tasks created via /devlab:task --epic.
     </section>
 
     <section name="references" required="false">
@@ -85,6 +103,7 @@ allowed-tools: Read, Grep, Glob, Bash, Agent
        - The section name and requirements
        - Project context from prerequisites
        - Any prior debate context for this section
+       - If epic-context is set: Epic name, description, and existing sibling Tasks
        Pass model override based on story points (see model-selection below).
 
     2. Present the proposer's draft to the conversation.
@@ -143,17 +162,20 @@ allowed-tools: Read, Grep, Glob, Bash, Agent
       - Priority: from debate (Urgent/High/Medium/Low)
       - Story Points: from debate (1/2/3/5)
       - Type: from debate (Feature/Bug/Chore/Spike/Docs)
+      - Level: from debate or epic-context ("Epic" or "Task")
       - Labels: from debate
       - Project: relation to project_page URL
+      - Parent Issue: from epic-context (epic_url) if set, otherwise omit
       - Notes: one-liner summary
     - Content: formatted using the story-output template
       (read `${CLAUDE_SKILL_DIR}/templates/story-output.md` for structure)
   </step>
 
-  <step name="create-subtasks" condition="sub-tasks exist">
+  <step name="create-subtasks" condition="sub-tasks exist AND level == Task">
     For each sub-task, create a Tasks DB entry:
     - Task Name: sub-task name
     - Status: "To Do"
+    - Level: "Sub-task"
     - Story Points: sub-task points
     - Parent Issue: relation to parent task URL
     - Labels: inherited from parent

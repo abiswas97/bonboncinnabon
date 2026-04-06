@@ -6,7 +6,7 @@ The skill must construct this JSON and pipe it to render.py via stdin:
 {
   "projects": [
     {
-      "name": "Familiar",
+      "name": "Example Project",
       "status": "Active",
       "total_tasks": 12,
       "done_tasks": 8,
@@ -23,8 +23,8 @@ The skill must construct this JSON and pipe it to render.py via stdin:
     "tech_stack": 8
   },
   "attention": [
-    "! FAM-9   Fix memory leak         Blocked 3d",
-    "! CLK-2   Auth middleware          Stale 7d"
+    "! PRJ-9   Example blocked task     Blocked 3d",
+    "! PRJ-2   Example stale task      Stale 7d"
   ]
 }
 ```

@@ -7,7 +7,7 @@ description: >
 
   <example>
   Context: User wants to brainstorm a new feature
-  user: "I want to add a Pomodoro timer to Familiar"
+  user: "I want to add a focus timer to my app"
   assistant: "I'll use the brainstormer agent to explore this idea with you."
   </example>
 
@@ -56,7 +56,21 @@ refine a feature idea through structured conversation, then write a Task to Noti
   <rule>Build on answers. "You mentioned X, does that mean Y?"</rule>
   <rule>Go off-script when interesting.</rule>
   <rule>Don't force every step. Skip what's obvious.</rule>
+  <rule>Detect Epic-scale ideas. If the idea decomposes into 3+ distinct deliverables, suggest creating an Epic.</rule>
 </style>
+
+<epic-detection>
+  After framework step 3 (simplest version), assess scope:
+  If the brainstormed idea decomposes into 3+ distinct deliverables:
+    Suggest: "This looks like an Epic with N child Tasks. Create as Epic?"
+    If user agrees:
+      - Set Level: "Epic" in properties
+      - List planned child Tasks in page body (names + 1-line descriptions)
+      - Do NOT create child Tasks as DB entries (user will use /devlab:task --epic later)
+      - After creation, offer: "Want to plan the first child Task now?"
+    If user declines:
+      - Create as a single Task (current behavior)
+</epic-detection>
 
 <context-gathering>
   Before asking your first question:
@@ -96,6 +110,7 @@ refine a feature idea through structured conversation, then write a Task to Noti
        - Task Name: the feature name
        - Status: "Backlog"
        - Type: "Feature"
+       - Level: "Epic" if epic-detection triggered, otherwise "Task"
        - Project: relation to project_page URL
        - Priority: ask user if not obvious (Urgent/High/Medium/Low)
        - Story Points: ask user (1/2/3/5)

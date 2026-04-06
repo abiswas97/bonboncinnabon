@@ -44,9 +44,13 @@
 
 ---
 
-## Sub-tasks
+## {{IF level == Epic: "Child Tasks" ELSE: "Sub-tasks"}}
 
+{{IF level == Epic}}
+> Tasks under this Epic. Each is a separate deliverable created via /devlab:task --epic.
+{{ELSE}}
 > One level deep. If a sub-task needs children, promote it to its own task.
+{{END}}
 
 {{sub_tasks_will_be_created_as_separate_db_entries}}
 

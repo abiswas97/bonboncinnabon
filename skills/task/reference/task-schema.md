@@ -13,6 +13,7 @@ Collection: `collection://713f8ed9-13cd-4610-bcba-4dd80d83a67e`
 | Priority | select | Urgent, High, Medium, Low |
 | Story Points | number | 1, 2, 3, or 5 |
 | Type | select | Feature, Bug, Chore, Spike, Docs |
+| Level | select | Epic, Task (default), Sub-task |
 | Labels | multi_select | frontend, backend, ux, infra, api, performance, dx, security, core, growth |
 | Project | relation | -> Dev Lab DB |
 | Parent Issue | relation | -> Tasks DB (self, limit 1) |
@@ -25,7 +26,7 @@ Collection: `collection://713f8ed9-13cd-4610-bcba-4dd80d83a67e`
 | Due Date | date | Optional deadline |
 | Created | created_time | Auto |
 | Last Edited | last_edited_time | Auto |
-| Issue Key | formula | Project key + ID (e.g. FAM-12) |
+| Issue Key | formula | Project key + ID (e.g. PRJ-12) |
 | ID | auto_increment | Sequential |
 
 ## Task Template Structure
@@ -44,12 +45,30 @@ Page body sections (in order):
 
 Each section has a gray quote/callout describing what belongs there (guides AI agents).
 
-## Sub-task Rules
+## Hierarchy Rules
 
-- Sub-tasks are Tasks DB entries with Parent Issue set to the parent task
-- One level deep only. If a sub-task needs children, promote it to its own task
+<hierarchy>
+  <level name="Epic" parent="none" children="Task">
+    Strategic container grouping related Tasks.
+    Must NOT have a Parent Issue.
+    Should have Sub-issues (child Tasks).
+    Not directly workable. Use /devlab:task-pick on child Tasks.
+  </level>
+  <level name="Task" default="true" parent="none|Epic" children="Sub-task">
+    Deliverable work item.
+    Can be standalone (no parent) or nested under an Epic via Parent Issue.
+    Can have Sub-tasks as children (one level deep).
+  </level>
+  <level name="Sub-task" parent="Task" children="none">
+    Granular step under a Task.
+    MUST have a Parent Issue pointing to a Task (never an Epic).
+    Leaf node. Cannot have children.
+  </level>
+</hierarchy>
+
 - Sub-tasks inherit Labels and Project from parent
 - Sub-tasks get their own Story Points (do not double-count with parent)
+- Epic Story Points represent total scope; child Task points are the source of truth
 
 ## Status Transitions
 

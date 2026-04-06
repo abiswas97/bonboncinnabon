@@ -17,7 +17,7 @@ user-invocable: false
 <procedure>
   <step name="identify">
     Parse $ARGUMENTS for: task identifier + target status.
-    Example inputs: "FAM-12 in-review", "Fix tooltip blocked", "FAM-9 done"
+    Example inputs: "PRJ-12 in-review", "Fix tooltip blocked", "PRJ-9 done"
     Find the task via Issue Key, name search, or URL.
   </step>
 

@@ -1,5 +1,5 @@
 ---
-description: PM-style brainstorm that outputs a Task entry to Notion
+description: PM-style brainstorm that outputs a Task or Epic entry to Notion
 argument-hint: '[topic]'
 ---
 
@@ -19,4 +19,4 @@ Launch the `brainstormer` agent with:
 - **Tasks DB ID**: from config (for writing output)
 
 Tell the user: "Starting a brainstorm session. I'll ask questions to refine
-the idea, then write a Task entry to Notion when we're done."
+the idea, then write a Task or Epic entry to Notion when we're done."

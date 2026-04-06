@@ -1,20 +1,25 @@
 # devlab
 
-A Claude Code plugin that bridges Dev Lab project repos with their Notion project pages.
+A Claude Code plugin for task-centric project management. Syncs Dev Lab repos with Notion.
 
-## What it does
+## Commands
 
-- **`/devlab:setup`** — Discover Notion page IDs for the current project and write config
-- **`/devlab:sync`** — Push repo state (roadmap, version, features) to Notion
-- **`/devlab:brainstorm [topic]`** — PM-style brainstorming that outputs a Feature entry to Notion
-- **`/devlab:feature-task <feature>`** — Debate-driven task creation linked to a Feature
-- **`/devlab:status`** — Quick terminal view of roadmap, features, and tasks from Notion
+| Command | Purpose |
+|---------|---------|
+| `/devlab:setup` | Discover Notion IDs, write `.claude/devlab-notion.yaml` |
+| `/devlab:sync` | Push repo state to Notion |
+| `/devlab:dashboard` | Terminal dashboard (default: project, `all` for cross-project) |
+| `/devlab:brainstorm [topic]` | PM-style brainstorm, outputs a Task or Epic to Notion |
+| `/devlab:task [topic] [--epic <key>]` | Debate-driven task creation with proposer + critic agents |
+| `/devlab:task-pick [--epic <key>]` | Suggest next task by priority and story points |
+| `/devlab:task-close <key>` | Close task with sub-task cascade |
+| `/devlab:task-transition <key> <status>` | Move task status with validation |
 
 ## Setup
 
 1. Install the plugin in Claude Code
 2. Ensure the [Notion plugin](https://github.com/anthropics/claude-plugins/tree/main/Notion) is installed and authenticated
-3. Navigate to a project repo that has a corresponding Dev Lab page in Notion
+3. Navigate to a project repo with a corresponding Dev Lab page in Notion
 4. Run `/devlab:setup` to discover and save Notion page IDs
 
 ## Per-Project Config
@@ -22,12 +27,12 @@ A Claude Code plugin that bridges Dev Lab project repos with their Notion projec
 Lives at `.claude/devlab-notion.yaml` in each repo:
 
 ```yaml
-project_name: Familiar
+project_name: Example Project
 notion:
-  project_page: 3154a243-be05-8085-a184-e50b2089c83e
-  product_spec: 05e405de-650c-4609-8e6c-2fafe9d62c04
-  features_db: 956f9882-1327-42c3-8104-35fef255ae2b
-  tasks_db: 713f8ed9-13cd-4610-bcba-4dd80d83a67e
+  project_page: <uuid>
+  product_spec: <uuid or null>
+  tasks_db: <uuid>
+  task_template: <uuid>
 sync:
   sources:
     - CLAUDE.md
@@ -35,24 +40,24 @@ sync:
     - docs/plans/
 ```
 
-## Features Database
+## Task Hierarchy
 
-Central Features DB tracks feature ideas across all Dev Lab projects:
+```
+Epic (container)
+  Task (deliverable, default)
+    Sub-task (leaf, one level deep)
+```
 
-| Property | Type |
-|---|---|
-| Feature Name | Title |
-| Status | Idea → Brainstormed → Specced → In Progress → Shipped / Parked |
-| Project | Relation → Dev Lab |
-| Tasks | Relation → Tasks DB (1:many) |
-| Priority | P0–P3 |
-| Area | Core, UX, Infrastructure, Performance, Growth, Integration, DX |
-| Effort | XS, S, M, L, XL |
-| Feature Key | Formula (e.g. FAM-1) |
+- **Epic**: strategic container grouping related Tasks. Not directly workable.
+- **Task**: deliverable work item. Can be standalone or nested under an Epic.
+- **Sub-task**: granular step under a Task. Must have a Parent Issue.
 
-## Brainstormer Agent
+Use `--epic <key>` with `/devlab:task` and `/devlab:task-pick` to scope to an Epic.
 
-The `/devlab:brainstorm` command launches a PM-style brainstorming agent that:
-1. Asks structured questions (problem, user impact, simplest version, alternatives, risks, success criteria)
-2. Adapts to the conversation — one question at a time, multiple-choice when possible
-3. Synthesizes the discussion into a Feature page in Notion with status "Brainstormed"
+## Architecture
+
+```
+commands/    -> User-invocable thin wrappers (/devlab:*)
+skills/      -> Logic + templates + scripts
+agents/      -> Personas spawned by skills (proposer, critic, brainstormer)
+```

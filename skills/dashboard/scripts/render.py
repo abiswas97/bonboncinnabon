@@ -82,21 +82,25 @@ def render_project(data):
     tasks = data.get("tasks", [])
     today = datetime.now().strftime("%Y-%m-%d")
 
-    done = [t for t in tasks if t.get("status") == "Done"]
-    active = [t for t in tasks if t.get("status") == "In Progress"]
-    blocked = [t for t in tasks if t.get("status") == "Blocked"]
+    # Separate epics from workable items (Tasks + Sub-tasks)
+    epics_data = data.get("epics", [])
+    work_items = [t for t in tasks if t.get("level") != "Epic"]
 
-    total_tasks = len(tasks)
+    done = [t for t in work_items if t.get("status") == "Done"]
+    active = [t for t in work_items if t.get("status") == "In Progress"]
+    blocked = [t for t in work_items if t.get("status") == "Blocked"]
+
+    total_tasks = len(work_items)
     done_count = len(done)
-    total_pts = sum(t.get("story_points", 0) or 0 for t in tasks)
+    total_pts = sum(t.get("story_points", 0) or 0 for t in work_items)
     done_pts = sum(t.get("story_points", 0) or 0 for t in done)
 
-    velocity = compute_velocity(tasks)
+    velocity = compute_velocity(work_items)
     avg_vel = sum(velocity) / len(velocity) if velocity else 0
     last_vel = velocity[-1] if velocity else 0
 
     types = defaultdict(int)
-    for t in tasks:
+    for t in work_items:
         types[t.get("type", "Other")] += 1
 
     pct = round(done_count / total_tasks * 100) if total_tasks else 0
@@ -115,6 +119,20 @@ def render_project(data):
     lines.append(row(f"  {pct}% complete        Last: {last_vel} pts"))
     lines.append(row(f"  {done_pts} of {total_pts} pts done"))
     lines.append(blank())
+
+    if epics_data:
+        lines.append(row("  EPICS"))
+        for e in epics_data:
+            ek = e.get("issue_key", "???")
+            en = e.get("name", "")[:28]
+            et = e.get("total_tasks", 0)
+            ed = e.get("done_tasks", 0)
+            ep = e.get("total_pts", 0)
+            edp = e.get("done_pts", 0)
+            es = e.get("status", "")
+            ebar = bar(ed, et, 8)
+            lines.append(row(f"  {ek:<8} {en:<28} {ebar} {ed}/{et}  {edp}/{ep}pt"))
+        lines.append(blank())
 
     lines.append(row("  ACTIVE NOW"))
     if active:

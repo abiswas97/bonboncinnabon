@@ -15,11 +15,21 @@ user-invocable: false
 </prerequisites>
 
 <procedure>
+  <step name="parse-args">
+    If $ARGUMENTS contains --epic <key>:
+      Fetch the Epic page by Issue Key.
+      If not found or Level != "Epic": STOP with error.
+      Store epic_url for query filter.
+    Otherwise: epic_filter = null.
+  </step>
+
   <step name="query">
     Query Tasks DB via Notion MCP. Filter:
     - Project matches current project
+    - Level != "Epic" (Epics are not pickable work items)
     - Status in ["Backlog", "To Do"]
     - Blocked By is empty (not blocked)
+    - If epic_filter: Parent Issue == epic_url
 
     Sort results by:
     1. Priority: Urgent > High > Medium > Low
@@ -30,14 +40,14 @@ user-invocable: false
     Show top 3 candidates in a table:
 
     ```
-    NEXT UP
-    ┌─────┬──────────────────────────┬──────┬──────────┐
-    │  #  │ Task                     │ Pts  │ Priority │
-    ├─────┼──────────────────────────┼──────┼──────────┤
-    │  1  │ FAM-15 Settings persist  │  2   │ High     │
-    │  2  │ FAM-16 Plugin loading    │  3   │ Medium   │
-    │  3  │ FAM-18 Fix tooltip       │  1   │ Medium   │
-    └─────┴──────────────────────────┴──────┴──────────┘
+    NEXT UP (under PRJ-5: Epic Name)  <- only if --epic set
+    ┌─────┬──────────────────────────┬──────┬──────┬──────────┐
+    │  #  │ Task                     │ Level│ Pts  │ Priority │
+    ├─────┼──────────────────────────┼──────┼──────┼──────────┤
+    │  1  │ PRJ-15 Example task      │ Task │  2   │ High     │
+    │  2  │ PRJ-16 Another task      │ Task │  3   │ Medium   │
+    │  3  │ PRJ-18 Third task        │ Task │  1   │ Medium   │
+    └─────┴──────────────────────────┴──────┴──────┴──────────┘
     ```
 
     Include any useful context: recently unblocked, sub-task count, labels.

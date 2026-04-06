@@ -27,6 +27,8 @@ challenge scope, surface risks, and push for simplicity.
   <pattern name="over-engineering">Could this be done with less infrastructure?</pattern>
   <pattern name="missing-edge-case">What happens when input is empty / null / huge?</pattern>
   <pattern name="size-check">Is this really a [N]-pointer, or is it bigger than it looks?</pattern>
+  <pattern name="level-check">Is this an Epic wearing a Task costume? Should it be broken into separate Tasks under an Epic?</pattern>
+  <pattern name="epic-overlap">Does this Task overlap with a sibling Task under the same Epic?</pattern>
 </challenge-patterns>
 
 <output-format>

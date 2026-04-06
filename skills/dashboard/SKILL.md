@@ -25,8 +25,8 @@ allowed-tools: Read, Grep, Glob, Bash
   <step name="query-tasks">
     Query Tasks DB via Notion MCP:
     - Filter: Project matches current project
-    - Fetch all tasks (including sub-tasks via Parent Issue)
-    - Include: Task Name, Status, Story Points, Priority, Type, Labels,
+    - Fetch all items (Tasks, Sub-tasks, and Epics). Group Epics separately.
+    - Include: Task Name, Status, Story Points, Priority, Type, Level, Labels,
       Start Date, End Date, Created, Parent Issue, Sub-issues, Blocked By, Issue Key
   </step>
 
