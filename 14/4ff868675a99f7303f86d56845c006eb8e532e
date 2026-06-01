@@ -1,0 +1,19 @@
+plugins/butler/CHANGELOG.md
+  s_806441d66f3a23::t_1954fd41d80424 1-17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "144ff868675a99f7303f86d56845c006eb8e532e",
+  "prompts": {},
+  "sessions": {
+    "s_806441d66f3a23": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cab5d9d9-bdbd-4e6a-9e29-bc0bd521566b",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
