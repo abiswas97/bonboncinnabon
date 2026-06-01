@@ -28,6 +28,14 @@
       "category": "productivity",
       "homepage": "https://github.com/abiswas97/devlab",
       "tags": ["notion", "project-management", "brainstorming", "sync", "dashboard", "tasks"]
+    },
+    {
+      "name": "butler",
+      "version": "0.1.0",
+      "source": "./plugins/butler",
+      "description": "Personal work planner: breaks a task into human, session-sized chunks and time-boxes today or tomorrow in TickTick around Google Calendar. Executive-function support.",
+      "category": "productivity",
+      "tags": ["ticktick", "calendar", "linear", "planning", "time-blocking", "adhd", "productivity"]
     }
   ]
 }

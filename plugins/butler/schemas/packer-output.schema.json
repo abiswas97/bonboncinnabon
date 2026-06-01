@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abiswas97/butler/schemas/packer-output.schema.json",
+  "title": "Butler packer output",
+  "description": "One JSON object emitted by scripts/pack_schedule.py. The plan to confirm with the user before writing to TickTick.",
+  "type": "object",
+  "required": ["scheduled", "breaks", "overflow", "summary"],
+  "additionalProperties": false,
+  "properties": {
+    "scheduled": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "block", "pomo_estimate"],
+        "additionalProperties": true,
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": ["string", "null"] },
+          "ticket": { "type": ["string", "null"] },
+          "mode": { "type": ["string", "null"] },
+          "priority": { "type": ["string", "null"] },
+          "estimate_min": { "type": ["integer", "null"] },
+          "block": {
+            "type": "object",
+            "required": ["start", "end"],
+            "properties": {
+              "start": { "type": "string", "format": "date-time" },
+              "end": { "type": "string", "format": "date-time" }
+            }
+          },
+          "pomo_estimate": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "breaks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["start", "end", "kind"],
+        "properties": {
+          "start": { "type": "string", "format": "date-time" },
+          "end": { "type": "string", "format": "date-time" },
+          "kind": { "const": "recharge" }
+        }
+      }
+    },
+    "overflow": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "reason"],
+        "additionalProperties": true,
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": ["string", "null"] },
+          "priority": { "type": ["string", "null"] },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["focus_min_scheduled", "window_free_min", "warnings"],
+      "properties": {
+        "focus_min_scheduled": { "type": "integer" },
+        "focus_cap_min": { "type": "integer" },
+        "window_free_min": { "type": "integer" },
+        "slack_reserved_min": { "type": "integer" },
+        "musts_scheduled": { "type": "integer" },
+        "packed_pct": { "type": "integer" },
+        "warnings": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

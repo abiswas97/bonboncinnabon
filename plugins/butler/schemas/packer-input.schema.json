@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abiswas97/butler/schemas/packer-input.schema.json",
+  "title": "Butler packer input",
+  "description": "One JSON object consumed by scripts/pack_schedule.py. Built by butler:plan / butler:reschedule from config + the target day's chunks + Calendar commitments.",
+  "type": "object",
+  "required": ["now", "window", "chunks"],
+  "additionalProperties": false,
+  "properties": {
+    "now": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 WITH offset. The target day's window start when planning a future day; the current time for reschedule. Placement never starts before this instant."
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone, e.g. Asia/Kolkata. Informational only; the offsets carried in the datetimes are authoritative."
+    },
+    "window": {
+      "type": "object",
+      "required": ["start", "end"],
+      "additionalProperties": false,
+      "properties": {
+        "start": { "type": "string", "pattern": "^[0-2][0-9]:[0-5][0-9]$" },
+        "end": { "type": "string", "pattern": "^[0-2][0-9]:[0-5][0-9]$" }
+      }
+    },
+    "fixed_commitments": {
+      "type": "array",
+      "description": "Busy intervals (Calendar events + off-calendar duties) on the target day.",
+      "items": {
+        "type": "object",
+        "required": ["start", "end"],
+        "additionalProperties": true,
+        "properties": {
+          "title": { "type": "string" },
+          "start": { "type": "string", "format": "date-time" },
+          "end": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "chunks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/packer_chunk" }
+    },
+    "config": { "$ref": "#/$defs/config" }
+  },
+  "$defs": {
+    "packer_chunk": {
+      "type": "object",
+      "required": ["id", "estimate_min"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "ticket": { "type": ["string", "null"] },
+        "mode": { "enum": ["deep", "shallow", "comms", "review"] },
+        "priority": { "enum": ["must", "should", "want"] },
+        "estimate_min": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Focus-minutes for the target day (the fresh estimate after the AI discount). 0 or missing surfaces the chunk as overflow."
+        }
+      }
+    },
+    "config": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Omit to use the script defaults, which mirror the skill config.",
+      "properties": {
+        "max_block_min": { "type": "integer" },
+        "transition_min": { "type": "integer" },
+        "recharge_after_blocks": { "type": "integer" },
+        "recharge_min": { "type": "integer" },
+        "day_slack_pct": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "focus_cap_min": { "type": "integer" },
+        "max_musts": { "type": "integer" },
+        "deep_first": { "type": "boolean" },
+        "pomo_len_min": { "type": "integer" }
+      }
+    }
+  }
+}

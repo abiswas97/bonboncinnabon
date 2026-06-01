@@ -1,0 +1,39 @@
+# butler config — the ONLY user-specific surface. Edit this to adopt or share.
+# Resolve TickTick projects and tags by NAME at runtime (list_projects /
+# list_tags); ids differ per account and change, so never hard-code them.
+
+timezone: "Asia/Kolkata"
+work_window: { start: "14:00", end: "21:00" }   # core focus window, local time
+
+work_project: "Plate"          # TickTick list holding active work units + chunks
+planning_project: "Ops"        # where the planning ritual lives
+
+priority_tags: [must, should, want]              # daily commitment layer
+mode_tags: [deep, shallow, comms, review]        # energy axis used for ordering
+recharge_tag: "recharge"
+ai_tag: "ai"                   # marks every butler-generated task (filterable)
+parked_tag: "parked"           # no-blame "park" route during reconcile
+
+# executes_with_ai gates the selective AI discount. If false, estimate without it.
+executes_with_ai: true
+
+capacity:
+  focus_cap_min: 270           # ~4.5h true focus/day inside a 7h window
+  max_block_min: 50            # cadence; longer chunks stay one block w/ a pomo estimate
+  transition_min: 10
+  recharge_after_blocks: 2
+  recharge_min: 15
+  day_slack_pct: 20            # leave ~20% of free time unscheduled
+  max_musts: 3                 # more than this is a flag, not a plan
+  deep_first: true             # default; no fixed daily peak, override at plan time
+  pomo_len_min: 25
+
+points_calibration:            # complexity/uncertainty envelope, NOT a time budget
+  "1": "~a day end-to-end (groom->deploy)"
+  "2": "~two days"
+  "3": "multi-day; plan to re-plan"
+  "5": "a week-ish or less; expect a spike + several re-plans"
+
+ritual:
+  habit_name: "Plan the day"   # the daily cue that builds the rhythm
+  repeat: "RRULE:FREQ=DAILY"

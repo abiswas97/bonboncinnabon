@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abiswas97/butler/schemas/chunk-task.schema.json",
+  "title": "Butler chunk task",
+  "description": "Logical shape of a chunk — a child task (one focused sitting) under a parent work unit. The agent builds this, then maps it onto TickTick fields per references/template.md. Real subtask (parentId), never a checklist item, so it can carry its own dates/reminders/focus estimate.",
+  "type": "object",
+  "required": ["id", "title", "mode", "chunk_type", "ai_discount", "est0_min", "kind", "ai_generated"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable local id used by the packer and to link a verify chunk to its build chunk."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 70,
+      "description": "Imperative verb + concrete object + optional done-signal, sentence case. No gerund, no ticket prefix, no emoji, no trailing period. Code identifiers verbatim. See task-contract.md."
+    },
+    "mode": {
+      "enum": ["deep", "shallow", "comms", "review"],
+      "description": "Energy axis (the one TickTick mode tag). Drives packer ordering."
+    },
+    "chunk_type": {
+      "enum": ["groom", "spike", "trace", "debug", "decision", "scaffold", "wire", "crud", "refactor", "test", "review", "qa", "deploy", "docs", "address-comments"],
+      "description": "Calibration + AI-discount taxonomy axis. Durable; stored in the est0 line. Grouped by this for reference-class estimation over time."
+    },
+    "ai_discount": {
+      "enum": ["discounted", "none", "premium"],
+      "description": "discounted = AI compresses this (scaffold/wire on understood code, crud, boilerplate test, mechanical refactor, codemod). none/premium = AI does not reliably help and may slow you (ambiguous-spec resolution, cross-system trace/debug, decisions needing people, reviewing AI output). A `discounted` build chunk MUST have a paired verify chunk."
+    },
+    "est0_min": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "IMMUTABLE original focus-minute estimate, written once at first scheduling and never overwritten on reschedule. The anchor for calibration (compare against actual focus time)."
+    },
+    "priority": {
+      "enum": ["must", "should", "want", null],
+      "description": "Commitment tag, set only when the chunk is scheduled for the target day; null otherwise."
+    },
+    "why": { "type": ["string", "null"], "maxLength": 120, "description": "One line, only if not obvious from the title." },
+    "where": { "type": ["array", "null"], "items": { "type": "string" }, "description": "Concrete locations: file / symbol / endpoint." },
+    "done": { "type": ["string", "null"], "maxLength": 120, "description": "ONE observable acceptance signal." },
+    "ref": { "type": ["string", "null"], "description": "PR / issue / ticket URL or id where deep context lives." },
+    "scheduled": {
+      "type": "boolean",
+      "default": false,
+      "description": "True only for the target day's chunks. Scheduled chunks get start/due, timeZone, reminder, and a pomo estimate; all others stay dateless."
+    },
+    "block": {
+      "type": ["object", "null"],
+      "properties": {
+        "start": { "type": "string", "format": "date-time" },
+        "end": { "type": "string", "format": "date-time" }
+      },
+      "description": "From the packer output; maps to TickTick startDate/dueDate."
+    },
+    "pomo_estimate": { "type": ["integer", "null"], "minimum": 1, "description": "Maps to TickTick focusSummaries[].estimatedPomo." },
+    "verify_of": {
+      "type": ["string", "null"],
+      "description": "If set, this is the auto-paired verify chunk for the build chunk with this id. Verify chunks are mode=review, ai_discount=none, chunk_type=review."
+    },
+    "parent_ticket": {
+      "type": ["string", "null"],
+      "description": "The parent work unit's ticket (or a local ref when there is no ticket). Resolved to TickTick parentId at write time."
+    },
+    "kind": { "const": "TEXT" },
+    "ai_generated": { "const": true, "description": "Always true; drives the `ai` tag." }
+  }
+}

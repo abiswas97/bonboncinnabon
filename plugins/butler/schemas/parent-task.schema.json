@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abiswas97/butler/schemas/parent-task.schema.json",
+  "title": "Butler parent task (work unit)",
+  "description": "Logical shape of a parent task — one unit of work. The agent builds this, then maps it onto TickTick fields per references/template.md. Every butler-created task carries the `ai` tag so it is filterable.",
+  "type": "object",
+  "required": ["title", "kind", "ai_generated"],
+  "additionalProperties": false,
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 70,
+      "description": "Human work-unit name in sentence case. A rewrite of the Linear title, never the raw ticket title. No ticket-ID prefix, no emoji, no trailing period. See task-contract.md."
+    },
+    "ticket": {
+      "type": ["string", "null"],
+      "description": "Linear issue identifier, e.g. ING-165. THIS IS THE IDEMPOTENCY KEY: intake searches the work list for an existing parent with this ticket before creating a new tree."
+    },
+    "linear_url": { "type": ["string", "null"], "format": "uri" },
+    "branch": {
+      "type": ["string", "null"],
+      "description": "Linear gitBranchName, recorded verbatim."
+    },
+    "points": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "Linear estimate.value (complexity/uncertainty envelope). NEVER divided into hours. Null when unestimated."
+    },
+    "priority": {
+      "enum": ["none", "low", "medium", "high"],
+      "default": "none",
+      "description": "Maps to TickTick priority (none=0, low=1, medium=3, high=5). Translated from Linear priority.value (a different scale) per template.md."
+    },
+    "project": {
+      "type": "string",
+      "description": "Work list name from config (default 'Plate'); resolved name -> id at runtime."
+    },
+    "kind": { "const": "TEXT" },
+    "ai_generated": {
+      "const": true,
+      "description": "Always true; drives the `ai` tag for filtering."
+    }
+  }
+}
