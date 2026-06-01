@@ -9,8 +9,17 @@ work_project: "Plate"          # TickTick list holding active work units + chunk
 planning_project: "Ops"        # where the planning ritual lives
 
 priority_tags: [must, should, want]              # daily commitment layer
-mode_tags: [deep, shallow, comms, review]        # energy axis used for ordering
+intensity_tags: [deep, shallow]                  # freshness axis used for ordering
 recharge_tag: "recharge"
+
+# Activity is DERIVED from chunk_type (never hand-tagged) and used only to cluster
+# like work, cutting context-switching. Keep in sync with the chunk_type enum in
+# schemas/chunk-task.schema.json. Ordering: build -> verify -> comms -> admin.
+chunk_type_activity:
+  build:  [trace, debug, spike, scaffold, wire, crud, refactor, test]
+  verify: [review, qa]
+  comms:  [decision, address-comments]
+  admin:  [groom, deploy, docs]
 ai_tag: "ai"                   # marks every butler-generated task (filterable)
 parked_tag: "parked"           # no-blame "park" route during reconcile
 

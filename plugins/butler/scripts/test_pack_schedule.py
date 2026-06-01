@@ -25,8 +25,9 @@ def t(hhmm):
     return f"2026-06-02T{hhmm}:00{TZ}"
 
 
-def chunk(cid, est, mode="deep", priority="should", ticket=None):
-    c = {"id": cid, "title": cid, "mode": mode, "priority": priority, "estimate_min": est}
+def chunk(cid, est, intensity="deep", chunk_type="wire", priority="should", ticket=None):
+    c = {"id": cid, "title": cid, "intensity": intensity, "chunk_type": chunk_type,
+         "priority": priority, "estimate_min": est}
     if ticket:
         c["ticket"] = ticket
     return c
@@ -122,13 +123,22 @@ class Ordering(unittest.TestCase):
         ]))
         self.assertEqual(ids(res["scheduled"]), ["m", "s", "w"])
 
-    def test_deep_first_within_priority(self):
+    def test_deep_before_shallow_within_priority(self):
         res = ps.pack(make_input([
-            chunk("c", 30, mode="comms", priority="must"),
-            chunk("d", 30, mode="deep", priority="must"),
-            chunk("r", 30, mode="review", priority="must"),
+            chunk("s", 30, intensity="shallow", priority="must"),
+            chunk("d", 30, intensity="deep", priority="must"),
         ]))
-        self.assertEqual(ids(res["scheduled"]), ["d", "r", "c"])
+        self.assertEqual(ids(res["scheduled"]), ["d", "s"])
+
+    def test_activity_clusters_within_intensity(self):
+        # same priority + intensity; activity derived from chunk_type orders
+        # build < verify < comms < admin.
+        res = ps.pack(make_input([
+            chunk("admin", 30, chunk_type="groom", priority="must"),
+            chunk("verify", 30, chunk_type="review", priority="must"),
+            chunk("build", 30, chunk_type="wire", priority="must"),
+        ]))
+        self.assertEqual(ids(res["scheduled"]), ["build", "verify", "admin"])
 
     def test_stable_for_equal_keys_uses_id(self):
         res = ps.pack(make_input([chunk("b", 30), chunk("a", 30)]))

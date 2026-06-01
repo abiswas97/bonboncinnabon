@@ -48,9 +48,9 @@ checklist items can't carry their own due date, reminder, or focus estimate.
   est0: 45m  type: wire  ai: discounted
   ```
   The `est0` line is written ONCE at first scheduling and **never overwritten** on reschedule. `type` is the chunk_type; `ai` is the ai_discount value.
-- `tags`: exactly one mode tag (`deep`/`shallow`/`comms`/`review`) + `ai` + the day's `must`/`should`/`want` when scheduled today.
+- `tags`: exactly one intensity tag (`deep`/`shallow`) + `ai` + the day's `must`/`should`/`want` when scheduled today. (Activity is NOT a tag — it's derived from `chunk_type`.)
 - **Target-day chunks only**: set `startDate`, `dueDate`, `isAllDay: false`, `timeZone`, a `reminders` entry, and `focusSummaries: [{ "estimatedPomo": <n> }]`. All other chunks: no dates, so they stay unscheduled.
-- **Auto-paired verify chunk**: when a build chunk has `ai_discount: discounted`, create a paired verify chunk (`chunk_type: review`, `mode: review`, `ai_discount: none`, `verify_of` = the build chunk id), e.g. "Review AI output for <thing>". The discount and its review cost are causally linked; budget both.
+- **Auto-paired verify chunk**: when a build chunk has `ai_discount: discounted`, create a paired verify chunk (`chunk_type: review`, `ai_discount: none`, `verify_of` = the build chunk id), e.g. "Review AI output for <thing>". Set its `intensity` by judgment — `deep` when verifying coupled/ambiguous output (the METR case, it needs a fresh slot), `shallow` for a trivial check. The discount and its review cost are causally linked; budget both.
 
 A recharge break is advisory (packer `breaks`); materialize it as a short
 `recharge`-tagged task only if you want breaks visible. Off by default.
@@ -123,6 +123,6 @@ Input/output shapes are pinned in `schemas/packer-input.schema.json` and
 
 Idempotent; check before creating. Resolve names → ids at runtime.
 
-- **Mode + marker tags**: `deep`, `shallow`, `comms`, `review`, `ai`, `parked`. Try `create_tag` (with colors) — but the tag-write endpoint is undocumented and has been observed returning 500. If it fails, DON'T block: the tag still attaches to a task as a label the first time it's applied (it just won't be a colored sidebar tag until you create it in-app once). Surface the failure and continue.
+- **Intensity + marker tags**: `deep`, `shallow` (intensity), `ai`, `parked`, plus `recharge` if you want breaks visible. Activity (build/verify/comms/admin) is derived from `chunk_type`, NOT tagged. Try `create_tag` (with colors) — but the tag-write endpoint is undocumented and has been observed returning 500. If it fails, DON'T block: the tag still attaches to a task as a label the first time it's applied (it just won't be a colored sidebar tag until you create it in-app once). Surface the failure and continue. Optional sidebar nesting: parent tags `intensity` (deep, shallow) and `priority` (must, should, want).
 - **Work list**: default `Plate` (rename from a prior name via `update_project` if needed — renaming preserves the tasks inside).
 - **Ritual habit**: a "Plan the day" habit (`create_habit`) with a daily `repeatRule` (`RRULE:FREQ=DAILY`) and a reminder — the external cue that builds the rhythm. The habit lives on TickTick's Habit surface; the streak is the accommodation.

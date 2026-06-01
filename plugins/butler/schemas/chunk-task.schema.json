@@ -4,7 +4,7 @@
   "title": "Butler chunk task",
   "description": "Logical shape of a chunk — a child task (one focused sitting) under a parent work unit. The agent builds this, then maps it onto TickTick fields per references/template.md. Real subtask (parentId), never a checklist item, so it can carry its own dates/reminders/focus estimate.",
   "type": "object",
-  "required": ["id", "title", "mode", "chunk_type", "ai_discount", "est0_min", "kind", "ai_generated"],
+  "required": ["id", "title", "intensity", "chunk_type", "ai_discount", "est0_min", "kind", "ai_generated"],
   "additionalProperties": false,
   "properties": {
     "id": {
@@ -17,13 +17,13 @@
       "maxLength": 70,
       "description": "Imperative verb + concrete object + optional done-signal, sentence case. No gerund, no ticket prefix, no emoji, no trailing period. Code identifiers verbatim. See task-contract.md."
     },
-    "mode": {
-      "enum": ["deep", "shallow", "comms", "review"],
-      "description": "Energy axis (the one TickTick mode tag). Drives packer ordering."
+    "intensity": {
+      "enum": ["deep", "shallow"],
+      "description": "Freshness axis: the ONE hand-set work-shape tag. deep = needs a fresh slot; shallow = light. Drives packer ordering (deep first). A deep code review or verifying coupled AI output is `deep`, not `shallow` — judge the focus it demands, not the activity."
     },
     "chunk_type": {
       "enum": ["groom", "spike", "trace", "debug", "decision", "scaffold", "wire", "crud", "refactor", "test", "review", "qa", "deploy", "docs", "address-comments"],
-      "description": "Calibration + AI-discount taxonomy axis. Durable; stored in the est0 line. Grouped by this for reference-class estimation over time."
+      "description": "Calibration + AI-discount taxonomy axis. Durable; stored in the est0 line. Grouped for reference-class estimation, and the SINGLE SOURCE for the derived activity bucket (build/verify/comms/admin) the packer clusters by. Not a TickTick tag."
     },
     "ai_discount": {
       "enum": ["discounted", "none", "premium"],
@@ -58,7 +58,7 @@
     "pomo_estimate": { "type": ["integer", "null"], "minimum": 1, "description": "Maps to TickTick focusSummaries[].estimatedPomo." },
     "verify_of": {
       "type": ["string", "null"],
-      "description": "If set, this is the auto-paired verify chunk for the build chunk with this id. Verify chunks are mode=review, ai_discount=none, chunk_type=review."
+      "description": "If set, this is the auto-paired verify chunk for the build chunk with this id. Verify chunks are chunk_type=review, ai_discount=none, with intensity set by judgment (deep when verifying coupled/ambiguous output)."
     },
     "parent_ticket": {
       "type": ["string", "null"],

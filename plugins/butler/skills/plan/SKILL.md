@@ -48,7 +48,7 @@ Load deferred MCP tools with tool_search before use (TickTick, Google Calendar).
         Review scheduled / overflow / summary.warnings with the user. Adjust, re-run until it fits.
 - [ ] 8. On confirmation, write the target day's blocks to TickTick (kind TEXT):
         startDate/dueDate/isAllDay:false/timeZone/reminders + focusSummaries.estimatedPomo,
-        mode tag + must/should/want + `ai`. RE-READ to confirm parentId links (the create
+        intensity tag + must/should/want + `ai`. RE-READ to confirm parentId links (the create
         response is stale; references/template.md).
 - [ ] 9. State the single first physical action so starting is frictionless.
 ```

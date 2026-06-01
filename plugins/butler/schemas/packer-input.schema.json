@@ -54,7 +54,8 @@
         "id": { "type": "string" },
         "title": { "type": "string" },
         "ticket": { "type": ["string", "null"] },
-        "mode": { "enum": ["deep", "shallow", "comms", "review"] },
+        "intensity": { "enum": ["deep", "shallow"], "description": "Freshness axis; drives packer ordering (deep first)." },
+        "chunk_type": { "enum": ["groom", "spike", "trace", "debug", "decision", "scaffold", "wire", "crud", "refactor", "test", "review", "qa", "deploy", "docs", "address-comments"], "description": "Activity (build/verify/comms/admin) is derived from this for clustering." },
         "priority": { "enum": ["must", "should", "want"] },
         "estimate_min": {
           "type": "integer",

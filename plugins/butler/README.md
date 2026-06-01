@@ -39,6 +39,7 @@ Edit that block (timezone, work window, project + tag names, capacity) to adopt.
 
 ## Setup
 
-The skills create a few TickTick tags (`deep`, `shallow`, `comms`, `review`, `ai`,
-`parked`) and expect a work list (default `Plate`) and a planning list (default
-`Ops`). Resolve names → IDs at runtime; never hard-code IDs.
+The skills use a few TickTick tags — `deep`/`shallow` (intensity), `ai`, `parked`
+— and expect a work list (default `Plate`) and a planning list (default `Ops`).
+Activity (build/verify/comms/admin) is derived from each chunk's `chunk_type`, not
+tagged. Resolve names → IDs at runtime; never hard-code IDs.

@@ -36,7 +36,7 @@ Load deferred MCP tools (TickTick; Linear only if an ID is named) with tool_sear
         (references/interview.md → Intake). Surface unknowns, blockers, prior progress.
 - [ ] 4. Decompose into human, session-sized chunks (references/heuristics.md → Decomposition):
         pipeline stages are natural boundaries; aim for 2–6; verb + done-signal; don't over-split.
-        Set each chunk's mode, chunk_type, and ai_discount. For each `discounted` build chunk,
+        Set each chunk's intensity, chunk_type, and ai_discount. For each `discounted` build chunk,
         add a paired `review` verify chunk (heuristics → Estimation).
 - [ ] 5. Build the tree (references/template.md, schemas/parent-task + chunk-task): create the
         parent (kind TEXT, metadata in `content`), capture its id, then create ALL chunks as
@@ -50,10 +50,12 @@ Load deferred MCP tools (TickTick; Linear only if an ID is named) with tool_sear
 User: "linear ticket ABC-123, I want to start it today." A 1-point change that
 adds a field to two forms and wires it to an API. Human chunks:
 
+Each line is `intensity`, chunk_type, ai_discount (activity is derived from chunk_type):
+
 - Trace where the field is read on the form — `deep`, type `trace`, ai `none` (you must understand it).
 - Wire the field into both forms and the API call — `deep`, type `wire`, ai `discounted`.
-- Review AI output for the wiring — `review`, type `review`, ai `none` (auto-paired with the wire chunk).
-- Manually verify both forms end to end — `review`, type `qa`, ai `none`.
+- Review AI output for the wiring — `deep`, type `review`, ai `none` (auto-paired with the wire chunk; verifying coupled output needs focus).
+- Manually verify both forms end to end — `shallow`, type `qa`, ai `none`.
 
 The whole tree is created; `butler:plan` schedules only the chosen day's chunks.
 

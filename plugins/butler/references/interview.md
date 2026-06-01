@@ -37,7 +37,7 @@ Goal: understand the human shape of the work, then narrow hard to what to land o
 
 **Narrow to the target day**
 - "What do you want to actually land that day?" Keep pulling until it's a small, concrete set.
-- "Of those, which are deep vs shallow/comms/review?" (mode tags)
+- "Of those, which need deep focus vs are shallow?" (sets intensity; activity is derived from chunk_type)
 - "Which will you do with AI?" (sets ai_discount; remember each discounted build gets a paired verify chunk)
 - "What's the very first thing you'd touch?" (the first physical action)
 
@@ -58,7 +58,7 @@ Goal: reconcile open work honestly without nagging, then commit the target day.
 
 **Commit the target day**
 - "What do you want to land?" Set must/should/want; respect the 3-musts flag.
-- "Which are deep vs shallow/comms/review?"
+- "Which need deep focus vs shallow?"
 
 Then Fixed duties, pack, review, confirm, write the target day's blocks only.
 

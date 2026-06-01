@@ -7,7 +7,7 @@ fixed commitments, applying transition buffers, recharge breaks, a focus cap,
 and a day-slack reserve. Used by `butler:plan` and `butler:reschedule`.
 
 Why a script, not freehand: placing blocks around busy intervals while
-respecting buffers, a focus cap, and mode ordering is fiddly and easy to get
+respecting buffers, a focus cap, and intensity ordering is fiddly and easy to get
 subtly wrong by hand. Doing it deterministically keeps the schedule honest and
 reproducible.
 
@@ -46,16 +46,26 @@ DEFAULTS = {
     "focus_cap_min": 270,
     # More than this many substantial musts is a flag, not a plan.
     "max_musts": 3,
-    # Place deep-mode chunks in the earliest (freshest) slots; batch comms/review.
+    # Place deep-intensity chunks in the earliest (freshest) slots.
     "deep_first": True,
     # Pomodoro length, used only to suggest a TickTick pomo estimate per chunk.
     "pomo_len_min": 25,
 }
 
 PRIORITY_RANK = {"must": 0, "should": 1, "want": 2}
-# deep_first True -> deep pulled earliest, comms/review batched last.
-MODE_RANK_DEEP_FIRST = {"deep": 0, "shallow": 1, "review": 2, "comms": 3}
-MODE_RANK_FLAT = {"deep": 1, "shallow": 1, "review": 0, "comms": 0}
+# Intensity is the freshness axis: deep work claims the earliest slots.
+INTENSITY_RANK = {"deep": 0, "shallow": 1}
+# Activity is DERIVED from chunk_type (single source of truth), never hand-set.
+# It only clusters like work together to cut context-switching.
+CHUNK_TYPE_ACTIVITY = {
+    "trace": "build", "debug": "build", "spike": "build", "scaffold": "build",
+    "wire": "build", "crud": "build", "refactor": "build", "test": "build",
+    "review": "verify", "qa": "verify",
+    "decision": "comms", "address-comments": "comms",
+    "groom": "admin", "deploy": "admin", "docs": "admin",
+}
+ACTIVITY_RANK = {"build": 0, "verify": 1, "comms": 2, "admin": 3}
+DEFAULT_ACTIVITY = "build"
 
 # Overflow reasons, defined once so the skill and tests can match on them.
 NO_ESTIMATE = "no estimate; set one during planning"
@@ -122,15 +132,21 @@ def free_intervals(now, win_start, win_end, busy):
     return [iv for iv in free if iv.minutes > 0]
 
 
-def order_chunks(chunks, deep_first):
-    """Priority, then mode (energy), then larger-first, then id for a fully
-    deterministic order independent of input list order."""
-    mode_rank = MODE_RANK_DEEP_FIRST if deep_first else MODE_RANK_FLAT
+def activity_of(c) -> str:
+    """Derive the activity bucket from chunk_type — the single source of truth."""
+    return CHUNK_TYPE_ACTIVITY.get(c.get("chunk_type", ""), DEFAULT_ACTIVITY)
 
+
+def order_chunks(chunks, deep_first):
+    """Priority, then intensity (freshness), then activity cluster, then
+    larger-first, then id — fully deterministic regardless of input order.
+    deep_first off flattens the intensity term and orders by activity only."""
     def key(c):
+        intensity = INTENSITY_RANK.get(c.get("intensity", "deep"), 0)
         return (
             PRIORITY_RANK.get(c.get("priority", "should"), 1),
-            mode_rank.get(c.get("mode", "deep"), 1),
+            intensity if deep_first else 0,
+            ACTIVITY_RANK.get(activity_of(c), 0),
             -int(c.get("estimate_min", 0) or 0),
             str(c.get("id", "")),
         )
@@ -159,7 +175,9 @@ def brief(c: dict) -> dict:
         "id": c.get("id"),
         "title": c.get("title"),
         "ticket": c.get("ticket"),
-        "mode": c.get("mode"),
+        "intensity": c.get("intensity"),
+        "chunk_type": c.get("chunk_type"),
+        "activity": activity_of(c),
         "priority": c.get("priority"),
         "estimate_min": c.get("estimate_min"),
     }
@@ -186,7 +204,7 @@ def pack(data: dict) -> dict:
             "musts rarely all land — consider demoting some to 'should'."
         )
 
-    # Lay chunks out strictly in sequence so clock order == priority/mode order.
+    # Lay chunks out strictly in sequence so clock order == priority/intensity order.
     # Crossing into a new free interval (i.e. past a meeting) resets the focus
     # run, since the meeting was itself a break.
     focus_used = 0

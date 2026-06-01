@@ -70,8 +70,9 @@ day comes out too light to feel worth using, lower `day_slack_pct` or raise
 The packer (`scripts/pack_schedule.py`) enforces this; the logic here explains it.
 
 - **Subtract fixed commitments first.** Calendar events + off-calendar duties are removed before placing. Meetings also act as natural breaks.
-- **Mode-aware ordering.** `deep` work goes in the earliest slots by default; `comms`/`review` batch later. Clustering like-mode work cuts context-switching.
-- **No reliable peak.** Deep-early is a *default*, not a law — there's no fixed daily energy peak to assume. When you flag low/high energy at plan time, reorder accordingly (the `deep_first` config and per-chunk mode are the levers).
+- **Intensity-aware ordering.** `deep` work goes in the earliest (freshest) slots by default; `shallow` batches later. Within an intensity tier the packer clusters by *activity* — derived from `chunk_type` (build → verify → comms → admin) — to cut context-switching. Activity is never hand-tagged.
+- **Intensity is focus, not activity.** A deep code review or verifying coupled AI output is `deep` (it needs a fresh slot), even though its activity is "verify". Judge the focus a chunk demands, not what kind of work it is.
+- **No reliable peak.** Deep-early is a *default*, not a law — there's no fixed daily energy peak to assume. When you flag low/high energy at plan time, reorder accordingly (the `deep_first` config and per-chunk `intensity` are the levers).
 - **Block length.** Blocks run to ~`max_block_min` (~50). A chunk longer than one sitting stays *one* block with a pomo estimate so the in-app timer handles the mid-break — don't split one chunk into two calendar entries. Genuine deep-flow chunks may warrant a longer block; raise `max_block_min` for those rather than fragmenting.
 - **Honest capacity.** Cap committed focus and leave slack. A 100%-packed day guarantees a miss.
 - **Stick to three.** More than `max_musts` substantial musts is flagged, not silently scheduled.
