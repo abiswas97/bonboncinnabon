@@ -1,11 +1,11 @@
 {
   "name": "butler",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Personal work planner: turns a task into human, session-sized chunks and time-boxes today or tomorrow in TickTick, scheduling around Google Calendar. Built for executive-function support.",
   "author": {
     "name": "Avi Biswas",
     "email": "avishek.biswas.1997@gmail.com"
   },
-  "repository": "https://github.com/abiswas97/butler",
+  "repository": "https://github.com/abiswas97/bonboncinnabon",
   "license": "MIT"
 }

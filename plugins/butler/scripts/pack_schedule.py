@@ -55,17 +55,22 @@ DEFAULTS = {
 PRIORITY_RANK = {"must": 0, "should": 1, "want": 2}
 # Intensity is the freshness axis: deep work claims the earliest slots.
 INTENSITY_RANK = {"deep": 0, "shallow": 1}
-# Activity is DERIVED from chunk_type (single source of truth), never hand-set.
-# It only clusters like work together to cut context-switching.
-CHUNK_TYPE_ACTIVITY = {
-    "trace": "build", "debug": "build", "spike": "build", "scaffold": "build",
-    "wire": "build", "crud": "build", "refactor": "build", "test": "build",
+# Activity is DERIVED from the pipeline stage (single source of truth), never
+# hand-set. It only clusters like work together to cut context-switching.
+STAGE_ACTIVITY = {
+    "research": "build", "db": "build", "backend": "build", "frontend": "build",
     "review": "verify", "qa": "verify",
-    "decision": "comms", "address-comments": "comms",
-    "groom": "admin", "deploy": "admin", "docs": "admin",
+    "address-comments": "comms",
+    "deploy": "admin",
 }
 ACTIVITY_RANK = {"build": 0, "verify": 1, "comms": 2, "admin": 3}
 DEFAULT_ACTIVITY = "build"
+# Stage order — a low-priority tiebreak so same-bucket chunks read in pipeline
+# order (research before backend before deploy). Never overrides intensity.
+STAGE_RANK = {
+    "research": 0, "db": 1, "backend": 2, "frontend": 3,
+    "review": 4, "address-comments": 5, "qa": 6, "deploy": 7,
+}
 
 # Overflow reasons, defined once so the skill and tests can match on them.
 NO_ESTIMATE = "no estimate; set one during planning"
@@ -133,20 +138,21 @@ def free_intervals(now, win_start, win_end, busy):
 
 
 def activity_of(c) -> str:
-    """Derive the activity bucket from chunk_type — the single source of truth."""
-    return CHUNK_TYPE_ACTIVITY.get(c.get("chunk_type", ""), DEFAULT_ACTIVITY)
+    """Derive the activity bucket from the pipeline stage — single source of truth."""
+    return STAGE_ACTIVITY.get(c.get("stage", ""), DEFAULT_ACTIVITY)
 
 
 def order_chunks(chunks, deep_first):
-    """Priority, then intensity (freshness), then activity cluster, then
-    larger-first, then id — fully deterministic regardless of input order.
-    deep_first off flattens the intensity term and orders by activity only."""
+    """Priority, then intensity (freshness), then activity cluster, then stage
+    order, then larger-first, then id — fully deterministic regardless of input
+    order. deep_first off flattens the intensity term."""
     def key(c):
         intensity = INTENSITY_RANK.get(c.get("intensity", "deep"), 0)
         return (
             PRIORITY_RANK.get(c.get("priority", "should"), 1),
             intensity if deep_first else 0,
             ACTIVITY_RANK.get(activity_of(c), 0),
+            STAGE_RANK.get(c.get("stage", ""), 99),
             -int(c.get("estimate_min", 0) or 0),
             str(c.get("id", "")),
         )
@@ -176,7 +182,7 @@ def brief(c: dict) -> dict:
         "title": c.get("title"),
         "ticket": c.get("ticket"),
         "intensity": c.get("intensity"),
-        "chunk_type": c.get("chunk_type"),
+        "stage": c.get("stage"),
         "activity": activity_of(c),
         "priority": c.get("priority"),
         "estimate_min": c.get("estimate_min"),

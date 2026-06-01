@@ -18,7 +18,7 @@
           "title": { "type": ["string", "null"] },
           "ticket": { "type": ["string", "null"] },
           "intensity": { "type": ["string", "null"] },
-          "chunk_type": { "type": ["string", "null"] },
+          "stage": { "type": ["string", "null"] },
           "activity": { "type": ["string", "null"] },
           "priority": { "type": ["string", "null"] },
           "estimate_min": { "type": ["integer", "null"] },

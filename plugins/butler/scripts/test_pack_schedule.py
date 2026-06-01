@@ -25,8 +25,8 @@ def t(hhmm):
     return f"2026-06-02T{hhmm}:00{TZ}"
 
 
-def chunk(cid, est, intensity="deep", chunk_type="wire", priority="should", ticket=None):
-    c = {"id": cid, "title": cid, "intensity": intensity, "chunk_type": chunk_type,
+def chunk(cid, est, intensity="deep", stage="backend", priority="should", ticket=None):
+    c = {"id": cid, "title": cid, "intensity": intensity, "stage": stage,
          "priority": priority, "estimate_min": est}
     if ticket:
         c["ticket"] = ticket
@@ -131,14 +131,23 @@ class Ordering(unittest.TestCase):
         self.assertEqual(ids(res["scheduled"]), ["d", "s"])
 
     def test_activity_clusters_within_intensity(self):
-        # same priority + intensity; activity derived from chunk_type orders
-        # build < verify < comms < admin.
+        # same priority + intensity; activity derived from stage orders
+        # build < verify < admin.
         res = ps.pack(make_input([
-            chunk("admin", 30, chunk_type="groom", priority="must"),
-            chunk("verify", 30, chunk_type="review", priority="must"),
-            chunk("build", 30, chunk_type="wire", priority="must"),
+            chunk("admin", 30, stage="deploy", priority="must"),
+            chunk("verify", 30, stage="review", priority="must"),
+            chunk("build", 30, stage="backend", priority="must"),
         ]))
         self.assertEqual(ids(res["scheduled"]), ["build", "verify", "admin"])
+
+    def test_stage_rank_tiebreak_within_activity(self):
+        # same priority + intensity + activity(build); pipeline order decides:
+        # backend (rank 2) before frontend (rank 3).
+        res = ps.pack(make_input([
+            chunk("fe", 30, intensity="deep", stage="frontend", priority="must"),
+            chunk("be", 30, intensity="deep", stage="backend", priority="must"),
+        ]))
+        self.assertEqual(ids(res["scheduled"]), ["be", "fe"])
 
     def test_stable_for_equal_keys_uses_id(self):
         res = ps.pack(make_input([chunk("b", 30), chunk("a", 30)]))

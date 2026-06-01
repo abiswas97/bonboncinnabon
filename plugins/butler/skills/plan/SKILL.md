@@ -39,9 +39,8 @@ Load deferred MCP tools with tool_search before use (TickTick, Google Calendar).
 - [ ] 4. Pick what to land; set must/should/want. Respect max_musts (flag, don't silently exceed).
 - [ ] 5. Read the target day's fixed commitments from Calendar; confirm read-back;
         ask about off-calendar duties (references/interview.md → Fixed duties).
-- [ ] 6. For each chunk scheduled for the first time: write its IMMUTABLE est0 line
-        (references/template.md). Ensure every `discounted` build chunk has a paired
-        `review` verify chunk (references/heuristics.md → Estimation).
+- [ ] 6. Confirm each chunk carries its est0 line (set at intake; references/template.md).
+        Don't rewrite est0. The packer reads each chunk's `stage` + `intensity`.
 - [ ] 7. Build packer input (schemas/packer-input.schema.json) from config + the target
         day's chunks + commitments, then run:
             python3 ${CLAUDE_PLUGIN_ROOT}/scripts/pack_schedule.py input.json

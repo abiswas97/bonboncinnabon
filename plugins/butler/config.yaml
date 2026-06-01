@@ -12,14 +12,21 @@ priority_tags: [must, should, want]              # daily commitment layer
 intensity_tags: [deep, shallow]                  # freshness axis used for ordering
 recharge_tag: "recharge"
 
-# Activity is DERIVED from chunk_type (never hand-tagged) and used only to cluster
-# like work, cutting context-switching. Keep in sync with the chunk_type enum in
-# schemas/chunk-task.schema.json. Ordering: build -> verify -> comms -> admin.
-chunk_type_activity:
-  build:  [trace, debug, spike, scaffold, wire, crud, refactor, test]
-  verify: [review, qa]
-  comms:  [decision, address-comments]
-  admin:  [groom, deploy, docs]
+# Decomposition pipeline — the MENU of stages intake picks from. Skip stages that
+# don't apply; merge adjacent thin ones; a valid plan can be one stage. Hybrid:
+# append ad-hoc chunks for off-pipeline work. Each stage carries defaults;
+# `intensity` and `ai_discount` are overridable per chunk. `activity` (derived,
+# never hand-tagged) clusters like work in the packer. Order matters (research
+# first). Keep the stage keys in sync with schemas/chunk-task.schema.json.
+pipeline:
+  - { stage: research,         label: "Research / spec",     intensity: deep,    ai_discount: none,       activity: build }
+  - { stage: db,               label: "DB changes",          intensity: deep,    ai_discount: discounted, activity: build }
+  - { stage: backend,          label: "Backend",             intensity: deep,    ai_discount: discounted, activity: build }
+  - { stage: frontend,         label: "Frontend",            intensity: shallow, ai_discount: discounted, activity: build }
+  - { stage: review,           label: "PR + AI review",      intensity: deep,    ai_discount: none,       activity: verify }
+  - { stage: address-comments, label: "Address PR comments", intensity: shallow, ai_discount: none,       activity: comms }
+  - { stage: qa,               label: "QA / verify",         intensity: shallow, ai_discount: none,       activity: verify }
+  - { stage: deploy,           label: "Deploy",              intensity: shallow, ai_discount: none,       activity: admin }
 ai_tag: "ai"                   # marks every butler-generated task (filterable)
 parked_tag: "parked"           # no-blame "park" route during reconcile
 

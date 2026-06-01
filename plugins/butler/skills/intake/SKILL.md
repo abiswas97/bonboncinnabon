@@ -34,10 +34,11 @@ Load deferred MCP tools (TickTick; Linear only if an ID is named) with tool_sear
         If found, summarize the existing tree and route to `butler:plan` instead of creating.
 - [ ] 3. Interview for the human shape and what to land first
         (references/interview.md → Intake). Surface unknowns, blockers, prior progress.
-- [ ] 4. Decompose into human, session-sized chunks (references/heuristics.md → Decomposition):
-        pipeline stages are natural boundaries; aim for 2–6; verb + done-signal; don't over-split.
-        Set each chunk's intensity, chunk_type, and ai_discount. For each `discounted` build chunk,
-        add a paired `review` verify chunk (heuristics → Estimation).
+- [ ] 4. Decompose by PICKING STAGES from the config `pipeline` (references/heuristics.md →
+        Decomposition): skip stages that don't apply; merge thin ones to land in 2–6; add ad-hoc
+        chunks for off-pipeline work. Title = stage + short qualifier. Each chunk inherits its
+        stage's default intensity + ai_discount (override per chunk); set est0 now. Include a
+        `review` stage when there are `discounted` build stages (it absorbs AI-output verification).
 - [ ] 5. Build the tree (references/template.md, schemas/parent-task + chunk-task): create the
         parent (kind TEXT, metadata in `content`), capture its id, then create ALL chunks as
         child tasks with parentId set. RE-READ to confirm childIds linked (create response is stale).
@@ -48,14 +49,14 @@ Load deferred MCP tools (TickTick; Linear only if an ID is named) with tool_sear
 ## Worked example (abbreviated)
 
 User: "linear ticket ABC-123, I want to start it today." A 1-point change that
-adds a field to two forms and wires it to an API. Human chunks:
+adds a field to two forms and wires it to a pricing API. Pick stages (no `db` —
+the field already exists). Each line is `stage: qualifier` — `intensity`, ai `discount`:
 
-Each line is `intensity`, chunk_type, ai_discount (activity is derived from chunk_type):
-
-- Trace where the field is read on the form — `deep`, type `trace`, ai `none` (you must understand it).
-- Wire the field into both forms and the API call — `deep`, type `wire`, ai `discounted`.
-- Review AI output for the wiring — `deep`, type `review`, ai `none` (auto-paired with the wire chunk; verifying coupled output needs focus).
-- Manually verify both forms end to end — `shallow`, type `qa`, ai `none`.
+- Research: trace where the field is read + pricer→API flow — `deep`, ai `none`.
+- Frontend: dropdown on both forms + carry-over — `shallow`, ai `discounted`.
+- Backend: send value to pricing API (empty-safe) + carry-back — `deep`, ai `discounted`.
+- Submit PR + AI-assisted review — `deep`, ai `none` (the review stage; absorbs AI-output verification).
+- QA: both forms, set + empty, end to end — `shallow`, ai `none`.
 
 The whole tree is created; `butler:plan` schedules only the chosen day's chunks.
 

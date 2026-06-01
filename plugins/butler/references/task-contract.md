@@ -10,19 +10,21 @@ These rules are a hard contract. The JSON shapes are pinned in
 
 ## Title contract
 
-Form: **`<imperative verb> <concrete object> [<done-signal / scope>]`**
+Form: **`<Stage label>: <short qualifier>`**
 
-- Start with ONE bare imperative verb. No gerund ("Investigating…"), no "should", no subject.
-- The object is a real, specific thing: a symbol, file, component, endpoint, PR, ticket. Not "the code", "the system", "things".
-- Optional single trailing clause for scope or done-signal: `…until tests pass`, `…in checkout flow`, `…behind a flag`.
-- **Length:** aim ≤ 50 characters, hard ceiling 70. If it won't fit, the title is carrying description content — move it.
-- **Casing:** sentence case. Capitalize the first word and proper nouns/identifiers only. Not Title Case (Title Case is itself an AI tell).
-- **Punctuation:** no trailing period. No emoji, ever. No `[TICKET-123]` prefix — the id is metadata, not title text. Preserve code identifiers verbatim (`NeighborhoodLocation`, `POST /sessions`).
+A chunk's title is its pipeline stage plus a short qualifier that disambiguates it
+in a flat list. The qualifier names *what* within the stage, not *how* — the
+concrete first action lives in the body (`Where:`), not the title.
 
-Approved verbs (pick the precise one): Trace, Wire, Add, Remove, Fix, Rename,
-Extract, Move, Split, Merge, Review, Groom, Triage, Reproduce, QA, Deploy,
-Revert, Bump, Profile, Cache, Log, Gate, Audit, Migrate, Backfill, Address,
-Answer, Draft, Spike.
+- **Stage label** comes from the pipeline (`config.yaml`): Research, DB, Backend, Frontend, PR + AI review, Address PR comments, QA, Deploy. Use the human label, lightly.
+- **Qualifier** is a real, specific thing: a symbol, endpoint, component, area. Not "changes", "stuff", "the system". e.g. `Backend: pricer API + carry-back`, `QA: both portals, empty + set`, `Research: reproduce 500 on POST /sessions`.
+- A bare stage with no qualifier is allowed only when the ticket has exactly one chunk in that stage and the parent makes it unambiguous.
+- **Length:** aim ≤ 50 characters, hard ceiling 70. If the qualifier won't fit, it's carrying body content — move it to `Where:`/`Done:`.
+- **Casing:** sentence case in the qualifier. Not Title Case (itself an AI tell).
+- **Punctuation:** no trailing period. No emoji, ever. No `[TICKET-123]` prefix — the id is metadata (the parent carries it). Preserve code identifiers verbatim (`NeighborhoodLocation`, `POST /sessions`).
+
+Qualifier verbs, when one helps (pick the precise one): trace, reproduce, wire,
+add, remove, rename, extract, refactor, migrate, backfill, review, address, deploy.
 
 ## Description contract
 
@@ -65,15 +67,15 @@ prefix or emoji.
 
 ## Before / after
 
-| Slop | Lean |
+| Slop | Lean (stage: qualifier) |
 |---|---|
-| Dive deep into understanding the current field wiring to ensure a robust foundation | Trace where NeighborhoodLocation is read on the form |
-| Seamlessly integrate and wire up the new analytics service to enhance tracking | Wire analytics client into checkout submit |
-| Address and resolve all the valuable feedback on the pull request comprehensively | Address PR #482 review comments |
-| Perform thorough and meticulous QA to validate, verify, and confirm the feature | QA signup flow on Safari iOS |
-| Carefully orchestrate the deployment of the latest changes for a seamless rollout | Deploy v2.3 to prod behind flag |
-| Investigate and delve into the root cause of the intricate session bug | Reproduce 500 on POST /sessions with empty body |
-| Leverage best practices to refactor and streamline the auth module for scalability | Extract token refresh out of useAuth() |
+| Dive deep into understanding the current field wiring to ensure a robust foundation | Research: trace NeighborhoodLocation reads |
+| Seamlessly integrate and wire up the new analytics service to enhance tracking | Backend: analytics client in checkout submit |
+| Address and resolve all the valuable feedback on the pull request comprehensively | Address PR comments: #482 |
+| Perform thorough and meticulous QA to validate, verify, and confirm the feature | QA: signup on Safari iOS |
+| Carefully orchestrate the deployment of the latest changes for a seamless rollout | Deploy: v2.3 to prod behind flag |
+| Investigate and delve into the root cause of the intricate session bug | Research: reproduce 500 on POST /sessions |
+| Leverage best practices to refactor and streamline the auth module for scalability | Backend: extract token refresh from useAuth() |
 
 Sources behind this contract: Wikipedia "Signs of AI writing" (the overused-vocabulary
 cluster, hedging, rule-of-three, em-dash tell); GTD next-action guidance (verb-first,

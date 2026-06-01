@@ -26,20 +26,21 @@ Part of the `bonboncinnabon` marketplace. Namespace: `butler:`.
 
 ## Design principles
 
-1. **Day-at-a-time.** Build the whole tree once; only ever put times on the target day's chunks.
-2. **Points are complexity, not time.** Never divide Linear story points into hours.
-3. **Selective AI discount.** Discount AI-amenable build chunks; never discount ambiguous-spec resolution, cross-system debugging, decisions needing people, or reviewing AI output. Each AI-discounted build chunk is paired with a non-discounted verify chunk.
-4. **Lean, human tasks.** Titles and descriptions follow a strict anti-slop contract (`references/task-contract.md`). AI-generated tasks carry the `ai` tag so they're filterable.
-5. **State lives only in TickTick + Calendar.** No side files.
+1. **Stage-based, hybrid decomposition.** Chunks are stages from a config-defined `pipeline` (research → db → backend → frontend → review → address-comments → qa → deploy). Intake picks the applicable ones (skip the rest), titles them `stage: qualifier`, and may add ad-hoc chunks. A predictable template removes the "what are my chunks?" decision.
+2. **Day-at-a-time.** Build the whole tree once; only ever put times on the target day's chunks.
+3. **Points are complexity, not time.** Never divide Linear story points into hours.
+4. **Selective AI discount.** Discount AI-amenable build stages; never discount ambiguous-spec resolution, cross-system debugging, decisions needing people, or reviewing AI output. Verification is its own `review` stage (submit PR + AI-assisted review), included whenever there are discounted build stages.
+5. **Lean, human tasks.** Titles and descriptions follow a strict anti-slop contract (`references/task-contract.md`). AI-generated tasks carry the `ai` tag so they're filterable.
+6. **State lives only in TickTick + Calendar.** No side files.
 
 ## Adoption
 
-Everything user-specific lives in the config block at the top of each `SKILL.md`.
-Edit that block (timezone, work window, project + tag names, capacity) to adopt.
+Everything user-specific lives in `config.yaml` — timezone, work window, project +
+tag names, capacity, and the `pipeline`. Edit that to adopt.
 
 ## Setup
 
 The skills use a few TickTick tags — `deep`/`shallow` (intensity), `ai`, `parked`
 — and expect a work list (default `Plate`) and a planning list (default `Ops`).
-Activity (build/verify/comms/admin) is derived from each chunk's `chunk_type`, not
-tagged. Resolve names → IDs at runtime; never hard-code IDs.
+Stage lives in each chunk's `est0` line; activity (build/verify/comms/admin) is
+derived from it — neither is tagged. Resolve names → IDs at runtime; never hard-code IDs.

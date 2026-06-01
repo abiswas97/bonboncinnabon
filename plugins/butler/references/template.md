@@ -36,21 +36,21 @@ field (not `desc` — `desc` is for `kind: CHECKLIST` only).
 chunk in the tree. It is a **real subtask (`parentId`), never a checklist item** —
 checklist items can't carry their own due date, reminder, or focus estimate.
 
-- `title`: imperative verb + object + done-signal (title contract).
+- `title`: stage label + short qualifier (title contract), e.g. "Backend: pricer API + carry-back".
 - `parentId`: the parent task's id. Create the parent first, capture its id, then create chunks with `parentId` set.
   - **The create response is stale** — it returns `parentId: null`/`childIds: null` even on success. ALWAYS re-read to confirm: `get_task_by_id` on the parent and assert `childIds` contains each child (or read each child and assert `parentId`). If the link didn't form, surface the failure — never silently fall back to checklist items (that would lose the per-chunk scheduling that is the whole point). The only safe fallback is leaving chunks as flat sibling tasks, still fully scheduled.
 - `content`: the chunk's key:value block plus the immutable calibration line —
   ```
   Why: <one clause, if not obvious>
-  Where: <file / symbol / endpoint>
+  Where: <file / symbol / endpoint — the concrete first action>
   Done: <one observable signal>
   Ref: <PR / issue / ticket>
-  est0: 45m  type: wire  ai: discounted
+  est0: 45m  stage: backend  ai: discounted
   ```
-  The `est0` line is written ONCE at first scheduling and **never overwritten** on reschedule. `type` is the chunk_type; `ai` is the ai_discount value.
-- `tags`: exactly one intensity tag (`deep`/`shallow`) + `ai` + the day's `must`/`should`/`want` when scheduled today. (Activity is NOT a tag — it's derived from `chunk_type`.)
+  The `est0` line is written ONCE at intake and **never overwritten** on reschedule. `stage` is the pipeline stage; `ai` is the ai_discount value.
+- `tags`: exactly one intensity tag (`deep`/`shallow`) + `ai` + the day's `must`/`should`/`want` when scheduled today. (Stage and activity are NOT tags — stage lives in the est0 line; activity is derived from it.)
 - **Target-day chunks only**: set `startDate`, `dueDate`, `isAllDay: false`, `timeZone`, a `reminders` entry, and `focusSummaries: [{ "estimatedPomo": <n> }]`. All other chunks: no dates, so they stay unscheduled.
-- **Auto-paired verify chunk**: when a build chunk has `ai_discount: discounted`, create a paired verify chunk (`chunk_type: review`, `ai_discount: none`, `verify_of` = the build chunk id), e.g. "Review AI output for <thing>". Set its `intensity` by judgment — `deep` when verifying coupled/ambiguous output (the METR case, it needs a fresh slot), `shallow` for a trivial check. The discount and its review cost are causally linked; budget both.
+- **Verification is the `review` stage**, not a per-chunk pairing — include a `review` chunk ("Submit PR + AI-assisted review", `intensity: deep`, `ai_discount: none`) whenever the ticket has `discounted` build stages.
 
 A recharge break is advisory (packer `breaks`); materialize it as a short
 `recharge`-tagged task only if you want breaks visible. Off by default.
@@ -58,7 +58,7 @@ A recharge break is advisory (packer `breaks`); materialize it as a short
 ## Idempotency and calibration
 
 - **Idempotency**: before Intake creates anything, search the work list for a parent whose `content` contains `Ticket: <ID>`. If found → resume that tree (route to plan), do not create a duplicate.
-- **Calibration**: estimate accuracy comes from comparing the immutable `est0` against actual focus time. Read actuals from TickTick: `list_completed_tasks_by_date` / `filter_tasks` for completion, and `get_focuses_by_time` / the task's `focusSummaries` for real pomodoro/time-on-task. Group drift by `type` (chunk_type). This requires the in-app focus timer to be run; without it, calibration degrades to a one-line gut-check.
+- **Calibration**: estimate accuracy comes from comparing the immutable `est0` against actual focus time. Read actuals from TickTick: `list_completed_tasks_by_date` / `filter_tasks` for completion, and `get_focuses_by_time` / the task's `focusSummaries` for real pomodoro/time-on-task. Group drift by **stage** (cross with `ai_discount` for the high-variance `research`/`backend`). This requires the in-app focus timer to be run; without it, calibration degrades to a one-line gut-check.
 
 ## TickTick field mapping (verified)
 
@@ -123,6 +123,6 @@ Input/output shapes are pinned in `schemas/packer-input.schema.json` and
 
 Idempotent; check before creating. Resolve names → ids at runtime.
 
-- **Intensity + marker tags**: `deep`, `shallow` (intensity), `ai`, `parked`, plus `recharge` if you want breaks visible. Activity (build/verify/comms/admin) is derived from `chunk_type`, NOT tagged. Try `create_tag` (with colors) — but the tag-write endpoint is undocumented and has been observed returning 500. If it fails, DON'T block: the tag still attaches to a task as a label the first time it's applied (it just won't be a colored sidebar tag until you create it in-app once). Surface the failure and continue. Optional sidebar nesting: parent tags `intensity` (deep, shallow) and `priority` (must, should, want).
+- **Intensity + marker tags**: `deep`, `shallow` (intensity), `ai`, `parked`, plus `recharge` if you want breaks visible. Stage lives in the est0 line and activity (build/verify/comms/admin) is derived from it — neither is tagged. Try `create_tag` (with colors) — but the tag-write endpoint is undocumented and has been observed returning 500. If it fails, DON'T block: the tag still attaches to a task as a label the first time it's applied (it just won't be a colored sidebar tag until you create it in-app once). Surface the failure and continue. Optional sidebar nesting: parent tags `intensity` (deep, shallow) and `priority` (must, should, want).
 - **Work list**: default `Plate` (rename from a prior name via `update_project` if needed — renaming preserves the tasks inside).
 - **Ritual habit**: a "Plan the day" habit (`create_habit`) with a daily `repeatRule` (`RRULE:FREQ=DAILY`) and a reminder — the external cue that builds the rhythm. The habit lives on TickTick's Habit surface; the streak is the accommodation.

@@ -4,35 +4,35 @@
   "title": "Butler chunk task",
   "description": "Logical shape of a chunk — a child task (one focused sitting) under a parent work unit. The agent builds this, then maps it onto TickTick fields per references/template.md. Real subtask (parentId), never a checklist item, so it can carry its own dates/reminders/focus estimate.",
   "type": "object",
-  "required": ["id", "title", "intensity", "chunk_type", "ai_discount", "est0_min", "kind", "ai_generated"],
+  "required": ["id", "title", "stage", "intensity", "ai_discount", "est0_min", "kind", "ai_generated"],
   "additionalProperties": false,
   "properties": {
     "id": {
       "type": "string",
-      "description": "Stable local id used by the packer and to link a verify chunk to its build chunk."
+      "description": "Stable local id used by the packer."
     },
     "title": {
       "type": "string",
       "minLength": 1,
       "maxLength": 70,
-      "description": "Imperative verb + concrete object + optional done-signal, sentence case. No gerund, no ticket prefix, no emoji, no trailing period. Code identifiers verbatim. See task-contract.md."
+      "description": "Stage label + short qualifier, sentence case. e.g. 'Backend: pricer API + carry-back'. No ticket prefix, no emoji, no trailing period. Code identifiers verbatim. The concrete first action lives in the body, not the title. See task-contract.md."
+    },
+    "stage": {
+      "enum": ["research", "db", "backend", "frontend", "review", "address-comments", "qa", "deploy"],
+      "description": "Pipeline stage (see config.yaml `pipeline`). The decomposition unit, the calibration reference class, and the SINGLE SOURCE for the derived activity bucket the packer clusters by. Not a TickTick tag. Intake picks applicable stages and may add ad-hoc chunks for off-pipeline work."
     },
     "intensity": {
       "enum": ["deep", "shallow"],
-      "description": "Freshness axis: the ONE hand-set work-shape tag. deep = needs a fresh slot; shallow = light. Drives packer ordering (deep first). A deep code review or verifying coupled AI output is `deep`, not `shallow` — judge the focus it demands, not the activity."
-    },
-    "chunk_type": {
-      "enum": ["groom", "spike", "trace", "debug", "decision", "scaffold", "wire", "crud", "refactor", "test", "review", "qa", "deploy", "docs", "address-comments"],
-      "description": "Calibration + AI-discount taxonomy axis. Durable; stored in the est0 line. Grouped for reference-class estimation, and the SINGLE SOURCE for the derived activity bucket (build/verify/comms/admin) the packer clusters by. Not a TickTick tag."
+      "description": "Freshness axis: the ONE hand-set work-shape tag. deep = needs a fresh slot; shallow = light. Defaults come from the stage (config `pipeline`) but are overridable per chunk. A deep code review or verifying coupled AI output is `deep` — judge the focus it demands, not the activity."
     },
     "ai_discount": {
       "enum": ["discounted", "none", "premium"],
-      "description": "discounted = AI compresses this (scaffold/wire on understood code, crud, boilerplate test, mechanical refactor, codemod). none/premium = AI does not reliably help and may slow you (ambiguous-spec resolution, cross-system trace/debug, decisions needing people, reviewing AI output). A `discounted` build chunk MUST have a paired verify chunk."
+      "description": "Defaults from the stage; override per chunk. discounted = AI compresses this (build on understood code, mechanical refactor, codemod). none/premium = AI does not reliably help and may slow you (ambiguous-spec resolution, cross-system trace/debug, decisions needing people, reviewing AI output). Used for estimation; calibration crosses stage x ai_discount for research/backend."
     },
     "est0_min": {
       "type": "integer",
       "minimum": 1,
-      "description": "IMMUTABLE original focus-minute estimate, written once at first scheduling and never overwritten on reschedule. The anchor for calibration (compare against actual focus time)."
+      "description": "IMMUTABLE original focus-minute estimate, set once at intake (during decomposition) and never overwritten on reschedule. The anchor for calibration (compare against actual focus time, grouped by stage)."
     },
     "priority": {
       "enum": ["must", "should", "want", null],
@@ -56,9 +56,10 @@
       "description": "From the packer output; maps to TickTick startDate/dueDate."
     },
     "pomo_estimate": { "type": ["integer", "null"], "minimum": 1, "description": "Maps to TickTick focusSummaries[].estimatedPomo." },
-    "verify_of": {
-      "type": ["string", "null"],
-      "description": "If set, this is the auto-paired verify chunk for the build chunk with this id. Verify chunks are chunk_type=review, ai_discount=none, with intensity set by judgment (deep when verifying coupled/ambiguous output)."
+    "ad_hoc": {
+      "type": "boolean",
+      "default": false,
+      "description": "True when this chunk is off-pipeline (no matching stage) — the hybrid escape hatch. Stage still required; pick the closest, or 'backend' as a neutral default."
     },
     "parent_ticket": {
       "type": ["string", "null"],

@@ -37,8 +37,8 @@ Goal: understand the human shape of the work, then narrow hard to what to land o
 
 **Narrow to the target day**
 - "What do you want to actually land that day?" Keep pulling until it's a small, concrete set.
-- "Of those, which need deep focus vs are shallow?" (sets intensity; activity is derived from chunk_type)
-- "Which will you do with AI?" (sets ai_discount; remember each discounted build gets a paired verify chunk)
+- "Of those, which need deep focus vs are shallow?" (sets intensity; stage defaults seed it; activity is derived from stage)
+- "Which will you do with AI?" (sets ai_discount; include a `review` stage when there are discounted build stages)
 - "What's the very first thing you'd touch?" (the first physical action)
 
 **Estimate the target day's chunks** (with the user, applying the AI discount)
