@@ -1,0 +1,19 @@
+plugins/butler/scripts/test_pack_schedule.py
+  s_c952712fa6cac1::t_f2e82728ee20fb 250-278
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "ba85ee1b54cca075a7745b2e3f50f0518bac9e8a",
+  "prompts": {},
+  "sessions": {
+    "s_c952712fa6cac1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "006da2fd-66c1-44a3-b2b7-9004655c433e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
