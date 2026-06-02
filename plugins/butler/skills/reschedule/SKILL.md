@@ -25,6 +25,10 @@ Load deferred MCP tools (TickTick, Google Calendar) with tool_search.
 ## Procedure
 
 ```
+Conduct the interview per `references/interview.md` → Reschedule (honor each question's
+[choice]/[open] tag — see → Presentation): "anything new today?" and "drop a passed block?"
+are [choice]; "what's done / left" stays prose.
+
 - [ ] 1. Establish "now" and what's done vs left today (ask briefly).
 - [ ] 2. Re-read today's remaining WORK chunks from TickTick (scheduled-but-not-done).
         Note any personal reminders still ahead today — these are kept as-is, not repacked.

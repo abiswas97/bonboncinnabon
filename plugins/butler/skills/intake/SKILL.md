@@ -43,20 +43,18 @@ STOP and resolve before creating ANY task:
 - [ ] 2. IDEMPOTENCY CHECK: search the work context's `default_project` for an existing parent
         with `Ticket: <ID>`. If found, summarize the existing tree and route to `butler:plan`
         instead of creating.
-- [ ] 3. HARD GATE — interview for the human shape and what to land first
-        (references/interview.md → Hard gate, then Intake; obey its [choice]/[open] tags →
-        Presentation). Present the discrete confirmations (prior progress, single-vs-multi-step)
-        as AskUserQuestion choices; keep done-criteria and the first physical action as free-text
-        prose. Surface unknowns and blockers. Do NOT proceed to step 4 until this is cleared; a
-        single-action task is not decomposed.
+- [ ] 3. HARD GATE — interview for the human shape and what to land first, honoring the
+        bank's [choice]/[open] tags (references/interview.md → Hard gate, then Intake; →
+        Presentation for how to ask). Surface unknowns and blockers. Do NOT proceed to step 4
+        until intent / prior progress / single-vs-multi-step are confirmed; a single-action task
+        is not decomposed.
 - [ ] 4. Decompose by PICKING STAGES from `contexts.work.pipeline` (references/heuristics.md →
         Decomposition (work)): skip stages that don't apply; merge thin ones to land in 2–6; add
         ad-hoc chunks for off-pipeline work. Title = stage + short qualifier. Each chunk is
         `context: work` and inherits its stage's default intensity + ai_discount (override per
         chunk); set est0 now. Include a `review` stage when there are `discounted` build stages
-        (it absorbs AI-output verification). Present the proposed tree for sign-off as an
-        AskUserQuestion choice ("Build as proposed" / "Adjust granularity" / "Fewer stages",
-        previews when helpful), not a prose yes/no.
+        (it absorbs AI-output verification). Confirm the proposed tree before writing
+        (interview.md → Intake, "Confirm the shape" [choice]).
 - [ ] 5. Build the tree (references/template.md, schemas/parent-task + chunk-task): create the
         parent (kind TEXT, metadata in `content`), capture its id, then create ALL chunks as
         child tasks with parentId set. RE-READ to confirm childIds linked (create response is stale).

@@ -19,12 +19,18 @@ the evening), not a multi-day schedule.
 
 ## Presentation
 
-Each question below is tagged for HOW to ask it:
+This is the SINGLE SOURCE of the choice/open convention for every interview-driven
+skill (intake, decompose, plan, reschedule). Each question in the banks below is
+tagged for HOW to ask it:
 
 - **[choice]** — a decision over a known, finite set. Present with the **AskUserQuestion** tool, offering the listed options (the tool adds an "Other" escape; use multiSelect only where noted).
 - **[open]** — unbounded input. Ask in prose and accept a free-text answer. Never force these into options.
 
 Discipline still holds: one main thread at a time, never a wall of cards. AskUserQuestion's 4-question batch is a ceiling, not a target — prefer one decision at a time, batching only tightly-related forks. Phrase every [choice] so it still reads as a plain question when AskUserQuestion is unavailable (other harnesses): the tool is an enhancement, never a hard dependency.
+
+**Canonical pointer** — a skill's interview step quotes this instead of restating the mechanics:
+
+> Conduct the interview per `references/interview.md` (honor each question's `[choice]` / `[open]` tag — see → Presentation; discrete = AskUserQuestion, open = prose).
 
 ## Hard gate (shared) — do not proceed until X
 
@@ -47,8 +53,8 @@ the stop that prevents shredding work that was never understood.)
 ## Target day (shared)
 
 Resolve which day you're planning before anything else:
-- Explicit ("plan tomorrow", "plan today") wins.
-- Otherwise infer from time of day (evening → tomorrow, daytime → today) and confirm in one line: "Planning tomorrow, yeah?"
+- Explicit ("plan tomorrow", "plan today") wins — no question needed.
+- [choice] Otherwise infer from time of day (evening → tomorrow, daytime → today) and confirm: options "Today" / "Tomorrow".
 
 ## Intake
 
@@ -107,14 +113,15 @@ next step (`butler:plan` for work, a light reminder for personal).
 Goal: reconcile open work honestly without nagging, then commit the target day.
 
 **Reconcile (capped, no-blame — see heuristics)**
-- Default: re-surface unfinished chunks with "keep or park?". Park = drop the date + `parked` tag, no "why" needed.
-- Ask "what got in the way?" for at most the 1–2 most-slipped chunks. Route: blocked / underestimated / too vague / low-energy (heuristics → Reconciliation).
-- Only escalate to "want to look at why this one keeps slipping?" when a chunk has slipped repeatedly.
-- "Anything you actually finished but didn't tick?"
+- [choice] Default: re-surface each unfinished chunk with options "Keep" / "Park". Park = drop the date + `parked` tag, no "why" needed. One thread at a time — don't wall up every chunk.
+- [open] Ask "what got in the way?" for at most the 1–2 most-slipped chunks. Route: blocked / underestimated / too vague / low-energy (heuristics → Reconciliation).
+- [open] Only escalate to "want to look at why this one keeps slipping?" when a chunk has slipped repeatedly.
+- [choice] "Anything you actually finished but didn't tick?" options "All ticked" / "Mark some done" (→ which).
 
 **Commit the target day**
-- "What do you want to land?" Set must/should/want; respect the 3-musts flag.
-- "Which need deep focus vs shallow?"
+- [open] "What do you want to land?" Pull until it's a small, concrete set.
+- [choice, multiSelect] Set must/should/want across the chosen chunks; respect the 3-musts flag.
+- [choice, multiSelect] "Which need deep focus vs shallow?"
 
 Then Fixed duties, pack, review, confirm, write the target day's blocks only.
 
@@ -122,9 +129,9 @@ Then Fixed duties, pack, review, confirm, write the target day's blocks only.
 
 Goal: recompute the rest of *today* from where things actually are.
 
-- "Where are you right now — what's done, what's left?"
-- "Anything new that has to happen today?"
-- "Any blocks already passed we should drop or shrink?"
+- [open] "Where are you right now — what's done, what's left?"
+- [choice] "Anything new that has to happen today?" options "Nothing new" / "Add something" (→ then open: what).
+- [choice] "Any blocks already passed we should drop or shrink?" options "Drop passed" / "Keep all" (→ which).
 
 Then re-read remaining chunks + remaining commitments, pack with `now` = current
 time, review (overflow cascades, musts never silently dropped), confirm, update.
@@ -132,10 +139,10 @@ time, review (overflow cascades, musts never silently dropped), confirm, update.
 ## Fixed duties (shared)
 
 Read the target day's timed Calendar events in the window first, then confirm and fill gaps:
-- "I see <events> on your calendar — still on?"
-- "Lunch or a break planned, roughly when?"
-- "Any commute or away-from-keyboard time?"
-- "Any family or personal time to protect?"
+- [choice] "I see <events> on your calendar — still on?" options "All still on" / "Adjust one" (→ open: which/when).
+- [open] "Lunch or a break planned, roughly when?"
+- [open] "Any commute or away-from-keyboard time?"
+- [open] "Any family or personal time to protect?"
 
 These become the packer's `fixed_commitments`. Default to remembered habits (e.g.
 a usual lunch window) but confirm rather than assume.

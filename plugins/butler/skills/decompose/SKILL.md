@@ -38,23 +38,23 @@ STOP and resolve before creating or modifying ANY task:
 ## Procedure
 
 ```
-Discrete decisions below use the AskUserQuestion tool; open-ended prompts stay prose
-(references/interview.md → Presentation). One thread at a time, never a wall of cards.
+Conduct the interview per `references/interview.md` → Decompose (honor each question's
+[choice]/[open] tag — see → Presentation). One thread at a time, never a wall of cards.
 
 - [ ] 1. RESOLVE the task:
         - From args → search TickTick (search_task / filter_tasks), present the best
-          match, CONFIRM as a choice ("Yes, that one" / "No, different task").
+          match, and confirm it (interview.md → Decompose, "Resolve the task").
         - No task named → list undecomposed candidates (active tasks with no childIds)
-          and let the user pick via an AskUserQuestion choice (options = the candidates).
+          and let the user pick.
 - [ ] 2. DERIVE + CONFIRM context from the task's project (heuristics → Contexts):
         Plate/Promo Track → work; Life/Photo/Finance/Relationships/Medical/Projects →
-        personal; unmapped → ask. Confirm as a choice ("Work" / "Personal").
+        personal; unmapped → ask. State it and confirm.
 - [ ] 3. ALREADY SPLIT? Re-read the task (get_task_by_id) for childIds. If it has
-        children, read them, talk through gaps, and offer a choice ("Add missing chunks" /
-        "Leave as is") — ADD only what's missing, never duplicate an existing chunk.
-- [ ] 4. HARD GATE — interview (references/interview.md → Hard gate, then Decompose):
-        present prior-progress and multi-step-vs-single as choices; keep done-criteria,
-        blockers, and the first action as free-text prose. Do NOT decompose until cleared.
+        children, read them, talk through gaps, and ADD only what's missing — never
+        duplicate an existing chunk.
+- [ ] 4. HARD GATE — clear the interview (references/interview.md → Hard gate, then
+        Decompose) before any decomposition. Do NOT decompose until intent / prior progress /
+        single-vs-multi are confirmed.
 - [ ] 5. DECOMPOSE per context:
         - work → pick stages from contexts.work.pipeline (heuristics → Decomposition
           (work)): 2–6 chunks, title = stage + qualifier, context: work, stage default
@@ -63,8 +63,8 @@ Discrete decisions below use the AskUserQuestion tool; open-ended prompts stay p
           per task-contract without the stage prefix; optional priority + light est0),
           OR conclude it's a single action and do NOT decompose — offer to schedule/cue
           it instead.
-- [ ] 6. CONFIRM the proposed chunks as a choice ("Build as proposed" / "Adjust" /
-        (personal) "Don't decompose, just remind"). On yes, the existing task becomes the PARENT
+- [ ] 6. CONFIRM the proposed chunks (interview.md → Decompose, "Confirm, then write").
+        On yes, the existing task becomes the PARENT
         (optionally tidy its title/content to parent form — confirm any rewrite). Create
         each chunk as a child (parentId set, kind TEXT, `ai` tag) per references/template.md.
         RE-READ the parent and assert childIds linked — the create response is stale.

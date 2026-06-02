@@ -28,8 +28,12 @@ Load deferred MCP tools with tool_search before use (TickTick, Google Calendar).
 ## Procedure
 
 ```
+Conduct every interview part per `references/interview.md` (honor each question's
+[choice]/[open] tag — see → Presentation): target-day, keep-or-park, must/should/want,
+and the fixed-duties read-back are [choice]; "what got in the way?" stays prose.
+
 - [ ] 1. Resolve the target day (references/interview.md → Target day): explicit wins,
-        else infer from time of day and confirm in one line.
+        else infer and confirm via the [choice] there.
 - [ ] 2. Read open WORK for the target day: active parent work units in the work context's
         projects (contexts.work.projects) and their child chunks (done / not-done /
         unscheduled). A chunk with no context counts as work.

@@ -2,6 +2,21 @@
 
 All notable changes to butler. Versioning follows [SemVer](https://semver.org).
 
+## [0.5.0] - 2026-06-02
+
+Completes the structured-interview rollout and makes the convention single-source.
+
+### Added
+- **`plan` and `reschedule` now use structured questions** too: target-day (today/tomorrow), per-chunk commitment (must/should/want), reconcile keep-or-park, and the fixed-duties calendar read-back are AskUserQuestion choices; "what got in the way?", "anything new today?", and off-calendar duty details stay prose.
+- `[choice]`/`[open]` tags + inline option labels added to the Target day, Plan / reconcile, Reschedule, and Fixed duties banks.
+
+### Changed
+- **Single source of truth for the convention (DRY).** `references/interview.md` → Presentation is now the *only* place the choice/open mechanic is defined; it carries a canonical pointer sentence. All four skills (`intake`, `decompose`, `plan`, `reschedule`) reference the convention via that pointer + the banks' per-question tags instead of restating the AskUserQuestion mechanics. `AskUserQuestion` is named in exactly one file; changing how questions are asked is now a one-file edit.
+- Refactored `intake`/`decompose` from their 0.4.0 inlined mechanics to the shared pointer (gate "do not proceed" salience preserved).
+
+### Notes
+- Presentation only — no task-model, schema, packer, config, or scheduling change. Conversational discipline (one thread, 4-question ceiling) and the prose fallback are unchanged.
+
 ## [0.4.0] - 2026-06-02
 
 ### Added
