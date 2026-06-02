@@ -1,0 +1,21 @@
+openspec/specs/config-versioning/spec.md
+  s_c952712fa6cac1::t_2d203f7c64d33c 1-52
+openspec/specs/context-aware-scheduling/spec.md
+  s_c952712fa6cac1::t_66d8d080730223 76-124
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "4a0a229cf3612a5963406cf70a1cd7c2a87ad4ed",
+  "prompts": {},
+  "sessions": {
+    "s_c952712fa6cac1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "006da2fd-66c1-44a3-b2b7-9004655c433e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
