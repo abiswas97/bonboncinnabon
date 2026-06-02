@@ -12,7 +12,7 @@ already persists; only the target day gets times.
 
 ## Config
 
-Read `${CLAUDE_PLUGIN_ROOT}/config.yaml` — the only user-specific surface — then run
+Read `${CLAUDE_PLUGIN_DATA}/config.yaml` — your global, machine-wide config (survives plugin updates); if absent, stop and run `/butler:setup` — then run
 the config preflight (references/template.md → Config preflight; migrate if behind,
 error if ahead). Resolve TickTick project and tag names → ids at runtime
 (`list_projects` / `list_tags`).

@@ -35,12 +35,18 @@ Part of the `bonboncinnabon` marketplace. Namespace: `butler:`.
 
 ## Adoption
 
-Everything user-specific lives in `config.yaml` — timezone, work window, project +
-tag names, capacity, and the `pipeline`. Edit that to adopt.
+Run **`/butler:setup`** — it interviews you and writes your config to
+`${CLAUDE_PLUGIN_DATA}/config.yaml`: a global, machine-wide file (the same in every
+project) that persists across plugin updates and is never committed. It holds
+everything user-specific: timezone, work window, project + tag names, capacity, the
+`pipeline`, breaks, and pacing. The repo ships `config.example.yaml` as the generic
+template; re-run `/butler:setup` anytime to update individual fields.
 
 ## Setup
 
-The skills use a few TickTick tags — `deep`/`shallow` (intensity), `ai`, `parked`
-— and expect a work list (default `Work`) and a planning list (default `Planning`).
-Stage lives in each chunk's `est0` line; activity (build/verify/comms/admin) is
-derived from it — neither is tagged. Resolve names → IDs at runtime; never hard-code IDs.
+`/butler:setup` resolves your TickTick lists and writes the config. The skills use a
+few TickTick tags — `deep`/`shallow` (intensity), the `#stage` family
+(research…deploy), `ai`, `parked` — and expect a work list (default `Work`) and a
+planning list (default `Planning`). Stage rides a `#stage` tag; activity
+(build/verify/comms/admin) is derived from it — neither is hand-set. Resolve names →
+IDs at runtime; never hard-code IDs.

@@ -2,6 +2,23 @@
 
 All notable changes to butler. Versioning follows [SemVer](https://semver.org).
 
+## [0.10.0] - 2026-06-03
+
+Global config + a `/butler:setup` command. **BREAKING: config location moved.**
+
+### Changed
+- **Config now lives at `${CLAUDE_PLUGIN_DATA}/config.yaml`** — the blessed persistent per-plugin dir: machine-wide (same in every project), survives plugin updates, and never committed. It replaces `${CLAUDE_PLUGIN_ROOT}/config.yaml`, which the Claude Code docs declare ephemeral ("do not write state here", wiped ~7 days after an update) and which also coupled personal data to the published repo. **BREAKING:** anyone who hand-edited the in-plugin config re-runs `/butler:setup`.
+- The in-repo `config.yaml` is now **`config.example.yaml`** — the generic, committed template (placeholders + schema-valid + `config_version`), used for reference and as the starting point setup copies. No real user config is ever committed.
+- The shared preflight + all four skills read `${CLAUDE_PLUGIN_DATA}/config.yaml`; if absent they route to `/butler:setup` (no silent fallback to the placeholder template).
+
+### Added
+- **`/butler:setup`** — interviews for the user-specific values (timezone, planning project, work/personal TickTick projects, calendar, work window, optional breaks/pacing), `mkdir -p "$CLAUDE_PLUGIN_DATA"`, writes the config there at the current `config_version`, and validates against the schema. Idempotent: re-running updates individual fields, never clobbers.
+
+### Notes
+- Decision backed by live Claude Code docs + a survey of real plugins (the `amcheste/ea-agent` / `robertnowell/video-essay` pattern: a re-runnable setup that writes a versioned config into the persistent data dir). `userConfig` was considered but only holds flat scalars; butler's config is a nested blob, so the rich-file-in-`${CLAUDE_PLUGIN_DATA}` pattern fits.
+- No packer code change. Packer (26) + chunk-schema tests pass; `config.example.yaml` validates against the schema (config_version 2 == configVersion 2).
+- Spec: `global-config` + `setup-skill` (new). See `openspec/changes/butler-global-config`.
+
 ## [0.9.0] - 2026-06-02
 
 Research-grounded accommodations layer, a burnout instinct, and low-energy mode.

@@ -17,8 +17,13 @@ and Linear MCP. Titles/descriptions follow `task-contract.md`.
 
 ## Config preflight (version check)
 
-Every skill runs this ONCE right after reading `config.yaml`, before using it. It is
+Every skill runs this ONCE right after reading the config, before using it. It is
 the single source of the rule — skills reference it, they don't restate it.
+
+The config lives at `${CLAUDE_PLUGIN_DATA}/config.yaml` — global, machine-wide, and
+persistent across plugin updates (NOT `${CLAUDE_PLUGIN_ROOT}`, which is ephemeral). If
+it is absent, STOP and tell the user to run `/butler:setup`; never fall back to the
+shipped `config.example.yaml` (its placeholder projects would mis-target TickTick).
 
 Compare the file's `config_version` to `schemas/config.schema.json` `configVersion`
 (the current shape the plugin expects):

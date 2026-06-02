@@ -13,7 +13,7 @@ duplicates chunks.
 
 ## Config
 
-Read `${CLAUDE_PLUGIN_ROOT}/config.yaml`, then run the config preflight (references/template.md → Config preflight; migrate if behind, error if ahead). Resolve TickTick names → ids at runtime
+Read `${CLAUDE_PLUGIN_DATA}/config.yaml` (your global config; if absent, run `/butler:setup`), then run the config preflight (references/template.md → Config preflight; migrate if behind, error if ahead). Resolve TickTick names → ids at runtime
 (`list_projects` / `list_tags`). Load deferred MCP tools (TickTick; Google Calendar
 only when placing a personal reminder) with tool_search.
 

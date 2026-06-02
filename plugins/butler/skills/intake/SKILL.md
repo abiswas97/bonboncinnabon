@@ -12,7 +12,7 @@ existing tree, never duplicates it.
 
 ## Config
 
-Read `${CLAUDE_PLUGIN_ROOT}/config.yaml`, then run the config preflight (references/template.md → Config preflight; migrate if behind, error if ahead). Resolve TickTick names → ids at runtime.
+Read `${CLAUDE_PLUGIN_DATA}/config.yaml` (your global config; if absent, run `/butler:setup`), then run the config preflight (references/template.md → Config preflight; migrate if behind, error if ahead). Resolve TickTick names → ids at runtime.
 Load deferred MCP tools (TickTick; Linear only if an ID is named) with tool_search.
 
 ## Core rules
