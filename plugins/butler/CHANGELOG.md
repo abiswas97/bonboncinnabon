@@ -2,6 +2,17 @@
 
 All notable changes to butler. Versioning follows [SemVer](https://semver.org).
 
+## [0.4.0] - 2026-06-02
+
+### Added
+- **Structured interview questions.** `intake` and `decompose` now present discrete interview decisions as native AskUserQuestion choice cards instead of free-text prose — prior-progress (fresh/begun), shape (single-action/multi-step), stage/tree confirmation, and (decompose) the work-vs-personal context confirmation. Open-ended prompts (done-criteria, first physical action, blockers, estimates) stay free text.
+- `references/interview.md` gains a "Presentation" convention: every question is tagged `[choice]` (AskUserQuestion, with suggested option labels listed inline) or `[open]` (prose).
+
+### Notes
+- Conversational discipline preserved: one main thread at a time, the 4-question batch is a ceiling not a target.
+- Graceful degradation: every `[choice]` is phrased to remain answerable as prose on harnesses without AskUserQuestion — no hard dependency on the tool.
+- Scope is `intake` + `decompose`; `plan`/`reschedule` interview forks are unchanged this release. No task-model, schema, packer, config, or scheduling change.
+
 ## [0.3.1] - 2026-06-02
 
 Review-driven hardening of the 0.3.0 release. No behavior change to scheduling.

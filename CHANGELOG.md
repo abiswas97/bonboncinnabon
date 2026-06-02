@@ -8,6 +8,7 @@ plugin keeps its own changelog (e.g. `plugins/butler/CHANGELOG.md`).
 ### Added
 - **butler** `0.3.0` — personal contexts (work | personal) + `butler:decompose` skill; intake interview hard-gate; context-aware `plan`/`reschedule` (work packed, personal light reminders). Release tag `butler--v0.3.0`. See `plugins/butler/CHANGELOG.md`.
 - **butler** `0.3.1` — review-driven hardening: schema `$id`/versioning fix, `reminder.triggers` array, `priority` disambiguation, intake/decompose trigger tightening, +4 packer tests. Release tag `butler--v0.3.1`.
+- **butler** `0.4.0` — intake/decompose interviews present discrete decisions as native AskUserQuestion choice cards (prior-progress, shape, stage/tree confirm, context), open prompts stay prose; graceful prose fallback. Release tag `butler--v0.4.0`.
 
 ## 2026-06-01
 
