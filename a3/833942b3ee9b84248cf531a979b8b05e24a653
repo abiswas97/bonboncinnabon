@@ -1,0 +1,70 @@
+plugins/butler/.claude-plugin/plugin.json
+  s_c952712fa6cac1::t_dc1e2af31654ec 3
+plugins/butler/skills/decompose/SKILL.md
+  s_c952712fa6cac1::t_f86e9e834eb279 16
+plugins/butler/CHANGELOG.md
+  s_c952712fa6cac1::t_b74af8191ea1ec 5-20
+CHANGELOG.md
+  s_c952712fa6cac1::t_b12dac6dc7f862 17
+openspec/changes/butler-calendar-and-breaks/specs/context-aware-scheduling/spec.md
+  s_c952712fa6cac1::t_4d964e132a8733 1-50
+plugins/butler/references/heuristics.md
+  s_c952712fa6cac1::t_05ded87d2167ad 124-125
+  s_c952712fa6cac1::t_616329a0456d04 110-119
+plugins/butler/skills/intake/SKILL.md
+  s_c952712fa6cac1::t_fc3e86ac79c743 53-54
+  s_c952712fa6cac1::t_c6fe3228df5837 15
+plugins/butler/skills/reschedule/SKILL.md
+  s_c952712fa6cac1::t_a927b92869c76a 36-38
+  s_c952712fa6cac1::t_2cb7cbf384930d 14
+openspec/changes/butler-calendar-and-breaks/specs/config-versioning/spec.md
+  s_c952712fa6cac1::t_e40fb388eec9e9 1-42
+openspec/changes/butler-calendar-and-breaks/.openspec.yaml
+  s_c952712fa6cac1::t_15186a770c5d7f 1-2
+openspec/changes/butler-calendar-and-breaks/proposal.md
+  s_c952712fa6cac1::t_af10e700895c04 4-9,11-15,19-33,42-44,57-59,67-68,70-72,74-76
+  s_c952712fa6cac1::t_150bea2d3cdf17 63-66
+  s_c952712fa6cac1::t_5627a4b1ebd1ec 34-41
+  s_c952712fa6cac1::t_92de11ed6f4b43 51-53
+  s_c952712fa6cac1::t_13158cd48d27c1 1-3,10,16-18,45-50,54-56,60-62,69,73,77
+plugins/butler/config.yaml
+  s_c952712fa6cac1::t_41e0a640333d1b 14-19
+  s_c952712fa6cac1::t_241dc460d394d8 32
+  s_c952712fa6cac1::t_bf492af77ca76c 5
+plugins/butler/references/template.md
+  s_c952712fa6cac1::t_1d367c2ea9dd21 138-140
+  s_c952712fa6cac1::t_db834d752b4ecd 9,18-36
+  s_c952712fa6cac1::t_5e9fcd5cacdbc4 99
+.claude-plugin/marketplace.json
+  s_c952712fa6cac1::t_9d21e74d3530c3 33
+openspec/changes/butler-calendar-and-breaks/tasks.md
+  s_c952712fa6cac1::t_4cec193b03eb5c 1-2,7-9,12-14,18-20,23-25,27-29,31-33,38-40
+  s_c952712fa6cac1::t_ef501ba22d6dfc 3-6,10-11,15-17,21-22,26,30,34-37,41-44
+plugins/butler/schemas/config.schema.json
+  s_c952712fa6cac1::t_b15818af7be8b7 1-60
+openspec/changes/butler-calendar-and-breaks/design.md
+  s_c952712fa6cac1::t_331551411a7338 1-85
+plugins/butler/README.md
+  s_c952712fa6cac1::t_27353c6c8bfbaa 29
+plugins/butler/skills/plan/SKILL.md
+  s_c952712fa6cac1::t_94a046c9a9a021 57-63
+  s_c952712fa6cac1::t_11e3932363d14a 65-73
+  s_c952712fa6cac1::t_a7527a57b52fe2 30
+  s_c952712fa6cac1::t_5864a0637a8569 15-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "a3833942b3ee9b84248cf531a979b8b05e24a653",
+  "prompts": {},
+  "sessions": {
+    "s_c952712fa6cac1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "006da2fd-66c1-44a3-b2b7-9004655c433e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
