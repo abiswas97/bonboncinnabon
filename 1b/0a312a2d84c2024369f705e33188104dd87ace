@@ -1,0 +1,56 @@
+openspec/changes/butler-verb-first-task-titles/.openspec.yaml
+  s_1afaa3a6e19c0a::t_b8bb60580ea9d1 1-2
+plugins/butler/.claude-plugin/plugin.json
+  s_1afaa3a6e19c0a::t_7665d493471e88 3
+openspec/changes/butler-verb-first-task-titles/design.md
+  s_1afaa3a6e19c0a::t_d57c2eb99bbf96 1-70
+plugins/butler/schemas/chunk-task.schema.json
+  s_1afaa3a6e19c0a::t_df552496f7c6eb 45
+  s_1afaa3a6e19c0a::t_787d0e5193be57 27
+  s_1afaa3a6e19c0a::t_371da2e44492c3 32
+openspec/changes/butler-verb-first-task-titles/specs/task-contexts/spec.md
+  s_1afaa3a6e19c0a::t_6b9c991c9bdf0c 1-28
+plugins/butler/config.yaml
+  s_1afaa3a6e19c0a::t_4d8c7031ccefb3 26
+openspec/changes/butler-verb-first-task-titles/specs/task-titles/spec.md
+  s_1afaa3a6e19c0a::t_918703d2c251d9 1-65
+openspec/changes/butler-verb-first-task-titles/tasks.md
+  s_1afaa3a6e19c0a::t_361ee9ddb1311d 1-2,8-10,14-16,20-22,24-26,28-30,34-41,44-45
+  s_1afaa3a6e19c0a::t_af2fb448a35d8a 3-7,11-13,17-19,23,27,31-33,42-43
+CHANGELOG.md
+  s_1afaa3a6e19c0a::t_e1d29ac2e8f1b3 15
+plugins/butler/CHANGELOG.md
+  s_1afaa3a6e19c0a::t_d80bb4fef7f9e6 5-19
+plugins/butler/references/task-contract.md
+  s_1afaa3a6e19c0a::t_29ccc72f16f080 14-38
+  s_1afaa3a6e19c0a::t_0121fc1e641ca9 60
+  s_1afaa3a6e19c0a::t_3cdffb295cbe1a 86,88-94
+plugins/butler/references/template.md
+  s_1afaa3a6e19c0a::t_a70d0048691a79 49-50
+  s_1afaa3a6e19c0a::t_7ee5f5828c37c0 39
+  s_1afaa3a6e19c0a::t_ab6c56878f07eb 143
+.claude-plugin/marketplace.json
+  s_1afaa3a6e19c0a::t_32248ca8b3a44e 34
+plugins/butler/references/heuristics.md
+  s_1afaa3a6e19c0a::t_3a5e7bbae2da6d 145
+  s_1afaa3a6e19c0a::t_62a53e980db262 115
+  s_1afaa3a6e19c0a::t_2a2c4d16fb0ddf 48-49
+openspec/changes/butler-verb-first-task-titles/proposal.md
+  s_1afaa3a6e19c0a::t_70bc46bc2729fa 1-68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "1b0a312a2d84c2024369f705e33188104dd87ace",
+  "prompts": {},
+  "sessions": {
+    "s_1afaa3a6e19c0a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d2626d8f-44d2-4e32-9db7-13065d55c0b8",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
