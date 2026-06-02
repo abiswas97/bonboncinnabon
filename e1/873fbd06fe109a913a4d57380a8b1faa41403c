@@ -1,0 +1,32 @@
+plugins/butler/.claude-plugin/plugin.json
+  s_c952712fa6cac1::t_be6ad68ff719ee 3
+plugins/butler/references/heuristics.md
+  s_c952712fa6cac1::t_5afd9fccd0c32a 129
+CHANGELOG.md
+  s_c952712fa6cac1::t_d920d33b801855 14
+plugins/butler/skills/plan/SKILL.md
+  s_c952712fa6cac1::t_ace02011fde772 42-46
+  s_c952712fa6cac1::t_d533d810a18b4d 27
+plugins/butler/CHANGELOG.md
+  s_c952712fa6cac1::t_4aa3cdac7ee1d9 5-12
+plugins/butler/skills/reschedule/SKILL.md
+  s_c952712fa6cac1::t_1ede3364e8b91d 24
+.claude-plugin/marketplace.json
+  s_c952712fa6cac1::t_c11ad03e088a2d 34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "e1873fbd06fe109a913a4d57380a8b1faa41403c",
+  "prompts": {},
+  "sessions": {
+    "s_c952712fa6cac1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "006da2fd-66c1-44a3-b2b7-9004655c433e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
