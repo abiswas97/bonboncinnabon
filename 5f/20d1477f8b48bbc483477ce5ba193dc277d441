@@ -1,0 +1,76 @@
+plugins/butler/references/accommodations.md
+  s_c952712fa6cac1::t_1d64656cf42ed8 1-59
+openspec/changes/butler-accommodations/.openspec.yaml
+  s_c952712fa6cac1::t_99eab1ffeb1cc8 1-2
+plugins/butler/skills/plan/SKILL.md
+  s_c952712fa6cac1::t_c76de5ebef0191 118
+  s_c952712fa6cac1::t_37b28def3f535d 65-72
+  s_c952712fa6cac1::t_5fa877065360e1 51-63
+  s_c952712fa6cac1::t_4e1c67cd36f9bb 105-107
+  s_c952712fa6cac1::t_bca82645c7c204 31
+plugins/butler/schemas/config.schema.json
+  s_c952712fa6cac1::t_559eb10e871b92 4-5
+  s_c952712fa6cac1::t_415ee0f9566905 32-43
+plugins/butler/.claude-plugin/plugin.json
+  s_c952712fa6cac1::t_e4100d2d7c8860 3
+openspec/changes/butler-accommodations/design.md
+  s_c952712fa6cac1::t_424e3e50d3fb7e 77
+  s_c952712fa6cac1::t_d6bf4bc08e16c4 87-88,90
+  s_c952712fa6cac1::t_385004d69b981a 1-33,41-45,61-76,78-86,89,91-96
+  s_c952712fa6cac1::t_8aa31d027f7fed 34-40
+  s_c952712fa6cac1::t_82419230ab54e4 46-60
+plugins/butler/skills/reschedule/SKILL.md
+  s_c952712fa6cac1::t_e59ad476ee5317 42-45
+  s_c952712fa6cac1::t_f0f8696e0c8352 57
+openspec/changes/butler-accommodations/specs/accommodations/spec.md
+  s_c952712fa6cac1::t_fe5a0ea980a60f 1-102
+.claude-plugin/marketplace.json
+  s_c952712fa6cac1::t_49b002669a88a9 33
+plugins/butler/references/heuristics.md
+  s_c952712fa6cac1::t_81969a8ddcc6a2 15
+  s_c952712fa6cac1::t_3c992c8b995122 151-198
+openspec/changes/butler-accommodations/specs/burnout-detection/spec.md
+  s_c952712fa6cac1::t_79e1b97ed45a92 15,19-20
+  s_c952712fa6cac1::t_b4c73e000770bd 1-14,16-18,21-31,33,35,46-49,52,56-64
+  s_c952712fa6cac1::t_b0f3a4b904d44f 32,36-45,50-51,53-55
+  s_c952712fa6cac1::t_fd5f61a259afcb 34
+openspec/changes/butler-accommodations/specs/context-aware-scheduling/spec.md
+  s_c952712fa6cac1::t_8483c29456506c 1-45
+openspec/changes/butler-accommodations/tasks.md
+  s_c952712fa6cac1::t_8f3319fa4908e8 3-4,8-10,14-17,21-22,26-28,32-36,40-44
+  s_c952712fa6cac1::t_35b67a3ceef21a 1-2,5-7,11-13,18-20,23-25,29-31,37-39
+plugins/butler/CHANGELOG.md
+  s_c952712fa6cac1::t_71845bdb9242f4 5-22
+plugins/butler/references/template.md
+  s_c952712fa6cac1::t_4ffcb63ca95ffe 167
+plugins/butler/skills/decompose/SKILL.md
+  s_c952712fa6cac1::t_2e7457a814bfb2 81
+CHANGELOG.md
+  s_c952712fa6cac1::t_7de7d5e6211037 18
+openspec/changes/butler-accommodations/proposal.md
+  s_c952712fa6cac1::t_e143e31f14d57d 1-41
+docs/research/butler-accommodations-evidence.md
+  s_c952712fa6cac1::t_200be4851eeb45 1-122
+plugins/butler/skills/intake/SKILL.md
+  s_c952712fa6cac1::t_3ef9f5f5a466c3 87
+  s_c952712fa6cac1::t_7003fe3864fa69 63-64
+plugins/butler/config.yaml
+  s_c952712fa6cac1::t_e8e4c2927b2bd7 5
+  s_c952712fa6cac1::t_d7bb7ca8552a90 20-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "5f20d1477f8b48bbc483477ce5ba193dc277d441",
+  "prompts": {},
+  "sessions": {
+    "s_c952712fa6cac1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "006da2fd-66c1-44a3-b2b7-9004655c433e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
