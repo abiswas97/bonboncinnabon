@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/abiswas97/bonboncinnabon/blob/main/plugins/butler/schemas/config.schema.json",
-  "version": "0.8.0",
-  "configVersion": 1,
+  "version": "0.9.0",
+  "configVersion": 2,
   "$comment": "Versioned schema for config.yaml. `configVersion` is the CURRENT config-shape version the plugin expects; config.yaml carries `config_version`. On every config read a skill compares the two (see references/template.md → Config): equal proceeds, behind offers migration, ahead errors. Bump configVersion when the config shape changes in a way needing migration.",
   "title": "Butler config",
   "description": "Shape of config.yaml — the only user-specific surface. Project and tag names resolve to ids at runtime; never hard-code ids.",
@@ -27,6 +27,18 @@
       "properties": {
         "source": { "enum": ["google", "none"], "description": "google = read via a connected Google Calendar MCP; none = calendar-blind." },
         "calendars": { "type": "array", "items": { "type": "string" }, "description": "Which calendars to read (names/ids). Default the primary." }
+      }
+    },
+    "pacing": {
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "description": "Burnout-detection tunables (config_version 2+). All relative to the user's own baseline, never absolute hours. plan fires the no-blame prompt only on the rising edge of sustained overload with no recovery day. See references/heuristics.md → Pacing.",
+      "properties": {
+        "window_days": { "type": "integer", "minimum": 1, "description": "Rolling window (days) for the overload signal." },
+        "min_packed_streak": { "type": "integer", "minimum": 1, "description": "Consecutive packed days before the rising edge can fire." },
+        "packed_quantile": { "type": "number", "minimum": 0, "maximum": 1, "description": "A day is 'packed' if above this quantile of the user's own ~30-day load." },
+        "recovery_fraction": { "type": "number", "minimum": 0, "maximum": 1, "description": "A 'light/recovery' day is below this fraction of the user's median load. No recovery day in the window is mandatory to fire." },
+        "high_completion": { "type": "number", "minimum": 0, "maximum": 1, "description": "Framing only, NOT a detection gate: above this the prompt leans 'finishing everything' vs 'falling behind'." }
       }
     },
     "contexts": {

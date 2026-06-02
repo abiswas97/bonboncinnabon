@@ -12,6 +12,7 @@ The reasoning the skill applies. Prefer judgment over rigid rules — these expl
 - Buffering — where the slack actually lives (read this; it's easy to double-count)
 - Time-blocking — placing the target day's chunks
 - Reconciliation — capped, no-blame
+- Pacing — burnout signal (personal baseline), rising-edge, low-energy mode
 - Calibration — what TickTick can and can't tell you
 
 ## Contexts — derive, then confirm
@@ -146,6 +147,54 @@ abandon time-blocking**. So:
   - **too vague / didn't know where to start** → decompose further now (rewrite to verb + first action).
   - **low energy / interrupted / out of day** → just re-block; if it keeps slipping, shrink it or move it to a sharper part of the window.
 - Catch the chunk that's finished but never ticked — confirm and mark done.
+
+## Pacing — burnout signal + low-energy mode
+
+A standing instinct to catch sustained overcommitment before it becomes burnout,
+raised as a question and never an action. Tunables live in `config.yaml` under
+`pacing`. The tone is governed by `references/accommodations.md` (non-punitive,
+autonomy-preserving) — this section is the *mechanism*; the doctrine lives there.
+
+**The signal — on the user's OWN baseline, never absolute hours.** During plan's
+reconciliation, compute daily load over a rolling `pacing.window_days` (default 7)
+window: completed load (`list_completed_tasks_by_date`) + scheduled focus load per
+day. Compare each day to the user's own ~30-day baseline (median daily load + the
+`pacing.packed_quantile`, default 0.75, top-quartile cutoff). Capacity is personal;
+there is no fixed hour count.
+
+**Two components, both required:**
+
+- **Packed-day streak** — consecutive days above the user's top-quartile load.
+- **No-recovery flag (MANDATORY)** — *no* day in the window below `pacing.recovery_fraction` (default 0.5) × median. A single light/recovery day clears the flag and the signal does not fire. Recovery-absence is the gate, not packing alone.
+
+**Completion tunes wording only, never a gate.** Read completion against
+`pacing.high_completion` (default 0.8) ONLY to shape the prompt's phrasing
+(finishing-everything vs falling-behind) — the signal fires regardless. The
+packed-but-falling-behind user is the higher-risk profile and must not be excluded.
+
+**Rising-edge firing — stateless, no persisted date.** Fire ONLY when the current
+consecutive packed streak *first* reaches `pacing.min_packed_streak` (default 4),
+with at most one day of grace for a single skipped planning day. For any longer
+streak the edge has passed → stay SILENT (assume already surfaced or accepted). This
+is fully derivable from the window, needs zero stored state, and fires at most once
+per overload episode. A single busy day never fires. Honor the soft work-window: a
+lone late evening is not overload.
+
+- **Skip, don't defer (fail-safe to silence).** If the crossing day wasn't planned (beyond the one day of grace), the rising edge is missed — the prompt is SKIPPED, not replayed later. Missing an episode is consistent with never-nag; the alternative (persisting a last-prompted date) means clobbering the user's hand-edited config or a forbidden TickTick task.
+- **Thin history → silent.** A brand-new or sparse-history user has no reliable ~30-day baseline; bail to silence rather than risk a false alarm.
+
+**When it fires — ask, never act.** Surface ONE no-blame observation and ask whether
+to keep the next day lighter. Act only on a yes: offer to lighten, defer, protect a
+recovery gap, or offer low-energy mode. NEVER add a task, auto-insert a rest/break
+block, or reschedule unasked. The framing is observational, never "you're burning
+out / doing too much".
+
+**Low-energy reduced mode.** A reduced day: cut to roughly one mastery + one pleasure
+item and lead with the smallest concrete step — do NOT defer everything to zero, and
+do not invent a pleasure task (the user names personal items; see plan rule 7). Hand
+back the freed time without prescribing how to spend it. Triggered two ways: the user
+signals low energy at any point (apply immediately), or it is OFFERED as one option
+(never auto-applied) when the burnout signal fires.
 
 ## Calibration — what TickTick can and can't tell you
 

@@ -2,7 +2,7 @@
 # Resolve TickTick projects and tags by NAME at runtime (list_projects /
 # list_tags); ids differ per account and change, so never hard-code them.
 
-config_version: 1                    # config-shape version; butler checks this on every read and offers to migrate if behind (see schemas/config.schema.json)
+config_version: 2                    # config-shape version; butler checks this on every read and offers to migrate if behind (see schemas/config.schema.json)
 timezone: "America/New_York"         # set to your IANA timezone
 
 # Cross-context infrastructure — owned by no single context.
@@ -16,6 +16,17 @@ parked_tag: "parked"                 # no-blame "park" route during reconcile
 calendar:
   source: google                     # google | none
   calendars: [primary]               # which calendars to read (names/ids) — edit to yours
+
+# Pacing — the burnout instinct. plan reads a rolling window of TickTick history
+# and, only on the RISING EDGE of sustained overload with no recovery day, asks
+# (never tells) if you want a lighter next day. All thresholds are relative to YOUR
+# own baseline, never absolute hours. See references/heuristics.md → Pacing.
+pacing:
+  window_days: 7         # rolling window for the overload signal
+  min_packed_streak: 4   # consecutive packed days before the rising edge can fire
+  packed_quantile: 0.75  # "packed" = a day above this quantile of your own ~30-day load
+  recovery_fraction: 0.5 # a "light/recovery" day is below this × your median load (no-recovery is mandatory to fire)
+  high_completion: 0.8   # framing only, NOT a gate: above this the prompt leans "finishing everything" vs "falling behind"
 
 # Contexts — a task's context is DERIVED from its TickTick project, then CONFIRMED
 # with the user (never silent). A project not listed under any context → ask which

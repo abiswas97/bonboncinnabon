@@ -28,6 +28,7 @@ Load deferred MCP tools with tool_search before use (TickTick, Google Calendar).
 6. **Never assume a ticket.** Touch Linear only when the user names an explicit ID this turn.
 7. **Never duplicate what already exists.** Reconcile against open tasks AND recurring habits before scheduling. A routine that already fires as a habit (or an existing task) is already handled — do NOT create a task for it. Schedule only the gap: net-new work, and a dateless existing task gets a date rather than a recreated copy (`references/heuristics.md` → Reconciliation).
 8. **Breaks are constraints, never tasks.** Reserve lunch + flexible decompress breaks as packer fixed-commitments (gaps) the packer subtracts — scaled to load, deferred when one would interrupt an in-progress block. Never materialize a break as a TickTick task (`references/heuristics.md` → Buffering).
+9. **Catch overcommitment, never cause it.** The burnout check is a *question*, never an action: it may surface a no-blame observation and ask, but never adds a task, auto-inserts rest, or reschedules unasked (`references/heuristics.md` → Pacing; `references/accommodations.md`).
 
 ## Procedure
 
@@ -47,13 +48,28 @@ and the fixed-duties read-back are [choice]; "what got in the way?" stays prose.
         reading, a daily review, the planning ritual) or an existing task are ALREADY
         handled — never recreate them; they just fire. Pull MORE personal tasks only if
         the user asks — keep the daily ritual low-noise.
-- [ ] 4. Reconcile WORK — CAPPED and NO-BLAME (references/heuristics.md → Reconciliation):
-          default = re-surface with "keep or park?" (park = drop date + `parked` tag);
-          ask "what got in the way?" for at most the 1–2 most-slipped chunks;
-          escalate to "why does this keep slipping?" only on repeat slips;
-          catch chunks finished-but-not-ticked. (Personal items just keep or drop, no probing.)
+- [ ] 4. Reconcile WORK — CAPPED and NO-BLAME (references/heuristics.md → Reconciliation;
+          references/accommodations.md → non-punitive): re-surface a miss as a neutral event
+          ("this didn't happen") + "keep or park?" (park = drop date + `parked` tag) + one small
+          next step — never a verdict. If the user spirals, surface the facts ("1 of 5 slipped,
+          4 done") and offer one small re-engagement rather than scrapping the plan. Ask "what
+          got in the way?" for at most the 1–2 most-slipped chunks; escalate to "why does this
+          keep slipping?" only on repeat slips; catch chunks finished-but-not-ticked.
+          (Personal items just keep or drop, no probing.)
+- [ ] 4b. BURNOUT CHECK (references/heuristics.md → Pacing): compute the overload signal for
+          the window and, only on its RISING EDGE, surface ONE no-blame observation and ask
+          whether to keep the next day lighter. Act only on a yes (offer to lighten / defer /
+          protect a recovery gap / offer low-energy mode at step 5). Stay silent otherwise, and
+          on thin history. NEVER add a task, auto-insert rest, or reschedule unasked (Core rule 9).
 - [ ] 5. Pick what to land; set must/should/want (both contexts). Respect max_musts
-        (flag, don't silently exceed).
+        (flag, don't silently exceed). Apply references/accommodations.md → mastery+pleasure
+        and flexibility-with-spine: if the day is all obligation, note the imbalance and OFFER
+        a blend — never invent or auto-add a pleasure task (Core rule 7 never-duplicate /
+        never-invent; the user names personal items). Frame partial completion as a good
+        outcome (offer a graded smaller version, not a binary drop). LOW-ENERGY MODE
+        (references/heuristics.md → Pacing): if the user signals low energy at any point, OR
+        opts into it when the burnout check fired, reduce to ~one mastery + one pleasure item
+        leading with the smallest concrete step — never defer-all, never auto-apply.
 - [ ] 6. Read the target day's fixed commitments. Detect a connected Google Calendar MCP;
         if present, read the target day's events from the calendars named in `config.yaml`
         `calendar.calendars` (default primary) as fixed commitments — the source lives in
@@ -86,7 +102,9 @@ and the fixed-duties read-back are [choice]; "what got in the way?" stays prose.
           - personal: dueDate/isAllDay:false/timeZone + reminders (the reminder.triggers
             array) + `ai` (+ must/should/want if set); NO focusSummaries, NO intensity tag.
         RE-READ to confirm parentId links (the create response is stale; references/template.md).
-- [ ] 10. State the single first physical action so starting is frictionless.
+- [ ] 10. State the single first physical action as an action-first if-then cue ("when
+        [trigger], start by [action]") — one observable physical verb tied to its start
+        trigger, never an outcome noun (references/accommodations.md → action-first, if-then-cue).
 ```
 
 ## References
@@ -97,6 +115,7 @@ Read when the step points to them; each is self-contained:
 - `${CLAUDE_PLUGIN_ROOT}/references/template.md` — task template + TickTick/Linear/Calendar field mappings + packer I/O.
 - `${CLAUDE_PLUGIN_ROOT}/references/interview.md` — question banks per mode.
 - `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md` — the lean task writing contract.
+- `${CLAUDE_PLUGIN_ROOT}/references/accommodations.md` — how butler speaks to a user under EF load; apply at miss-handling, selection, next-action, and tone. Single source, don't restate.
 - `${CLAUDE_PLUGIN_ROOT}/schemas/` — JSON Schema for tasks and packer I/O.
 
 New work with no tree yet → use `butler:intake` first. Mid-day slip → `butler:reschedule`.

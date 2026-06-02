@@ -2,6 +2,24 @@
 
 All notable changes to butler. Versioning follows [SemVer](https://semver.org).
 
+## [0.9.0] - 2026-06-02
+
+Research-grounded accommodations layer, a burnout instinct, and low-energy mode.
+
+### Added
+- **Accommodations reference.** New `references/accommodations.md` — one evidence-tagged `<accommodations>` block of six principles (action-first, if-then-cue, mastery+pleasure, flexibility-with-spine, non-punitive, tone), each with its behavior, a named evidence anchor, and a confidence grade, plus a `<do-not>` anti-requirements list. All four skills reference it; none restate it. Backed by `docs/research/butler-accommodations-evidence.md` (five literature reviews: ADHD, BPD/emotion-regulation, depression/behavioral-activation, executive-function, burnout).
+- **Burnout detection (auto, inside plan).** plan reads a rolling `pacing.window_days` window of TickTick history at reconciliation and, only on the **rising edge** of sustained overload with no recovery day, surfaces ONE no-blame question asking whether to keep the next day lighter. Detection is relative to the user's OWN baseline (never absolute hours) and fires regardless of completion (completion only tunes wording, so the packed-but-falling-behind user is caught too). Stateless rising-edge cool-down (fires once per episode; skipped-not-deferred if the crossing day isn't planned). **Never adds a task, auto-inserts rest, or reschedules unasked.**
+- **Low-energy reduced mode.** User-invokable ("I'm low energy") and offered (never forced) when burnout fires: cuts the day to ~one mastery + one pleasure item, smallest first step.
+- **Versioned config:** new top-level `pacing` block (window/streak/quantile/recovery/completion tunables); `config_version` 1 → 2, `schemas/config.schema.json` `configVersion` → 2. The 0.8.0 migrate-on-read preflight handles v1 → v2 additively.
+
+### Changed
+- intake/decompose/plan/reschedule apply the accommodations principles at the points they already speak to the user (non-punitive miss-handling, mastery+pleasure blend, action-first if-then cues, partial-completion framing) — referencing the single source, not duplicating it.
+- The planning-ritual habit note: the accommodation is the daily **cue**, not a streak count (a broken streak is a shame trigger).
+
+### Notes
+- No packer code change. Packer (26) + chunk-schema tests pass; `config.yaml` validates against `config.schema.json` (config_version 2 == configVersion 2).
+- Spec: `accommodations` + `burnout-detection` (new) + `context-aware-scheduling` (modified). See `openspec/changes/butler-accommodations`.
+
 ## [0.8.0] - 2026-06-02
 
 Calendar sourcing, reserve-only breaks, and a versioned config.

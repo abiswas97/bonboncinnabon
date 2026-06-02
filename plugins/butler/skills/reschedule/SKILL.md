@@ -39,6 +39,10 @@ are [choice]; "what's done / left" stays prose.
 - [ ] 4. Build packer input with now = current time (schemas/packer-input.schema.json) from
         the WORK chunks only, then run: python3 ${CLAUDE_PLUGIN_ROOT}/scripts/pack_schedule.py input.json
         Review scheduled / overflow / summary.warnings. Do NOT rewrite est0 — it is immutable.
+        Handle a slipped block non-punitively (references/accommodations.md → non-punitive,
+        flexibility-with-spine): re-surface it as a neutral event, and where one won't fit,
+        OFFER a graded smaller version ("the 15-minute version") instead of dropping it — there
+        is always a non-zero option. No blame language.
 - [ ] 5. On confirmation, update today's WORK blocks in TickTick (batch_update_tasks for moves):
         new startDate/dueDate; keep tags, parentId, est0, focusSummaries intact. Leave personal
         reminders untouched unless the user asked to shift one (then just move its due/reminder).
@@ -50,4 +54,5 @@ are [choice]; "what's done / left" stays prose.
 - `${CLAUDE_PLUGIN_ROOT}/references/heuristics.md` — Time-blocking, Reconciliation.
 - `${CLAUDE_PLUGIN_ROOT}/references/template.md` — field mappings + packer I/O.
 - `${CLAUDE_PLUGIN_ROOT}/references/interview.md` — Reschedule.
+- `${CLAUDE_PLUGIN_ROOT}/references/accommodations.md` — how butler speaks to a user under EF load; apply at miss-handling, selection, next-action, and tone. Single source, don't restate.
 - `${CLAUDE_PLUGIN_ROOT}/schemas/` — packer I/O schema.

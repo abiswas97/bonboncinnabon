@@ -60,7 +60,8 @@ STOP and resolve before creating ANY task:
         parent (kind TEXT, metadata in `content`), capture its id, then create ALL chunks as
         child tasks with parentId set. RE-READ to confirm childIds linked (create response is stale).
         Leave all chunks dateless — scheduling is butler:plan.
-- [ ] 6. State the single first physical action, then offer to plan the target day (butler:plan).
+- [ ] 6. State the single first physical action — one observable physical verb, not an outcome
+        noun (references/accommodations.md → action-first) — then offer to plan the target day (butler:plan).
 ```
 
 ## Worked example (abbreviated)
@@ -83,4 +84,5 @@ The whole tree is created; `butler:plan` schedules only the chosen day's chunks.
 - `${CLAUDE_PLUGIN_ROOT}/references/template.md`
 - `${CLAUDE_PLUGIN_ROOT}/references/interview.md`
 - `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md`
+- `${CLAUDE_PLUGIN_ROOT}/references/accommodations.md` — how butler speaks to a user under EF load; apply at miss-handling, selection, next-action, and tone. Single source, don't restate.
 - `${CLAUDE_PLUGIN_ROOT}/schemas/`

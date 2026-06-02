@@ -78,6 +78,7 @@ Conduct the interview per `references/interview.md` → Decompose (honor each qu
 - `${CLAUDE_PLUGIN_ROOT}/references/interview.md` — Hard gate, Decompose.
 - `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md` — the lean task writing contract (all contexts).
 - `${CLAUDE_PLUGIN_ROOT}/references/template.md` — task template + TickTick field mappings (work + personal).
+- `${CLAUDE_PLUGIN_ROOT}/references/accommodations.md` — how butler speaks to a user under EF load; apply at miss-handling, selection, next-action, and tone. Single source, don't restate.
 - `${CLAUDE_PLUGIN_ROOT}/schemas/` — JSON Schema for tasks.
 
 New work with no TickTick task yet → use `butler:intake`. Scheduling the day → `butler:plan`.
