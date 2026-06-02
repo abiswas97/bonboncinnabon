@@ -1,0 +1,25 @@
+openspec/specs/task-contexts/spec.md
+  s_c952712fa6cac1::t_a5f09c031c3797 1-107
+openspec/specs/decompose-skill/spec.md
+  s_c952712fa6cac1::t_7691b3d07f6a16 1-110
+openspec/specs/context-aware-scheduling/spec.md
+  s_c952712fa6cac1::t_f556d0790dcb03 1-75
+openspec/specs/interview-gate/spec.md
+  s_c952712fa6cac1::t_f64f95eba30144 1-54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "ecfc4b8cb49aea01a831e796f03a9caa2904eb03",
+  "prompts": {},
+  "sessions": {
+    "s_c952712fa6cac1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "006da2fd-66c1-44a3-b2b7-9004655c433e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
