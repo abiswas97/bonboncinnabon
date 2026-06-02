@@ -1,0 +1,23 @@
+openspec/specs/accommodations/spec.md
+  s_c952712fa6cac1::t_19702a95653267 1-102
+openspec/specs/context-aware-scheduling/spec.md
+  s_c952712fa6cac1::t_7253e01f26d133 125-166
+openspec/specs/burnout-detection/spec.md
+  s_c952712fa6cac1::t_591158eb6b6540 1-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "97cbd8bfba756a97cac8ad98daa580801007776e",
+  "prompts": {},
+  "sessions": {
+    "s_c952712fa6cac1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "006da2fd-66c1-44a3-b2b7-9004655c433e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
