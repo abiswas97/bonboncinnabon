@@ -1,6 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/abiswas97/butler/schemas/packer-output.schema.json",
+  "$id": "https://github.com/abiswas97/bonboncinnabon/blob/main/plugins/butler/schemas/packer-output.schema.json",
+  "version": "0.3.1",
+  "$comment": "Versioned with the butler plugin release (plugins/butler/CHANGELOG.md). Content unchanged since 0.2.0; $id corrected in 0.3.1.",
   "title": "Butler packer output",
   "description": "One JSON object emitted by scripts/pack_schedule.py. The plan to confirm with the user before writing to TickTick.",
   "type": "object",

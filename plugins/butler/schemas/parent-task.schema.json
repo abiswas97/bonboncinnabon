@@ -1,6 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/abiswas97/butler/schemas/parent-task.schema.json",
+  "$id": "https://github.com/abiswas97/bonboncinnabon/blob/main/plugins/butler/schemas/parent-task.schema.json",
+  "version": "0.3.1",
+  "$comment": "Versioned with the butler plugin release (plugins/butler/CHANGELOG.md). Content unchanged since 0.2.0; $id corrected in 0.3.1.",
   "title": "Butler parent task (work unit)",
   "description": "Logical shape of a parent task — one unit of work. The agent builds this, then maps it onto TickTick fields per references/template.md. Every butler-created task carries the `ai` tag so it is filterable.",
   "type": "object",
@@ -30,6 +32,7 @@
     "priority": {
       "enum": ["none", "low", "medium", "high"],
       "default": "none",
+      "$comment": "TickTick's numeric priority (none=0, low=1, medium=3, high=5), translated from Linear. Distinct from chunk-task.schema.json `priority`, which is the must/should/want commitment TAG.",
       "description": "Maps to TickTick priority (none=0, low=1, medium=3, high=5). Translated from Linear priority.value (a different scale) per template.md."
     },
     "project": {

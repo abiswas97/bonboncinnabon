@@ -42,5 +42,5 @@ Load deferred MCP tools (TickTick, Google Calendar) with tool_search.
 
 - `${CLAUDE_PLUGIN_ROOT}/references/heuristics.md` — Time-blocking, Reconciliation.
 - `${CLAUDE_PLUGIN_ROOT}/references/template.md` — field mappings + packer I/O.
-- `${CLAUDE_PLUGIN_ROOT}/references/interview.md` — Reschedule bank.
+- `${CLAUDE_PLUGIN_ROOT}/references/interview.md` — Reschedule.
 - `${CLAUDE_PLUGIN_ROOT}/schemas/` — packer I/O schema.

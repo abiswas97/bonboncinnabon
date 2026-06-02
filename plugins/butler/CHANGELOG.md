@@ -2,6 +2,20 @@
 
 All notable changes to butler. Versioning follows [SemVer](https://semver.org).
 
+## [0.3.1] - 2026-06-02
+
+Review-driven hardening of the 0.3.0 release. No behavior change to scheduling.
+
+### Fixed
+- Schema `$id`s corrected from the stale `abiswas97/butler` path to the real `abiswas97/bonboncinnabon` monorepo path; all four schemas now carry an explicit `version` pinned to the plugin release (answering "is the schema versioned?").
+- `chunk-task` `reminder` now models `triggers` as a non-empty array, matching TickTick's `reminders[]` shape (was a single `trigger` string, which couldn't express "at due AND 15m before").
+- Disambiguated the two `priority` fields with `$comment`s — parent-task = TickTick numeric priority (0/1/3/5); chunk-task = must/should/want commitment TAG — so the shared name can't be conflated.
+- Tightened `intake` vs `decompose` trigger descriptions to remove overlapping bare verbs ("break this down" now belongs to decompose); trimmed a behavioral rule out of intake's description.
+- Added reciprocal "keep stage enum in sync with config.yaml `contexts.work.pipeline`" notes on the duplicated stage enums (config is the SSOT).
+
+### Added
+- Packer tests for empty input, the >`max_musts` warning, `deep_first: false` ordering, and recharge-dropped-at-window-end (19 → 23 tests). `pack_schedule.py` itself is unchanged.
+
 ## [0.3.0] - 2026-06-02
 
 ### Added

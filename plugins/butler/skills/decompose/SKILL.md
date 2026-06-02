@@ -72,7 +72,7 @@ STOP and resolve before creating or modifying ANY task:
 ## References
 
 - `${CLAUDE_PLUGIN_ROOT}/references/heuristics.md` — Contexts, Decomposition (work), Personal.
-- `${CLAUDE_PLUGIN_ROOT}/references/interview.md` — Hard gate, Decompose bank.
+- `${CLAUDE_PLUGIN_ROOT}/references/interview.md` — Hard gate, Decompose.
 - `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md` — the lean task writing contract (all contexts).
 - `${CLAUDE_PLUGIN_ROOT}/references/template.md` — task template + TickTick field mappings (work + personal).
 - `${CLAUDE_PLUGIN_ROOT}/schemas/` — JSON Schema for tasks.

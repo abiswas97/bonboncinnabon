@@ -211,5 +211,42 @@ class MustNeverDropped(unittest.TestCase):
         self.assertTrue(any("MUST" in w for w in res["summary"]["warnings"]))
 
 
+class CoverageGaps(unittest.TestCase):
+    def test_empty_chunks_no_crash(self):
+        res = ps.pack(make_input([]))
+        self.assertEqual(res["scheduled"], [])
+        self.assertEqual(res["overflow"], [])
+        self.assertEqual(res["breaks"], [])
+        self.assertEqual(res["summary"]["packed_pct"], 0)
+
+    def test_more_than_max_musts_warns(self):
+        res = ps.pack(make_input([
+            chunk("a", 30, priority="must"), chunk("b", 30, priority="must"),
+            chunk("c", 30, priority="must"), chunk("d", 30, priority="must"),
+        ]))
+        self.assertTrue(any("musts today" in w for w in res["summary"]["warnings"]))
+
+    def test_deep_first_false_flattens_intensity(self):
+        # With deep_first off, intensity no longer orders; the id tiebreak wins,
+        # so shallow "a" precedes deep "z" — the opposite of the default ordering.
+        res = ps.pack(make_input(
+            [chunk("z", 30, intensity="deep", priority="must"),
+             chunk("a", 30, intensity="shallow", priority="must")],
+            config={"deep_first": False},
+        ))
+        self.assertEqual(ids(res["scheduled"]), ["a", "z"])
+
+    def test_recharge_dropped_at_window_end(self):
+        # Two blocks fill to within 5 min of the window end (no commitment there);
+        # the recharge break can't fit before the boundary, so it is dropped.
+        res = ps.pack(make_input(
+            [chunk("a", 50, priority="must"), chunk("b", 50, priority="must")],
+            window=("14:00", "15:55"),
+            config={"recharge_after_blocks": 2, "recharge_min": 15, "day_slack_pct": 0},
+        ))
+        self.assertEqual(ids(res["scheduled"]), ["a", "b"])
+        self.assertEqual(res["breaks"], [])
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -1,6 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/abiswas97/butler/schemas/chunk-task.schema.json",
+  "$id": "https://github.com/abiswas97/bonboncinnabon/blob/main/plugins/butler/schemas/chunk-task.schema.json",
+  "version": "0.3.1",
+  "$comment": "Versioned with the butler plugin release (plugins/butler/CHANGELOG.md). Last schema change: 0.3.1 (priority disambiguation, reminder.triggers array).",
   "title": "Butler chunk task",
   "description": "Logical shape of a chunk — a child task (one focused sitting) under a parent work unit. The agent builds this, then maps it onto TickTick fields per references/template.md. Real subtask (parentId), never a checklist item, so it can carry its own dates/reminders/focus estimate.",
   "type": "object",
@@ -26,6 +28,7 @@
     },
     "stage": {
       "enum": ["research", "db", "backend", "frontend", "review", "address-comments", "qa", "deploy"],
+      "$comment": "SSOT for these stage keys is config.yaml `contexts.work.pipeline`; keep in sync (also mirrored in packer-input.schema.json).",
       "description": "Work context only. Pipeline stage (see config.yaml `contexts.work.pipeline`). The decomposition unit, the calibration reference class, and the SINGLE SOURCE for the derived activity bucket the packer clusters by. Not a TickTick tag. Intake picks applicable stages and may add ad-hoc chunks for off-pipeline work."
     },
     "intensity": {
@@ -43,6 +46,7 @@
     },
     "priority": {
       "enum": ["must", "should", "want", null],
+      "$comment": "Commitment layer (the must/should/want TAG), NOT TickTick's numeric priority. Distinct from parent-task.schema.json `priority` (none/low/medium/high -> 0/1/3/5). Maps to the commitment tag and to packer-input `priority`.",
       "description": "Commitment tag, set only when the chunk is scheduled for the target day; null otherwise."
     },
     "why": { "type": ["string", "null"], "maxLength": 120, "description": "One line, only if not obvious from the title." },
@@ -67,10 +71,10 @@
       "type": ["object", "null"],
       "additionalProperties": false,
       "properties": {
-        "due": { "type": "string", "format": "date-time", "description": "Personal due time; maps to TickTick dueDate (isAllDay:false) and is the reminder's date anchor. Chosen conversationally, or derived from a live read of the day on defer." },
-        "trigger": { "type": "string", "description": "TRIGGER string, e.g. 'TRIGGER:PT0S' (at due) or 'TRIGGER:-PT30M' (before). Maps to TickTick reminders[]." }
+        "due": { "type": "string", "format": "date-time", "description": "Personal due time; maps to TickTick dueDate (isAllDay:false) and is the reminders' date anchor. Chosen conversationally, or derived from a live read of the day on defer." },
+        "triggers": { "type": "array", "items": { "type": "string" }, "minItems": 1, "description": "TRIGGER strings, e.g. ['TRIGGER:PT0S'] (at due) or ['TRIGGER:-PT30M','TRIGGER:PT0S']. Maps directly to TickTick `reminders[]`, which is itself an array." }
       },
-      "required": ["due", "trigger"],
+      "required": ["due", "triggers"],
       "description": "Light personal scheduling: a due time + reminder. Personal chunks bypass the packer entirely (no block, no pomo, no intensity). Set only when the personal chunk is scheduled for the target day."
     },
     "ad_hoc": {

@@ -62,7 +62,7 @@ personal task — one action. `kind: "TEXT"`. Personal chunks **bypass the packe
 - `content`: optional `Why:`/`Where:`/`Done:` keys if they help. NO `est0`/`stage`/`ai` calibration line — those are work-only.
 - `tags`: `ai` always; plus `must`/`should`/`want` when committed for the day. NO intensity tag (personal has no intensity axis).
 - `parentId`: set only when a multi-step personal task was decomposed into children; single-action personal tasks have no parent. Re-read to confirm `childIds` exactly as for work.
-- **Scheduling (light)**: set `dueDate` + `isAllDay: false` + `timeZone` + a `reminders` TRIGGER. NO `startDate` focus block, NO `focusSummaries` (no pomo estimate). The reminder is anchored to `dueDate` — never write a TRIGGER on a dateless task.
+- **Scheduling (light)**: set `dueDate` + `isAllDay: false` + `timeZone` + `reminders` (the chunk's `reminder.triggers` array of TRIGGER strings → TickTick `reminders[]`). NO `startDate` focus block, NO `focusSummaries` (no pomo estimate). The reminders are anchored to `dueDate` — never write a TRIGGER on a dateless task.
 - The due time is asked, or derived from a live read of the day on defer (heuristics → Personal). It is not packed and does not consume `focus_cap_min`.
 
 ## Reading context (back-compat)

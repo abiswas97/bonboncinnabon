@@ -1,6 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/abiswas97/butler/schemas/packer-input.schema.json",
+  "$id": "https://github.com/abiswas97/bonboncinnabon/blob/main/plugins/butler/schemas/packer-input.schema.json",
+  "version": "0.3.1",
+  "$comment": "Versioned with the butler plugin release (plugins/butler/CHANGELOG.md). Content unchanged since 0.2.0; $id corrected in 0.3.1. Personal chunks never reach the packer, so there is intentionally no `context` field here.",
   "title": "Butler packer input",
   "description": "One JSON object consumed by scripts/pack_schedule.py. Built by butler:plan / butler:reschedule from config + the target day's chunks + Calendar commitments.",
   "type": "object",
@@ -55,7 +57,7 @@
         "title": { "type": "string" },
         "ticket": { "type": ["string", "null"] },
         "intensity": { "enum": ["deep", "shallow"], "description": "Freshness axis; drives packer ordering (deep first)." },
-        "stage": { "enum": ["research", "db", "backend", "frontend", "review", "address-comments", "qa", "deploy"], "description": "Pipeline stage. Activity (build/verify/comms/admin) and the stage-order tiebreak are derived from this for clustering." },
+        "stage": { "enum": ["research", "db", "backend", "frontend", "review", "address-comments", "qa", "deploy"], "$comment": "SSOT for these stage keys is config.yaml `contexts.work.pipeline`; keep in sync (also mirrored in chunk-task.schema.json).", "description": "Pipeline stage. Activity (build/verify/comms/admin) and the stage-order tiebreak are derived from this for clustering." },
         "priority": { "enum": ["must", "should", "want"] },
         "estimate_min": {
           "type": "integer",

@@ -61,8 +61,8 @@ Load deferred MCP tools with tool_search before use (TickTick, Google Calendar).
         two clearly separated sections. On yes, write to TickTick (kind TEXT):
           - work blocks: startDate/dueDate/isAllDay:false/timeZone/reminders +
             focusSummaries.estimatedPomo, intensity tag + must/should/want + `ai`.
-          - personal: dueDate/isAllDay:false/timeZone + a reminders TRIGGER + `ai`
-            (+ must/should/want if set); NO focusSummaries, NO intensity tag.
+          - personal: dueDate/isAllDay:false/timeZone + reminders (the reminder.triggers
+            array) + `ai` (+ must/should/want if set); NO focusSummaries, NO intensity tag.
         RE-READ to confirm parentId links (the create response is stale; references/template.md).
 - [ ] 10. State the single first physical action so starting is frictionless.
 ```

@@ -1,6 +1,6 @@
 ---
 name: intake
-description: Use when the user names an explicit Linear ticket ID (e.g. "linear ticket ING-165, I want to do X") or describes a NEW piece of work not yet in TickTick and wants it broken down — "break this down", "scope this", "how should I approach X", "turn this into tasks". Builds a durable human task tree in TickTick. For a task that ALREADY exists in TickTick, use butler:decompose instead. Never queries Linear without an explicit ticket ID.
+description: Use when the user names an explicit Linear ticket ID, or describes a NEW piece of work not yet in TickTick and wants it turned into tasks — "start ING-165", "scope this new work", "how should I approach X", "turn this into a task tree". Builds a durable task tree in TickTick. For breaking down a task that ALREADY exists in TickTick, use butler:decompose.
 ---
 
 # Intake new work
