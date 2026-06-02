@@ -12,7 +12,7 @@
 ## 3. Burnout detection (auto, inside plan)
 
 - [x] 3.1 `skills/plan/SKILL.md`: add a reconciliation sub-step that computes the overload signal from a rolling `pacing.window_days` window — completed load (`list_completed_tasks_by_date`) + scheduled load per day vs the user's own baseline (median + `packed_quantile`); components = packed streak (≥`min_packed_streak`) + mandatory no-recovery flag (`recovery_fraction`). Completion (`high_completion`) is NOT a gate — read it only to tune wording. Bail to silent when history is thin (no reliable baseline).
-- [x] 3.2 Fire on the RISING EDGE only (streak first crosses threshold within the visible window); if the streak start isn't visible, stay silent. No persisted state. Honor the soft work-window (a late evening alone is not overload).
+- [x] 3.2 Fire on the RISING EDGE only: when the current consecutive packed streak *first reaches* `min_packed_streak` (one day of grace for a skipped planning day); for any longer streak the edge has passed → stay SILENT. No persisted state. Skip-not-defer if the crossing day wasn't planned (fail-safe to silence). Honor the soft work-window (a late evening alone is not overload).
 - [x] 3.3 When it fires: surface ONE no-blame observation + ask whether to keep the next day lighter; act only on yes (lighten / defer / protect a recovery gap / offer low-energy). NEVER add a task, auto-insert rest, or reschedule unasked.
 - [x] 3.4 `references/heuristics.md`: add a `Pacing` section documenting the signal, the rising-edge cool-down, and the never-add-a-task rule (single source; skill references it).
 
