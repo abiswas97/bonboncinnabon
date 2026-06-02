@@ -40,8 +40,8 @@ and the fixed-duties read-back are [choice]; "what got in the way?" stays prose.
         unscheduled). A chunk with no context counts as work.
 - [ ] 3. Read PERSONAL items for the target day: personal-project tasks
         (contexts.personal.projects) already due or committed for that day, AND the
-        recurring habits (`list_habits`). Routines already covered by a habit (reading,
-        pet care, finance checks, the planning ritual) or an existing task are ALREADY
+        recurring habits (`list_habits`). Routines already covered by a habit (e.g. exercise,
+        reading, a daily review, the planning ritual) or an existing task are ALREADY
         handled — never recreate them; they just fire. Pull MORE personal tasks only if
         the user asks — keep the daily ritual low-noise.
 - [ ] 4. Reconcile WORK — CAPPED and NO-BLAME (references/heuristics.md → Reconciliation):

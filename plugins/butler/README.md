@@ -41,6 +41,6 @@ tag names, capacity, and the `pipeline`. Edit that to adopt.
 ## Setup
 
 The skills use a few TickTick tags — `deep`/`shallow` (intensity), `ai`, `parked`
-— and expect a work list (default `Plate`) and a planning list (default `Ops`).
+— and expect a work list (default `Work`) and a planning list (default `Planning`).
 Stage lives in each chunk's `est0` line; activity (build/verify/comms/admin) is
 derived from it — neither is tagged. Resolve names → IDs at runtime; never hard-code IDs.

@@ -2,10 +2,10 @@
 # Resolve TickTick projects and tags by NAME at runtime (list_projects /
 # list_tags); ids differ per account and change, so never hard-code them.
 
-timezone: "Asia/Kolkata"
+timezone: "America/New_York"         # set to your IANA timezone
 
 # Cross-context infrastructure — owned by no single context.
-planning_project: "Ops"              # where the daily planning ritual lives
+planning_project: "Planning"         # where the daily planning ritual lives
 priority_tags: [must, should, want]  # daily commitment layer (both contexts)
 ai_tag: "ai"                         # marks every butler-generated task (filterable)
 parked_tag: "parked"                 # no-blame "park" route during reconcile
@@ -16,8 +16,8 @@ parked_tag: "parked"                 # no-blame "park" route during reconcile
 # Each context owns its decomposition style, axes, and scheduling config.
 contexts:
   work:
-    projects: [Plate, "Promo Track"]   # membership: which lists count as "work"
-    default_project: "Plate"           # where intake creates a new unit; MUST be a member of `projects`
+    projects: [Work]                   # membership: which TickTick lists count as "work" (your names)
+    default_project: "Work"            # where intake creates a new unit; MUST be a member of `projects`
     decomposition: pipeline            # chunks are stages from `pipeline` below
     axes: [stage, intensity, ai_discount]
     scheduling: packed                 # full packer inside the focus window
@@ -57,7 +57,7 @@ contexts:
       "3": "multi-day; plan to re-plan"
       "5": "a week-ish or less; expect a spike + several re-plans"
   personal:
-    projects: [Life, Photo, Finance, Relationships, Medical, Projects]
+    projects: [Personal, Home, Health]   # your personal TickTick lists
     decomposition: free-form       # 2-4 session-sized steps, or none for a single action
     axes: [priority]               # priority + estimate + reminder only; no stage/intensity/ai_discount
     scheduling: light              # a due time + reminder, NEVER a packed focus block.

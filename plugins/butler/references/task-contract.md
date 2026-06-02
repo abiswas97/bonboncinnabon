@@ -14,8 +14,8 @@ This contract applies to **every generated task, in every context** (work and
 personal). Two shapes, by the task's role:
 
 - **Chunks (next actions) — verb-first.** A chunk title opens with a concrete,
-  physical-action verb and names the object it acts on: "Verify Neighborhood Location
-  end to end on both pricers", "Wire borrower-accept to the draft-invite tasks". The
+  physical-action verb and names the object it acts on: "Verify checkout
+  end to end on both forms", "Wire signup to the welcome-email flow". The
   verb is free choice, but it must name a *visible* action — never "think about",
   "look into", or "deal with" (they fail the done-test). No `Stage:` prefix; the stage
   rides a tag (`#backend`, `#qa` — see `template.md`).
@@ -24,11 +24,11 @@ personal). Two shapes, by the task's role:
   Application Invite (V1)"), NOT a forced verb. This is the GTD project-vs-action split.
 
 Every title, both shapes, obeys: sentence case, no emoji, no trailing period, ≤70
-chars (aim ≤50), no slop, code identifiers verbatim (`NeighborhoodLocation`,
+chars (aim ≤50), no slop, code identifiers verbatim (`UserProfile`,
 `POST /sessions`), no `[TICKET-123]` prefix (the id is metadata on the parent).
 
 **Name the object; don't hollow the title.** The title keeps the object and the one
-disambiguating when/where cue you need to act ("on both pricers", "on dev"). A bare
+disambiguating when/where cue you need to act ("on both forms", "on dev"). A bare
 verb or bare stage ("Verify", "QA") re-creates the vague-item paralysis the verb is
 meant to cure. Everything else — the test-matrix, conditions, acceptance criteria,
 why, links — lives in the body or in subtasks, never crammed into the title.
@@ -85,7 +85,7 @@ prefix or emoji.
 
 | Slop | Lean (verb-first; stage = tag) |
 |---|---|
-| Dive deep into understanding the current field wiring to ensure a robust foundation | Trace NeighborhoodLocation reads · `#research` |
+| Dive deep into understanding the current field wiring to ensure a robust foundation | Trace UserProfile reads · `#research` |
 | Seamlessly integrate and wire up the new analytics service to enhance tracking | Wire the analytics client into checkout submit · `#backend` |
 | Address and resolve all the valuable feedback on the pull request comprehensively | Address PR 482 review comments · `#address-comments` |
 | Perform thorough and meticulous QA to validate, verify, and confirm the feature | Verify signup on Safari iOS · `#qa` |

@@ -24,7 +24,7 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 70,
-      "description": "Verb-first next action naming the object, sentence case. e.g. 'Verify Neighborhood Location end to end on both pricers'. No stage prefix (stage is a tag), no ticket prefix, no emoji, no trailing period. Code identifiers verbatim. Conditions/detail live in the body or subtasks, not the title. See task-contract.md."
+      "description": "Verb-first next action naming the object, sentence case. e.g. 'Verify checkout end to end on both forms'. No stage prefix (stage is a tag), no ticket prefix, no emoji, no trailing period. Code identifiers verbatim. Conditions/detail live in the body or subtasks, not the title. See task-contract.md."
     },
     "stage": {
       "enum": ["research", "db", "backend", "frontend", "review", "address-comments", "qa", "deploy"],

@@ -78,7 +78,7 @@ class Structure(unittest.TestCase):
 
 
 def work(**over):
-    c = {"id": "c", "title": "Backend: pricer API", "context": "work",
+    c = {"id": "c", "title": "Backend: checkout API", "context": "work",
          "stage": "backend", "intensity": "deep", "ai_discount": "discounted",
          "est0_min": 45, "kind": "TEXT", "ai_generated": True}
     c.update(over)

@@ -1,6 +1,6 @@
 ---
 name: decompose
-description: Use when the user wants to break down, decompose, scope, or think through a task that ALREADY exists in TickTick — "break down this task", "decompose <task>", "scope the thing in Life", "help me think through <existing task>", or names/points at a captured task to split. Context-aware (work → pipeline stages, personal → free-form or none). For NEW work or a Linear ticket not yet in TickTick, use butler:intake instead.
+description: Use when the user wants to break down, decompose, scope, or think through a task that ALREADY exists in TickTick — "break down this task", "decompose <task>", "scope the thing in Personal", "help me think through <existing task>", or names/points at a captured task to split. Context-aware (work → pipeline stages, personal → free-form or none). For NEW work or a Linear ticket not yet in TickTick, use butler:intake instead.
 ---
 
 # Decompose an existing task
@@ -47,8 +47,7 @@ Conduct the interview per `references/interview.md` → Decompose (honor each qu
         - No task named → list undecomposed candidates (active tasks with no childIds)
           and let the user pick.
 - [ ] 2. DERIVE + CONFIRM context from the task's project (heuristics → Contexts):
-        Plate/Promo Track → work; Life/Photo/Finance/Relationships/Medical/Projects →
-        personal; unmapped → ask. State it and confirm.
+        Work → work; Personal → personal; unmapped → ask. State it and confirm.
 - [ ] 3. ALREADY SPLIT? Re-read the task (get_task_by_id) for childIds. If it has
         children, read them, talk through gaps, and ADD only what's missing — never
         duplicate an existing chunk.

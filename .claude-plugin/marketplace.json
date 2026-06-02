@@ -3,8 +3,7 @@
   "name": "bonboncinnabon",
   "description": "Claude Code plugins by bonboncinnabon",
   "owner": {
-    "name": "bonboncinnabon",
-    "email": "avishek.biswas.1997@gmail.com"
+    "name": "bonboncinnabon"
   },
   "plugins": [
     {
@@ -31,7 +30,7 @@
     },
     {
       "name": "butler",
-      "version": "0.7.0",
+      "version": "0.7.1",
       "source": "./plugins/butler",
       "description": "Work and personal task planner: breaks a task into human, session-sized chunks and time-boxes the day in TickTick around Google Calendar. Work gets packed focus blocks; personal gets light reminders. Executive-function support.",
       "category": "productivity",

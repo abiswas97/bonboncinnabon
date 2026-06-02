@@ -1,6 +1,6 @@
 ---
 name: intake
-description: Use when the user names an explicit Linear ticket ID, or describes a NEW piece of work not yet in TickTick and wants it turned into tasks — "start ING-165", "scope this new work", "how should I approach X", "turn this into a task tree". Builds a durable task tree in TickTick. For breaking down a task that ALREADY exists in TickTick, use butler:decompose.
+description: Use when the user names an explicit Linear ticket ID, or describes a NEW piece of work not yet in TickTick and wants it turned into tasks — "start ABC-123", "scope this new work", "how should I approach X", "turn this into a task tree". Builds a durable task tree in TickTick. For breaking down a task that ALREADY exists in TickTick, use butler:decompose.
 ---
 
 # Intake new work
@@ -65,12 +65,12 @@ STOP and resolve before creating ANY task:
 ## Worked example (abbreviated)
 
 User: "linear ticket ABC-123, I want to start it today." A 1-point change that
-adds a field to two forms and wires it to a pricing API. Pick stages (no `db` —
+adds a field to two forms and wires it to a checkout API. Pick stages (no `db` —
 the field already exists). Each chunk is a verb-first action + a stage tag (with `intensity`, ai `discount`):
 
-- Trace where the field is read + the pricer→API flow — `#research`, `deep`, ai `none`.
+- Trace where the field is read + the checkout→API flow — `#research`, `deep`, ai `none`.
 - Add the dropdown to both forms + carry-over — `#frontend`, `shallow`, ai `discounted`.
-- Wire the value into the pricing API (empty-safe) + carry-back — `#backend`, `deep`, ai `discounted`.
+- Wire the value into the checkout API (empty-safe) + carry-back — `#backend`, `deep`, ai `discounted`.
 - Submit the PR + AI-assisted review — `#review`, `deep`, ai `none` (absorbs AI-output verification).
 - Verify the new field end to end on both forms — `#qa`, `shallow`, ai `none`.
 

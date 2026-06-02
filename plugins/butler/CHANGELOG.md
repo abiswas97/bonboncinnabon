@@ -2,19 +2,29 @@
 
 All notable changes to butler. Versioning follows [SemVer](https://semver.org).
 
+## [0.7.1] - 2026-06-02
+
+Genericized for publication — no PII / personal context.
+
+### Changed
+- The plugin now reads as a generic tool (requires TickTick + Linear; calendar optional). `config.yaml` ships generic placeholder projects (`Work` / `Personal` / `Home` / `Health`), a placeholder `planning_project` and timezone — adopters edit these to their own TickTick lists. Worked examples, schema `description` fields, and changelog notes use neutral domains (`ABC-123`, `UserProfile`, "checkout") instead of real tickets/fields. Dropped the author email from `plugin.json` / marketplace owner.
+
+### Notes
+- No behavior change; docs/config/examples only. Packer + schema tests unchanged.
+
 ## [0.7.0] - 2026-06-02
 
 Verb-first task titles; stage moves to a tag.
 
 ### Changed
-- **Chunk titles are now verb-first next actions**, replacing the `Stage: qualifier` prefix. A chunk opens with a concrete physical-action verb and names the object (e.g. `Verify Neighborhood Location end to end on both pricers`). Free verb choice, but it must name a visible action (no "think about / look into / deal with"). **Reverses 0.6.0's "stage stays in the title prefix"** — validated by research (GTD, bullet-journal, productivity forums, ADHD task-initiation; McCrea et al. 2008 on concrete construal → earlier initiation).
+- **Chunk titles are now verb-first next actions**, replacing the `Stage: qualifier` prefix. A chunk opens with a concrete physical-action verb and names the object (e.g. `Verify checkout end to end on both forms`). Free verb choice, but it must name a visible action (no "think about / look into / deal with"). **Reverses 0.6.0's "stage stays in the title prefix"** — validated by research (GTD, bullet-journal, productivity forums, ADHD task-initiation; McCrea et al. 2008 on concrete construal → earlier initiation).
 - **Stage moves from the title prefix to a tag** (`#research`…`#deploy`), a managed family parallel to `#intensity`. Calibration groups by the stage tag (legacy title-prefix titles parse as a fallback); the packer still reads stage from packer-input at plan time, so ordering is unchanged.
 - **Parents stay outcome nouns, not verb-first** (the GTD project-vs-action split). The title keeps the object and one disambiguating cue; the test-matrix / conditions / AC / links move to the body or subtasks.
 - One-time setup gains the `#stage` tag family.
 
 ### Notes
 - References + config + schema docs only (`task-contract.md`, `heuristics.md`, `template.md`, `config.yaml`, `chunk-task.schema.json`). No code; packer + schema tests unchanged.
-- The live ING-165 QA chunk + the three LOS spike trees were migrated to the new convention as the reference example.
+- an example QA chunk + spike trees were migrated to the new convention as the reference example.
 - Spec: `task-titles` (new) + `task-contexts` (modified). See `openspec/changes/butler-verb-first-task-titles`.
 
 ## [0.6.1] - 2026-06-02
@@ -38,7 +48,7 @@ Lean, human-first task descriptions.
 
 ### Notes
 - References-and-schema only (`task-contract.md`, `template.md`, `heuristics.md`, `chunk-task.schema.json` field docs). No code/config; packer + schema tests unchanged.
-- The live ING-165 QA subtree was retrofitted to the new format as the reference example.
+- an example QA subtree was retrofitted to the new format as the reference example.
 
 ## [0.5.0] - 2026-06-02
 
@@ -94,7 +104,7 @@ Review-driven hardening of the 0.3.0 release. No behavior change to scheduling.
 - `plan` / `reschedule` are context-aware: work via the packer (unchanged), personal as light reminders not repacked.
 
 ### Compatibility
-- A chunk with no `context` field is treated as `work` — existing 0.2.0 trees (e.g. ING-165) work unchanged.
+- A chunk with no `context` field is treated as `work` — existing 0.2.0 trees (e.g. ABC-123) work unchanged.
 
 ## [0.2.0] - 2026-06-01
 

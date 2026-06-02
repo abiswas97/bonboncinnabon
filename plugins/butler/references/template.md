@@ -29,14 +29,14 @@ field (not `desc` — `desc` is for `kind: CHECKLIST` only).
   ```
   Omit any line that doesn't apply. The `Ticket:` line is the idempotency key.
 - `tags`: `ai` always; plus the day's commitment tag (`must`/`should`/`want`) when the unit is active. Priority tags live on chunks, not the parent, when chunks are scheduled.
-- `projectId`: the work context's `default_project` from config (`contexts.work.default_project`, default `Plate`); resolve name → id at runtime.
+- `projectId`: the work context's `default_project` from config (`contexts.work.default_project`, default `Work`); resolve name → id at runtime.
 - `priority`: mapped from Linear (see Linear mapping).
 
 **Chunk** = a child task, one focused sitting. `kind: "TEXT"`. Created for every
 chunk in the tree. It is a **real subtask (`parentId`), never a checklist item** —
 checklist items can't carry their own due date, reminder, or focus estimate.
 
-- `title`: verb-first next action naming the object (title contract), e.g. "Wire the pricer API + carry-back"; stage rides a tag, not the title.
+- `title`: verb-first next action naming the object (title contract), e.g. "Wire the checkout API + carry-back"; stage rides a tag, not the title.
 - `parentId`: the parent task's id. Create the parent first, capture its id, then create chunks with `parentId` set.
   - **The create response is stale** — it returns `parentId: null`/`childIds: null` even on success. ALWAYS re-read to confirm: `get_task_by_id` on the parent and assert `childIds` contains each child (or read each child and assert `parentId`). If the link didn't form, surface the failure — never silently fall back to checklist items (that would lose the per-chunk scheduling that is the whole point). The only safe fallback is leaving chunks as flat sibling tasks, still fully scheduled.
 - `content`: the lean launchpad form (task-contract.md → Description contract) —
@@ -70,7 +70,7 @@ A chunk's context is **derived from its TickTick project**, not stored as a Tick
 field. On every read, map the task's `projectId` back to a context via `config.yaml`
 `contexts.<name>.projects`. A task whose logical `context` is absent — any chunk that
 predates 0.3.0 — is treated as **work** (the full pipeline model). This keeps every
-existing tree (e.g. ING-165) working unchanged.
+existing tree (e.g. ABC-123) working unchanged.
 
 ## Idempotency and calibration
 
@@ -100,14 +100,14 @@ several blocks on reschedule). Read with `filter_tasks` / `get_task_by_id` /
 > TickTick's documented public API. They work, but treat them as
 > higher-breakage-risk than tasks/projects.
 
-## Linear field mapping (read-only, explicit ID only) (verified against ING-165)
+## Linear field mapping (read-only, explicit ID only) (verified)
 
 Pull only when the user names an ID this turn. Never write to Linear.
 
 - `title` → informs the human parent title (rewrite, don't copy).
 - `description` → single markdown string. **Acceptance criteria live INSIDE it** under a `## Acceptance Criteria` heading as `- [ ]` items — there is no separate AC field and no AC sub-issues. Use AC as decomposition input, not as chunks.
 - `estimate` → **object** `{value, name}`, e.g. `{value: 1, name: "1 Point"}`; **absent when unestimated**. Read `estimate.value`; record as `Points: <value>`. Never convert to time.
-- `gitBranchName` → present on every issue (e.g. `feature/ing-165-...`); `Branch:` line. (Field name is correct as-is.)
+- `gitBranchName` → present on every issue (e.g. `feature/abc-123-...`); `Branch:` line. (Field name is correct as-is.)
 - `labels` → array of plain **strings**, mixing type labels with `v*` release tags (e.g. `["Bug","v2.26.1"]`). Use type labels as interview context; ignore the `v*` tags. Don't re-create as TickTick tags.
 - `priority` → object `{value, name}` on Linear's scale (`0 None, 1 Urgent, 2 High, 3 Medium, 4 Low`). Translate to TickTick's `0/1/3/5`; the numbers do NOT line up.
 - `url` → `Linear:` line.
@@ -141,5 +141,5 @@ Input/output shapes are pinned in `schemas/packer-input.schema.json` and
 Idempotent; check before creating. Resolve names → ids at runtime.
 
 - **Stage + intensity + marker tags**: the stage family (`research`, `db`, `backend`, `frontend`, `review`, `address-comments`, `qa`, `deploy`), `deep`/`shallow` (intensity), `ai`, `parked`, plus `recharge` if you want breaks visible. Activity (build/verify/comms/admin) is derived from the stage tag — not itself tagged. Try `create_tag` (with colors) — but the tag-write endpoint is undocumented and has been observed returning 500. If it fails, DON'T block: the tag still attaches to a task as a label the first time it's applied (it just won't be a colored sidebar tag until you create it in-app once). Surface the failure and continue. Optional sidebar nesting: parent tags `stage` (research…deploy), `intensity` (deep, shallow) and `priority` (must, should, want).
-- **Work list**: default `Plate` (rename from a prior name via `update_project` if needed — renaming preserves the tasks inside).
+- **Work list**: default `Work` (rename from a prior name via `update_project` if needed — renaming preserves the tasks inside).
 - **Ritual habit**: a "Plan the day" habit (`create_habit`) with a daily `repeatRule` (`RRULE:FREQ=DAILY`) and a reminder — the external cue that builds the rhythm. The habit lives on TickTick's Habit surface; the streak is the accommodation.
