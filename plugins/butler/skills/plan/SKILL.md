@@ -24,6 +24,7 @@ Load deferred MCP tools with tool_search before use (TickTick, Google Calendar).
 4. **Confirm before writing.** Show the proposed blocks + the packer summary, get a yes, then write.
 5. **Lean, human tasks.** Follow `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md`. Every butler-created task carries the `ai` tag.
 6. **Never assume a ticket.** Touch Linear only when the user names an explicit ID this turn.
+7. **Never duplicate what already exists.** Reconcile against open tasks AND recurring habits before scheduling. A routine that already fires as a habit (or an existing task) is already handled — do NOT create a task for it. Schedule only the gap: net-new work, and a dateless existing task gets a date rather than a recreated copy (`references/heuristics.md` → Reconciliation).
 
 ## Procedure
 
@@ -38,8 +39,11 @@ and the fixed-duties read-back are [choice]; "what got in the way?" stays prose.
         projects (contexts.work.projects) and their child chunks (done / not-done /
         unscheduled). A chunk with no context counts as work.
 - [ ] 3. Read PERSONAL items for the target day: personal-project tasks
-        (contexts.personal.projects) already due or committed for that day. Pull MORE
-        personal tasks only if the user asks — keep the daily ritual low-noise.
+        (contexts.personal.projects) already due or committed for that day, AND the
+        recurring habits (`list_habits`). Routines already covered by a habit (reading,
+        pet care, finance checks, the planning ritual) or an existing task are ALREADY
+        handled — never recreate them; they just fire. Pull MORE personal tasks only if
+        the user asks — keep the daily ritual low-noise.
 - [ ] 4. Reconcile WORK — CAPPED and NO-BLAME (references/heuristics.md → Reconciliation):
           default = re-surface with "keep or park?" (park = drop date + `parked` tag);
           ask "what got in the way?" for at most the 1–2 most-slipped chunks;

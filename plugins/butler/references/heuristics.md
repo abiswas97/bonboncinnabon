@@ -126,6 +126,7 @@ When previously-scheduled chunks weren't done, the reason is a planning signal �
 but **interrogating every unfinished chunk daily is the thing that makes people
 abandon time-blocking**. So:
 
+- **Never duplicate what already exists (the default).** Before scheduling anything, read BOTH the open tasks AND the recurring habits (`list_habits`) for the target day. A routine already covered by a habit (reading, pet care, finance checks, the planning ritual) or an existing task is ALREADY handled — do NOT create a task for it; it just fires. Schedule only the GAP: genuinely net-new work, plus existing DATELESS tasks (which get a date, never a recreated copy). Dedupe by title/ticket against what's already there.
 - **Default: no blame.** Anything not done just re-surfaces with "keep or park?". Parked chunks lose their date and get the `parked` tag — no "why" demanded.
 - **Ask why for at most the 1–2 most-slipped chunks**, not the whole list, and only escalate to "want to look at why this keeps slipping?" when a *specific* chunk has slipped repeatedly.
 - Route the answer when you do ask:

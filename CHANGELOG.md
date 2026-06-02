@@ -11,6 +11,7 @@ plugin keeps its own changelog (e.g. `plugins/butler/CHANGELOG.md`).
 - **butler** `0.4.0` — intake/decompose interviews present discrete decisions as native AskUserQuestion choice cards (prior-progress, shape, stage/tree confirm, context), open prompts stay prose; graceful prose fallback. Release tag `butler--v0.4.0`.
 - **butler** `0.5.0` — structured questions extended to plan/reschedule (target-day, must/should/want, keep-or-park, fixed-duties); the choice/open convention made single-source in `interview.md` (skills reference it, don't restate). Release tag `butler--v0.5.0`.
 - **butler** `0.6.0` — lean, human-first task descriptions (first action + `Done when …` + `~60m` + Linear link; dropped labels/jargon; `est0`→`~60m` keeps calibration; multi-criteria → subtasks). Release tag `butler--v0.6.0`.
+- **butler** `0.6.1` — plan never duplicates existing tasks/habits: reconciles against open tasks + `list_habits`, schedules only the gap, dates dateless-existing rather than recreating. Release tag `butler--v0.6.1`.
 
 ## 2026-06-01
 

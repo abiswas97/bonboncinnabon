@@ -21,6 +21,7 @@ Load deferred MCP tools (TickTick, Google Calendar) with tool_search.
 3. **Work only in the packer.** Only WORK blocks are repacked from now. PERSONAL items keep their reminders (adjust a time only if the user asks); they never enter the packer. A chunk with no context is work.
 4. **Never silently drop a must.** A must that can't fit surfaces as overflow with a warning.
 5. **Confirm before moving blocks.**
+6. **Never duplicate.** Reschedule only MOVES existing blocks — it never creates a task that already exists, and recurring habits already fire on their own (don't re-add them).
 
 ## Procedure
 

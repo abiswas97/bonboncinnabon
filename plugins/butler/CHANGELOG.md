@@ -2,6 +2,14 @@
 
 All notable changes to butler. Versioning follows [SemVer](https://semver.org).
 
+## [0.6.1] - 2026-06-02
+
+### Changed
+- **Plan never duplicates what already exists (new default).** `plan` now reconciles against open tasks AND recurring habits (`list_habits`) before scheduling: a routine already covered by a habit (reading, pet care, finance checks, the planning ritual) or an existing task is treated as already-handled and is NOT recreated. It schedules only the gap — net-new work, plus dateless existing tasks which get a date rather than a recreated copy. Added as a Core rule in `plan` + `reschedule` and the lead principle in `references/heuristics.md` → Reconciliation.
+
+### Notes
+- References/skills only; no code/schema/config change. (The `context-aware-scheduling` baseline spec can absorb this as a MODIFIED requirement in a later change.)
+
 ## [0.6.0] - 2026-06-02
 
 Lean, human-first task descriptions.
