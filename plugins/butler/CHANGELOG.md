@@ -2,6 +2,13 @@
 
 All notable changes to butler. Versioning follows [SemVer](https://semver.org).
 
+## [0.10.1] - 2026-06-03
+
+Patch: make `/butler:setup` reachable under the butler namespace.
+
+### Fixed
+- **Added the missing `commands/setup.md` wrapper.** 0.10.0 shipped the `setup` skill but no command wrapper, so it surfaced as a bare `/setup` instead of `/butler:setup` like every other butler skill. Added the thin delegating wrapper to match the command-per-skill convention; `/butler:setup` now resolves under the butler namespace, making 0.10.0's own changelog promise true.
+
 ## [0.10.0] - 2026-06-03
 
 Global config + a `/butler:setup` command. **BREAKING: config location moved.**

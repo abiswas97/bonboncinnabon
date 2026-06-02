@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/abiswas97/bonboncinnabon/blob/main/plugins/butler/schemas/config.schema.json",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "configVersion": 2,
   "$comment": "Versioned schema for config.yaml. `configVersion` is the CURRENT config-shape version the plugin expects; config.yaml carries `config_version`. On every config read a skill compares the two (see references/template.md → Config): equal proceeds, behind offers migration, ahead errors. Bump configVersion when the config shape changes in a way needing migration.",
   "title": "Butler config",
