@@ -54,7 +54,7 @@
 
 ## 8. Release (0.3.0)
 
-- [ ] 8.1 Bump `version` to `0.3.0` in `plugins/butler/.claude-plugin/plugin.json` AND the marketplace entry (keep equal).
-- [ ] 8.2 Update `plugins/butler/CHANGELOG.md` and root `CHANGELOG.md` with the 0.3.0 entry.
-- [ ] 8.3 `claude plugin tag ./plugins/butler` to create `butler--v0.3.0` (validates version agreement).
-- [ ] 8.4 `git push origin main && git push origin refs/tags/butler--v0.3.0` (user runs interactive `/plugin` update commands).
+- [x] 8.1 Bumped `version` to `0.3.0` in `plugins/butler/.claude-plugin/plugin.json` AND the marketplace entry (equal; dry-run confirmed agreement).
+- [x] 8.2 Updated `plugins/butler/CHANGELOG.md` ([0.3.0] - 2026-06-02) and root `CHANGELOG.md`.
+- [x] 8.3 `claude plugin tag ./plugins/butler` created `butler--v0.3.0` at HEAD (validated version agreement).
+- [x] 8.4 Pushed `origin main` (0a4a5a1..17d9ded) and `refs/tags/butler--v0.3.0`. (User runs interactive `/plugin marketplace update` → `/plugin update butler` → `/reload-plugins`.)
