@@ -1,0 +1,19 @@
+openspec/changes/butler-personal-contexts-decompose/tasks.md
+  s_c952712fa6cac1::t_2b947c8c2b68e2 57-60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "f88db5d9b6d80ace7322e82fa5ff95b864bb955a",
+  "prompts": {},
+  "sessions": {
+    "s_c952712fa6cac1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "006da2fd-66c1-44a3-b2b7-9004655c433e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
