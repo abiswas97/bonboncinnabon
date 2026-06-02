@@ -11,12 +11,15 @@ the tool is unavailable.
 
 ### Requirement: Discrete interview decisions are presented as structured choices
 
-Discrete interview decisions in `intake` and `decompose` SHALL be presented using
-the harness AskUserQuestion tool with suggested options rather than free-text prose.
-A discrete decision is one that resolves to a choice from a known, finite set; this
-SHALL cover at minimum the hard-gate confirmations (fresh-start vs already-begun;
-single-action vs multi-step), stage selection / tree-shape confirmation, and
-(decompose) the work-vs-personal context confirmation.
+Interview-driven skills (`intake`, `decompose`, `plan`, `reschedule`) SHALL present
+discrete interview decisions using the harness AskUserQuestion tool with suggested
+options rather than free-text prose. A discrete decision is one that resolves to a
+choice from a known, finite set; this SHALL cover at minimum: the hard-gate
+confirmations (fresh-start vs already-begun; single-action vs multi-step), stage
+selection / tree-shape confirmation, the work-vs-personal context confirmation
+(decompose), the target-day resolution (today vs tomorrow), the fixed-duties calendar
+read-back, the per-chunk commitment level (must / should / want), and the reconcile
+keep-vs-park decision (plan / reschedule).
 
 #### Scenario: Hard-gate confirmations offered as choices
 
@@ -33,6 +36,21 @@ single-action vs multi-step), stage selection / tree-shape confirmation, and
 
 - **WHEN** decompose has derived a task's context from its project
 - **THEN** the work-vs-personal confirmation is presented as a structured choice
+
+#### Scenario: Target day resolved as a choice
+
+- **WHEN** plan or reschedule must resolve the target day and it is not stated explicitly
+- **THEN** the today-vs-tomorrow decision is presented as a structured choice
+
+#### Scenario: Commitment level set as a choice
+
+- **WHEN** plan commits chunks to the target day and assigns must/should/want
+- **THEN** the commitment level is set via a structured choice (multi-select where several chunks are decided together)
+
+#### Scenario: Keep-or-park offered as a choice
+
+- **WHEN** plan reconciles an unfinished chunk
+- **THEN** the keep-vs-park decision is presented as a structured choice, while any "what got in the way?" follow-up stays free text
 
 ### Requirement: Open-ended prompts remain free text
 
@@ -62,3 +80,24 @@ hard-depend on the tool.
 
 - **WHEN** the interview runs on a harness without AskUserQuestion
 - **THEN** the same questions are still answerable as free-text prose and the interview completes
+
+### Requirement: The structured/open convention is single-source and shared
+
+The structured-vs-open convention SHALL be defined exactly once, in
+`references/interview.md` → Presentation, and SHALL apply to every interview-driven
+skill. Each question SHALL carry its `[choice]` / `[open]` tag in the bank where it
+lives. A skill's interview step SHALL reference the convention (a single canonical
+pointer) rather than restating the AskUserQuestion mechanics, so the rule can be
+changed in one place without editing any skill.
+
+#### Scenario: Skills point at the convention, not restate it
+
+- **WHEN** any of intake / decompose / plan / reschedule reaches its interview step
+- **THEN** the step points to `references/interview.md` and honors the bank's `[choice]`/`[open]` tags
+- **AND** it does not re-specify how to ask (no per-skill restatement of the AskUserQuestion mechanics)
+
+#### Scenario: Changing the convention touches one file
+
+- **WHEN** the structured/open rule changes (e.g. how choices are batched)
+- **THEN** only `references/interview.md` → Presentation is edited
+- **AND** no SKILL.md needs changing for the rule to take effect
