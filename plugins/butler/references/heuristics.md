@@ -137,10 +137,11 @@ abandon time-blocking**. So:
 
 ## Calibration — what TickTick can and can't tell you
 
-Calibration works only because `est0` is stored immutably (re-blocking would
-otherwise destroy the original estimate) and only if the focus timer is run.
+Calibration works only because the original estimate (the immutable `~<n>m` line,
+`est0_min`) is stored and never overwritten on re-blocking, and only if the focus
+timer is run.
 
-- Compare `est0` to actual focus minutes (`focusSummaries` / `get_focuses_by_time`), grouped by **stage**. Over a few weeks, surface drift in one sentence during reconciliation ("backend chunks have run ~1.5× your estimate lately"). Stage is a better reference class than the old 15-value taxonomy — fewer classes fill with data faster.
-- `research` and `backend` are high-variance (a 20-min trace vs a multi-hour spike). For those, cross stage × `ai_discount` before trusting the drift, and report cautiously.
+- Compare the `~<n>m` estimate to actual focus minutes (`focusSummaries` / `get_focuses_by_time`), grouped by **stage** (parsed from the title prefix). Over a few weeks, surface drift in one sentence during reconciliation ("backend chunks have run ~1.5× your estimate lately"). Stage is a better reference class than the old 15-value taxonomy — fewer classes fill with data faster.
+- `research` and `backend` are high-variance (a 20-min trace vs a multi-hour spike); report their drift cautiously.
 - This is reference-class forecasting: trust the pattern for that stage over the gut.
 - Keep it lightweight — a sentence, not bookkeeping. Without the timer, say so honestly and fall back to a gut-check; don't pretend to data you don't have.

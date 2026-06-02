@@ -34,26 +34,31 @@ add, remove, rename, extract, refactor, migrate, backfill, review, address, depl
 
 ## Description contract
 
-The description is a **tight key:value block, not prose.** A person scanning for
-the one fact that unblocks action shouldn't have to read a paragraph. Fixed key
-order means the eye always lands in the same place. Prose is where slop breeds,
-so it is forbidden.
+The description is a **launchpad, not a spec** — the one thing that gets you moving
+plus a link to where the detail lives. The system of record (Linear) holds the full
+context and acceptance criteria; never copy them here. Markdown renders in TickTick.
 
-Allowed keys, fixed order, omit any that don't apply (never write `Notes: N/A`):
+A chunk description, omitting any line that doesn't apply:
 
 ```
-Why: <one clause, only if not obvious from the title>
-Where: <file / symbol / endpoint; one per line>
-Done: <one observable acceptance signal>
-Ref: <PR / issue / ticket URL or id>
+<first physical action — imperative, 1–2 lines; `inline code` for files/symbols/endpoints>
+Done when <one observable signal>.
+
+~<minutes>m · [<TICKET> ↗](<linear-url>)
 ```
 
-Parent work units use the metadata block instead (see `template.md`). The chunk
-calibration line (`est0`) is appended per `template.md`.
+- **First action** — the concrete thing you'd touch first (the startability win). Prose, no `Where:` label; keep code identifiers verbatim in `` `inline code` ``.
+- **`Done when …`** — a SINGLE observable signal, no `Done:` heading. Omit it when the title already implies success. More than one signal → split into subtasks (`butler:decompose`), never a `- [ ]` checklist in the description.
+- **`~<n>m`** — the estimate, and the immutable calibration anchor (set once at intake, never overwritten). Replaces the old `est0:` label.
+- **Link** — `[<TICKET> ↗](url)` to the source ticket; detail/AC live there. Personal chunks (no ticket) omit the link.
 
-Exclude from descriptions: narrative intros, restating the title, step-by-step
-how-to, background essays, hedging, anything over ~5 lines. Deeper context lives
-in the linked artifact via `Ref`, not pasted here.
+Stage is carried by the title prefix (`Backend: …`), not the body. Do NOT write
+`stage` or `ai_discount` into the description. Parent work units use the metadata
+header instead (see `template.md`).
+
+Exclude: `Why:`/`Where:`/`Ref:` labels, narrative intros, restating the title,
+step-by-step how-to, background essays, hedging, copied acceptance criteria, anything
+beyond ~3 lines + the footer.
 
 ## Slop blacklist (never use, in titles or descriptions)
 

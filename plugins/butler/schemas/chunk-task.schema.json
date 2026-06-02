@@ -42,17 +42,17 @@
     "est0_min": {
       "type": "integer",
       "minimum": 1,
-      "description": "IMMUTABLE original focus-minute estimate, set once at intake (during decomposition) and never overwritten on reschedule. The anchor for calibration (compare against actual focus time, grouped by stage). Required for work chunks; optional for personal chunks (a light estimate, no calibration)."
+      "description": "IMMUTABLE original focus-minute estimate, set once at intake and never overwritten on reschedule. Rendered in the description as `~<n>m` (not the old `est0:` label); the anchor for calibration (compare against actual focus time, grouped by stage from the title). Required for work chunks; optional for personal."
     },
     "priority": {
       "enum": ["must", "should", "want", null],
       "$comment": "Commitment layer (the must/should/want TAG), NOT TickTick's numeric priority. Distinct from parent-task.schema.json `priority` (none/low/medium/high -> 0/1/3/5). Maps to the commitment tag and to packer-input `priority`.",
       "description": "Commitment tag, set only when the chunk is scheduled for the target day; null otherwise."
     },
-    "why": { "type": ["string", "null"], "maxLength": 120, "description": "One line, only if not obvious from the title." },
-    "where": { "type": ["array", "null"], "items": { "type": "string" }, "description": "Concrete locations: file / symbol / endpoint." },
-    "done": { "type": ["string", "null"], "maxLength": 120, "description": "ONE observable acceptance signal." },
-    "ref": { "type": ["string", "null"], "description": "PR / issue / ticket URL or id where deep context lives." },
+    "why": { "type": ["string", "null"], "maxLength": 120, "description": "Deprecated in the rendered description (lean form drops the Why line). Kept for back-compat; not written to new tasks." },
+    "where": { "type": ["array", "null"], "items": { "type": "string" }, "description": "Concrete locations (file / symbol / endpoint) that seed the first-action opening line of the description; rendered as prose, no `Where:` label." },
+    "done": { "type": ["string", "null"], "maxLength": 120, "description": "ONE observable acceptance signal, rendered as a `Done when …` line; omitted when the title implies success. More than one signal → split into subtasks, never a checklist." },
+    "ref": { "type": ["string", "null"], "description": "Source ticket (PR / issue) — rendered as a `[TICKET ↗](url)` link where detail/AC live. Personal chunks omit it." },
     "scheduled": {
       "type": "boolean",
       "default": false,

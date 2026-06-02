@@ -2,6 +2,21 @@
 
 All notable changes to butler. Versioning follows [SemVer](https://semver.org).
 
+## [0.6.0] - 2026-06-02
+
+Lean, human-first task descriptions.
+
+### Changed
+- **Chunk descriptions are now a launchpad, not a spec.** New form: a prose first action, an optional single `Done when …` line (no `Done:` heading), the estimate as `~60m`, and a Markdown link to the source ticket. Dropped the `Why / Where / Ref` labels and the `est0: … stage: … ai: …` footer. Detail and acceptance criteria stay on Linear (the system of record) instead of being duplicated.
+- **`est0:` → `~60m`.** The estimate keeps its meaning (immutable, never overwritten on reschedule — the calibration anchor); only the cryptic label changes. Calibration is preserved.
+- **Stage moves to the title prefix only** (`Backend: …`); `ai_discount` is no longer written into the description (it defaults from the stage). Calibration groups by stage.
+- **Multi-criteria acceptance → real subtasks** (`butler:decompose`), never a `- [ ]` checklist inside a description. A single signal stays one `Done when …` line.
+- Personal chunks use the same shape minus the link; parent work-units keep their `Linear / Ticket / Branch` header.
+
+### Notes
+- References-and-schema only (`task-contract.md`, `template.md`, `heuristics.md`, `chunk-task.schema.json` field docs). No code/config; packer + schema tests unchanged.
+- The live ING-165 QA subtree was retrofitted to the new format as the reference example.
+
 ## [0.5.0] - 2026-06-02
 
 Completes the structured-interview rollout and makes the convention single-source.
