@@ -12,8 +12,10 @@ already persists; only the target day gets times.
 
 ## Config
 
-Read `${CLAUDE_PLUGIN_ROOT}/config.yaml` — the only user-specific surface. Resolve
-TickTick project and tag names → ids at runtime (`list_projects` / `list_tags`).
+Read `${CLAUDE_PLUGIN_ROOT}/config.yaml` — the only user-specific surface — then run
+the config preflight (references/template.md → Config preflight; migrate if behind,
+error if ahead). Resolve TickTick project and tag names → ids at runtime
+(`list_projects` / `list_tags`).
 Load deferred MCP tools with tool_search before use (TickTick, Google Calendar).
 
 ## Core rules
@@ -25,6 +27,7 @@ Load deferred MCP tools with tool_search before use (TickTick, Google Calendar).
 5. **Lean, human tasks.** Follow `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md`. Every butler-created task carries the `ai` tag.
 6. **Never assume a ticket.** Touch Linear only when the user names an explicit ID this turn.
 7. **Never duplicate what already exists.** Reconcile against open tasks AND recurring habits before scheduling. A routine that already fires as a habit (or an existing task) is already handled — do NOT create a task for it. Schedule only the gap: net-new work, and a dateless existing task gets a date rather than a recreated copy (`references/heuristics.md` → Reconciliation).
+8. **Breaks are constraints, never tasks.** Reserve lunch + flexible decompress breaks as packer fixed-commitments (gaps) the packer subtracts — scaled to load, deferred when one would interrupt an in-progress block. Never materialize a break as a TickTick task (`references/heuristics.md` → Buffering).
 
 ## Procedure
 
@@ -51,12 +54,23 @@ and the fixed-duties read-back are [choice]; "what got in the way?" stays prose.
           catch chunks finished-but-not-ticked. (Personal items just keep or drop, no probing.)
 - [ ] 5. Pick what to land; set must/should/want (both contexts). Respect max_musts
         (flag, don't silently exceed).
-- [ ] 6. Read the target day's fixed commitments from Calendar; confirm read-back;
-        ask about off-calendar duties (references/interview.md → Fixed duties).
+- [ ] 6. Read the target day's fixed commitments. Detect a connected Google Calendar MCP;
+        if present, read the target day's events from the calendars named in `config.yaml`
+        `calendar.calendars` (default primary) as fixed commitments — the source lives in
+        config, don't re-ask. Fallback ladder, NON-BLOCKING: no MCP → run calendar-blind
+        but STATE it + suggest connecting one; events scattered across many calendars/accounts
+        → suggest consolidating to one account. Then RESERVE breaks (see step 7) and confirm
+        read-back; ask about off-calendar duties (references/interview.md → Fixed duties).
 - [ ] 7. SCHEDULE WORK (packer): confirm each WORK chunk carries its est0 line (set at
-        intake; references/template.md) — don't rewrite est0. Build packer input
-        (schemas/packer-input.schema.json) from the contexts.work config + the target day's
-        WORK chunks + commitments, then run:
+        intake; references/template.md) — don't rewrite est0. BEFORE packing, reserve breaks
+        as packer FIXED-COMMITMENTS placed around the day's meetings: a lunch
+        (`contexts.work.breaks.lunch_min`, default 45) and one-or-more decompress breaks
+        (`decompress_min`, default 30) scaled to the focus load; DEFER a break that would
+        interrupt an in-progress focus block. Breaks are NEVER created as TickTick tasks (they
+        are constraints/gaps); adjustable or skippable per plan (references/heuristics.md →
+        Buffering). Build packer input (schemas/packer-input.schema.json) from the
+        contexts.work config + the target day's WORK chunks + commitments + reserved breaks,
+        then run:
             python3 ${CLAUDE_PLUGIN_ROOT}/scripts/pack_schedule.py input.json
         Personal items NEVER enter packer input. Review scheduled / overflow /
         summary.warnings with the user. Adjust, re-run until it fits.

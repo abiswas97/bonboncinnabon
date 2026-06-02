@@ -12,7 +12,7 @@ existing tree, never duplicates it.
 
 ## Config
 
-Read `${CLAUDE_PLUGIN_ROOT}/config.yaml`. Resolve TickTick names → ids at runtime.
+Read `${CLAUDE_PLUGIN_ROOT}/config.yaml`, then run the config preflight (references/template.md → Config preflight; migrate if behind, error if ahead). Resolve TickTick names → ids at runtime.
 Load deferred MCP tools (TickTick; Linear only if an ID is named) with tool_search.
 
 ## Core rules
@@ -50,7 +50,8 @@ STOP and resolve before creating ANY task:
         is not decomposed.
 - [ ] 4. Decompose by PICKING STAGES from `contexts.work.pipeline` (references/heuristics.md →
         Decomposition (work)): skip stages that don't apply; merge thin ones to land in 2–6; add
-        ad-hoc chunks for off-pipeline work. Title = stage + short qualifier. Each chunk is
+        ad-hoc chunks for off-pipeline work. Title = verb-first next action naming the object;
+        stage rides a `#stage` tag, not the title. Each chunk is
         `context: work` and inherits its stage's default intensity + ai_discount (override per
         chunk); set est0 now. Include a `review` stage when there are `discounted` build stages
         (it absorbs AI-output verification). Confirm the proposed tree before writing

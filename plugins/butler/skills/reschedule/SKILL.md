@@ -11,7 +11,7 @@ starts from this moment, and only today's remaining chunks are considered.
 
 ## Config
 
-Read `${CLAUDE_PLUGIN_ROOT}/config.yaml`. Resolve TickTick names → ids at runtime.
+Read `${CLAUDE_PLUGIN_ROOT}/config.yaml`, then run the config preflight (references/template.md → Config preflight; migrate if behind, error if ahead). Resolve TickTick names → ids at runtime.
 Load deferred MCP tools (TickTick, Google Calendar) with tool_search.
 
 ## Core rules
@@ -33,7 +33,9 @@ are [choice]; "what's done / left" stays prose.
 - [ ] 1. Establish "now" and what's done vs left today (ask briefly).
 - [ ] 2. Re-read today's remaining WORK chunks from TickTick (scheduled-but-not-done).
         Note any personal reminders still ahead today — these are kept as-is, not repacked.
-- [ ] 3. Re-read the remaining fixed commitments from Calendar (those after now).
+- [ ] 3. Re-read the remaining fixed commitments (those after now) the same way `plan` does:
+        a connected Google Calendar MCP, reading the calendars named in `config.yaml`
+        `calendar.calendars` (default primary); no MCP → run calendar-blind but state it.
 - [ ] 4. Build packer input with now = current time (schemas/packer-input.schema.json) from
         the WORK chunks only, then run: python3 ${CLAUDE_PLUGIN_ROOT}/scripts/pack_schedule.py input.json
         Review scheduled / overflow / summary.warnings. Do NOT rewrite est0 — it is immutable.

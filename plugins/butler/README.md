@@ -26,7 +26,7 @@ Part of the `bonboncinnabon` marketplace. Namespace: `butler:`.
 
 ## Design principles
 
-1. **Stage-based, hybrid decomposition.** Chunks are stages from a config-defined `pipeline` (research → db → backend → frontend → review → address-comments → qa → deploy). Intake picks the applicable ones (skip the rest), titles them `stage: qualifier`, and may add ad-hoc chunks. A predictable template removes the "what are my chunks?" decision.
+1. **Stage-based, hybrid decomposition.** Chunks are stages from a config-defined `pipeline` (research → db → backend → frontend → review → address-comments → qa → deploy). Intake picks the applicable ones (skip the rest), titles each as a verb-first next action with the stage on a `#stage` tag, and may add ad-hoc chunks. A predictable template removes the "what are my chunks?" decision.
 2. **Day-at-a-time.** Build the whole tree once; only ever put times on the target day's chunks.
 3. **Points are complexity, not time.** Never divide Linear story points into hours.
 4. **Selective AI discount.** Discount AI-amenable build stages; never discount ambiguous-spec resolution, cross-system debugging, decisions needing people, or reviewing AI output. Verification is its own `review` stage (submit PR + AI-assisted review), included whenever there are discounted build stages.

@@ -1,6 +1,6 @@
 {
   "name": "butler",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Work and personal task planner: breaks a task into human, session-sized chunks and time-boxes the day in TickTick around Google Calendar. Work gets packed focus blocks; personal gets light reminders. Executive-function support.",
   "author": {
     "name": "Avi Biswas"

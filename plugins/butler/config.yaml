@@ -2,6 +2,7 @@
 # Resolve TickTick projects and tags by NAME at runtime (list_projects /
 # list_tags); ids differ per account and change, so never hard-code them.
 
+config_version: 1                    # config-shape version; butler checks this on every read and offers to migrate if behind (see schemas/config.schema.json)
 timezone: "America/New_York"         # set to your IANA timezone
 
 # Cross-context infrastructure — owned by no single context.
@@ -9,6 +10,12 @@ planning_project: "Planning"         # where the daily planning ritual lives
 priority_tags: [must, should, want]  # daily commitment layer (both contexts)
 ai_tag: "ai"                         # marks every butler-generated task (filterable)
 parked_tag: "parked"                 # no-blame "park" route during reconcile
+
+# Calendar source for fixed commitments (meetings). Optional — plan runs
+# calendar-blind without it. Read via a connected Google Calendar MCP.
+calendar:
+  source: google                     # google | none
+  calendars: [primary]               # which calendars to read (names/ids) — edit to yours
 
 # Contexts — a task's context is DERIVED from its TickTick project, then CONFIRMED
 # with the user (never silent). A project not listed under any context → ask which
@@ -22,6 +29,7 @@ contexts:
     axes: [stage, intensity, ai_discount]
     scheduling: packed                 # full packer inside the focus window
     work_window: { start: "14:00", end: "21:00" }   # core focus window, local time
+    breaks: { lunch_min: 45, decompress_min: 30 }    # reserved as scheduling constraints (gaps), NEVER created as tasks; decompress count scales to load
     intensity_tags: [deep, shallow]    # freshness axis used for ordering
     stage_as_tag: true                 # stage rides a #stage tag (not the title); keys come from `pipeline` below
     recharge_tag: "recharge"

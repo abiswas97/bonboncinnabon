@@ -14,6 +14,7 @@ plugin keeps its own changelog (e.g. `plugins/butler/CHANGELOG.md`).
 - **butler** `0.6.1` — plan never duplicates existing tasks/habits: reconciles against open tasks + `list_habits`, schedules only the gap, dates dateless-existing rather than recreating. Release tag `butler--v0.6.1`.
 - **butler** `0.7.0` — verb-first task titles (chunks lead with a concrete verb + object; parents stay outcome nouns); stage moves from the title prefix to a `#stage` tag (calibration + packer read the tag). Reverses 0.6.0's title-prefix decision; research-backed. Release tag `butler--v0.7.0`.
 - **butler** `0.7.1` — genericized for publication: PII/personal-context scrubbed from config, worked examples, schema docs, and changelog notes (generic projects + neutral example domains; author email dropped). Release tag `butler--v0.7.1`.
+- **butler** `0.8.0` — calendar sourcing (`plan`/`reschedule` read configured Google Calendars via MCP as fixed commitments, with a non-blocking fallback ladder); reserve-only breaks (lunch + scaled decompress reserved as packer constraints, never tasks); versioned config (`config_version` + `schemas/config.schema.json` + a shared migrate-on-read preflight). Release tag `butler--v0.8.0`.
 
 ## 2026-06-01
 

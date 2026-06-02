@@ -107,11 +107,22 @@ encode complexity; multiplying each chunk by a buffer would triple-count). If th
 day comes out too light to feel worth using, lower `day_slack_pct` or raise
 `focus_cap_min` — don't pad the chunks.
 
+**Breaks (lunch + flexible decompress) are reserved as constraints, never tasks.**
+`plan` reserves a lunch (`contexts.work.breaks.lunch_min`) and one-or-more decompress
+breaks (`decompress_min`) as packer **fixed-commitments** placed around the day's
+meetings — gaps the packer subtracts, the same as a meeting. They are **never
+materialized as TickTick tasks**: a break is a hole in the schedule, not a thing to do.
+
+- **Scale to load.** One lunch always; decompress count scales to the focus load (e.g. one per ~2 deep blocks). A light day needs fewer; a back-to-back deep day needs more.
+- **Defer in flow.** A break that would interrupt an in-progress focus block is deferred to the next gap rather than forced — protecting flow beats hitting a fixed clock time.
+- **Adjustable / skippable per plan.** The defaults live in config; the user can shorten, move, or skip a break for a given day.
+
 ## Time-blocking — placing the target day's chunks
 
 The packer (`scripts/pack_schedule.py`) enforces this; the logic here explains it.
 
-- **Subtract fixed commitments first.** Calendar events + off-calendar duties are removed before placing. Meetings also act as natural breaks.
+- **Subtract fixed commitments first.** Calendar events + off-calendar duties + reserved breaks are removed before placing. Meetings also act as natural breaks.
+- **Calendar source + fallback doctrine.** Meetings come from a connected Google Calendar MCP, read from the calendars named in `config.yaml` `calendar.calendars` (default primary); the source lives in config — never re-asked. The fallback ladder is **non-blocking**: no MCP → run calendar-blind but STATE it and suggest connecting one; events scattered across many calendars/accounts → suggest consolidating to one account. A missing calendar degrades the plan, it never stops it.
 - **Intensity-aware ordering.** `deep` work goes in the earliest (freshest) slots by default; `shallow` batches later. Within an intensity tier the packer clusters by *activity* — derived from the `stage` tag (build → verify → comms → admin) — then by pipeline order (research → … → deploy) as a low-priority tiebreak. Activity is never hand-tagged.
 - **Intensity is focus, not activity.** A deep code review or verifying coupled AI output is `deep` (it needs a fresh slot), even though its activity is "verify". Judge the focus a chunk demands, not what kind of work it is.
 - **No reliable peak.** Deep-early is a *default*, not a law — there's no fixed daily energy peak to assume. When you flag low/high energy at plan time, reorder accordingly (the `deep_first` config and per-chunk `intensity` are the levers).

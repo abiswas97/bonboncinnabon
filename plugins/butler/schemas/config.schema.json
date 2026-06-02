@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abiswas97/bonboncinnabon/blob/main/plugins/butler/schemas/config.schema.json",
+  "version": "0.8.0",
+  "configVersion": 1,
+  "$comment": "Versioned schema for config.yaml. `configVersion` is the CURRENT config-shape version the plugin expects; config.yaml carries `config_version`. On every config read a skill compares the two (see references/template.md → Config): equal proceeds, behind offers migration, ahead errors. Bump configVersion when the config shape changes in a way needing migration.",
+  "title": "Butler config",
+  "description": "Shape of config.yaml — the only user-specific surface. Project and tag names resolve to ids at runtime; never hard-code ids.",
+  "type": "object",
+  "required": ["config_version", "timezone", "planning_project", "priority_tags", "ai_tag", "parked_tag", "contexts"],
+  "additionalProperties": true,
+  "properties": {
+    "config_version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The config-shape version this file was written for. Compared on every read against this schema's `configVersion`. A file with no `config_version` is treated as v0 and offered migration."
+    },
+    "timezone": { "type": "string", "description": "IANA timezone, e.g. America/New_York." },
+    "planning_project": { "type": "string", "description": "TickTick list where the daily planning ritual lives." },
+    "priority_tags": { "type": "array", "items": { "type": "string" }, "description": "Commitment layer, both contexts (must/should/want)." },
+    "ai_tag": { "type": "string" },
+    "parked_tag": { "type": "string" },
+    "calendar": {
+      "type": ["object", "null"],
+      "additionalProperties": true,
+      "description": "Source of fixed commitments (meetings). Optional — plan runs calendar-blind without it.",
+      "properties": {
+        "source": { "enum": ["google", "none"], "description": "google = read via a connected Google Calendar MCP; none = calendar-blind." },
+        "calendars": { "type": "array", "items": { "type": "string" }, "description": "Which calendars to read (names/ids). Default the primary." }
+      }
+    },
+    "contexts": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["work", "personal"],
+      "properties": {
+        "work": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Work context: pipeline decomposition, packed scheduling. Owns its scheduling config.",
+          "properties": {
+            "projects": { "type": "array", "items": { "type": "string" } },
+            "default_project": { "type": "string" },
+            "breaks": {
+              "type": "object",
+              "additionalProperties": true,
+              "description": "Reserved as scheduling constraints (gaps the packer subtracts), NEVER materialized as tasks.",
+              "properties": {
+                "lunch_min": { "type": "integer", "minimum": 0 },
+                "decompress_min": { "type": "integer", "minimum": 0 }
+              }
+            }
+          }
+        },
+        "personal": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "ritual": { "type": ["object", "null"], "additionalProperties": true }
+  }
+}

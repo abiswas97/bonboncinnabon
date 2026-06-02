@@ -6,6 +6,7 @@ and Linear MCP. Titles/descriptions follow `task-contract.md`.
 
 ## Contents
 
+- Config preflight (version check) — run before using config
 - Task template (parent + chunks)
 - Idempotency and calibration
 - TickTick field mapping (verified)
@@ -13,6 +14,26 @@ and Linear MCP. Titles/descriptions follow `task-contract.md`.
 - Calendar field mapping (read-only)
 - Packer I/O
 - One-time setup (tags, list rename, ritual habit)
+
+## Config preflight (version check)
+
+Every skill runs this ONCE right after reading `config.yaml`, before using it. It is
+the single source of the rule — skills reference it, they don't restate it.
+
+Compare the file's `config_version` to `schemas/config.schema.json` `configVersion`
+(the current shape the plugin expects):
+
+- **equal** → proceed silently.
+- **behind** (file < current, or no `config_version` field → treat as v0) → tell the
+  user their config is out of date and **ask to migrate**. On yes: add the new
+  schema's fields with their documented defaults (never drop or overwrite existing
+  user values), set `config_version` to current, re-read, proceed. On no: proceed with
+  a one-line caveat, or stop if a missing field blocks the run.
+- **ahead** (file > current) → surface an ERROR ("your config is newer than the
+  installed butler — update the plugin or check your config") and do NOT silently run.
+  This shouldn't happen (e.g. a downgraded plugin).
+
+Migration is additive only. After migrating, re-read `config.yaml` to confirm.
 
 ## Task template
 
@@ -75,7 +96,7 @@ existing tree (e.g. ABC-123) working unchanged.
 ## Idempotency and calibration
 
 - **Idempotency**: before Intake creates anything, search the work list for a parent whose `content` contains `Ticket: <ID>`. If found → resume that tree (route to plan), do not create a duplicate.
-- **Calibration**: estimate accuracy comes from comparing the immutable estimate (the `~<n>m` line, `est0_min`) against actual focus time. Read actuals from TickTick: `list_completed_tasks_by_date` / `filter_tasks` for completion, and `get_focuses_by_time` / the task's `focusSummaries` for real pomodoro/time-on-task. Group drift by **stage** (parsed from the title prefix). This requires the in-app focus timer to be run; without it, calibration degrades to a one-line gut-check.
+- **Calibration**: estimate accuracy comes from comparing the immutable estimate (the `~<n>m` line, `est0_min`) against actual focus time. Read actuals from TickTick: `list_completed_tasks_by_date` / `filter_tasks` for completion, and `get_focuses_by_time` / the task's `focusSummaries` for real pomodoro/time-on-task. Group drift by **stage** (read from the `#stage` tag; legacy title-prefix titles parse as a fallback). This requires the in-app focus timer to be run; without it, calibration degrades to a one-line gut-check.
 
 ## TickTick field mapping (verified)
 
@@ -114,8 +135,9 @@ Pull only when the user names an ID this turn. Never write to Linear.
 
 ## Calendar field mapping (read-only)
 
-For the target day, read events overlapping the work window from the primary
-calendar. Map each timed event to a busy interval `{title, start, end}` for the
+For the target day, read events overlapping the work window from the calendars named
+in `config.yaml` `calendar.calendars` (default primary), via a connected Google Calendar
+MCP. Map each timed event to a busy interval `{title, start, end}` for the
 packer's `fixed_commitments`. Ignore all-day events unless the user says one means
 they're away. Confirm the read-back and ask about off-calendar duties (lunch,
 commute, family, AFK) before packing. Never write to Calendar.

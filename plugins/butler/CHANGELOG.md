@@ -2,6 +2,22 @@
 
 All notable changes to butler. Versioning follows [SemVer](https://semver.org).
 
+## [0.8.0] - 2026-06-02
+
+Calendar sourcing, reserve-only breaks, and a versioned config.
+
+### Added
+- **Versioned config.** `config.yaml` carries `config_version` (now `1`) and a new `schemas/config.schema.json` declares the shape the plugin expects (`configVersion`). Every skill runs a shared **config preflight** right after reading the config: versions equal → proceed; file behind → ask to migrate (additive defaults only, bump version, re-read); file ahead → error, don't run. The rule lives once in `template.md` → Config preflight; skills reference it.
+- **Calendar sourcing block.** Top-level `calendar: { source, calendars }` (default `primary`). `plan` / `reschedule` detect a connected Google Calendar MCP and read the target day's events from the configured calendars as fixed commitments — the source lives in config, never re-asked. Non-blocking fallback ladder: no MCP → run calendar-blind but say so + suggest connecting one; events scattered across accounts → suggest consolidating.
+- **Reserve-only breaks.** `contexts.work.breaks: { lunch_min: 45, decompress_min: 30 }`. Before packing, `plan` reserves lunch + one-or-more decompress breaks (scaled to load) as packer **fixed-commitments** placed around meetings, deferring any break that would interrupt an in-progress focus block. Breaks are constraints the packer subtracts, **never** materialized as TickTick tasks.
+
+### Changed
+- Folded the remaining 0.7.0 stage-in-title leftovers to verb-first + `#stage` (intake step 4, template calibration/calendar notes, README design principle).
+
+### Notes
+- No code change. Packer (26) + chunk-schema tests pass; `config.yaml` validates against `config.schema.json`.
+- Spec: `config-versioning` (new) + `context-aware-scheduling` (modified). See `openspec/changes/butler-calendar-and-breaks`.
+
 ## [0.7.1] - 2026-06-02
 
 Genericized for publication — no PII / personal context.
