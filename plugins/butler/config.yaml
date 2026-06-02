@@ -23,6 +23,7 @@ contexts:
     scheduling: packed                 # full packer inside the focus window
     work_window: { start: "14:00", end: "21:00" }   # core focus window, local time
     intensity_tags: [deep, shallow]    # freshness axis used for ordering
+    stage_as_tag: true                 # stage rides a #stage tag (not the title); keys come from `pipeline` below
     recharge_tag: "recharge"
     executes_with_ai: true             # gates the selective AI discount; if false, estimate without it
     # Decomposition pipeline — the MENU of stages intake picks from. Skip stages that

@@ -36,7 +36,7 @@ field (not `desc` — `desc` is for `kind: CHECKLIST` only).
 chunk in the tree. It is a **real subtask (`parentId`), never a checklist item** —
 checklist items can't carry their own due date, reminder, or focus estimate.
 
-- `title`: stage label + short qualifier (title contract), e.g. "Backend: pricer API + carry-back".
+- `title`: verb-first next action naming the object (title contract), e.g. "Wire the pricer API + carry-back"; stage rides a tag, not the title.
 - `parentId`: the parent task's id. Create the parent first, capture its id, then create chunks with `parentId` set.
   - **The create response is stale** — it returns `parentId: null`/`childIds: null` even on success. ALWAYS re-read to confirm: `get_task_by_id` on the parent and assert `childIds` contains each child (or read each child and assert `parentId`). If the link didn't form, surface the failure — never silently fall back to checklist items (that would lose the per-chunk scheduling that is the whole point). The only safe fallback is leaving chunks as flat sibling tasks, still fully scheduled.
 - `content`: the lean launchpad form (task-contract.md → Description contract) —
@@ -46,8 +46,8 @@ checklist items can't carry their own due date, reminder, or focus estimate.
 
   ~45m · [<TICKET> ↗](<linear-url>)
   ```
-  `~<n>m` is `est0_min` rendered — written ONCE at intake and **never overwritten** on reschedule (the calibration anchor). Omit `Done when …` when the title implies success; more than one signal → subtasks, not a checklist. Stage lives in the title prefix; do NOT write `stage`/`ai_discount` in the body. Personal chunks drop the link.
-- `tags`: exactly one intensity tag (`deep`/`shallow`) + `ai` + the day's `must`/`should`/`want` when scheduled today. (Stage and activity are NOT tags — stage lives in the title prefix; activity is derived from it.)
+  `~<n>m` is `est0_min` rendered — written ONCE at intake and **never overwritten** on reschedule (the calibration anchor). Omit `Done when …` when the title implies success; more than one signal → subtasks, not a checklist. Stage rides a tag (below); do NOT write `stage`/`ai_discount` in the body. Personal chunks drop the link.
+- `tags`: exactly one stage tag (`research`…`deploy`) + exactly one intensity tag (`deep`/`shallow`) + `ai` + the day's `must`/`should`/`want` when scheduled today. (Activity is NOT a tag — it is derived from the stage tag.)
 - **Target-day chunks only**: set `startDate`, `dueDate`, `isAllDay: false`, `timeZone`, a `reminders` entry, and `focusSummaries: [{ "estimatedPomo": <n> }]`. All other chunks: no dates, so they stay unscheduled.
 - **Verification is the `review` stage**, not a per-chunk pairing — include a `review` chunk ("Submit PR + AI-assisted review", `intensity: deep`, `ai_discount: none`) whenever the ticket has `discounted` build stages.
 
@@ -140,6 +140,6 @@ Input/output shapes are pinned in `schemas/packer-input.schema.json` and
 
 Idempotent; check before creating. Resolve names → ids at runtime.
 
-- **Intensity + marker tags**: `deep`, `shallow` (intensity), `ai`, `parked`, plus `recharge` if you want breaks visible. Stage lives in the title prefix and activity (build/verify/comms/admin) is derived from it — neither is tagged. Try `create_tag` (with colors) — but the tag-write endpoint is undocumented and has been observed returning 500. If it fails, DON'T block: the tag still attaches to a task as a label the first time it's applied (it just won't be a colored sidebar tag until you create it in-app once). Surface the failure and continue. Optional sidebar nesting: parent tags `intensity` (deep, shallow) and `priority` (must, should, want).
+- **Stage + intensity + marker tags**: the stage family (`research`, `db`, `backend`, `frontend`, `review`, `address-comments`, `qa`, `deploy`), `deep`/`shallow` (intensity), `ai`, `parked`, plus `recharge` if you want breaks visible. Activity (build/verify/comms/admin) is derived from the stage tag — not itself tagged. Try `create_tag` (with colors) — but the tag-write endpoint is undocumented and has been observed returning 500. If it fails, DON'T block: the tag still attaches to a task as a label the first time it's applied (it just won't be a colored sidebar tag until you create it in-app once). Surface the failure and continue. Optional sidebar nesting: parent tags `stage` (research…deploy), `intensity` (deep, shallow) and `priority` (must, should, want).
 - **Work list**: default `Plate` (rename from a prior name via `update_project` if needed — renaming preserves the tasks inside).
 - **Ritual habit**: a "Plan the day" habit (`create_habit`) with a daily `repeatRule` (`RRULE:FREQ=DAILY`) and a reminder — the external cue that builds the rhythm. The habit lives on TickTick's Habit surface; the streak is the accommodation.

@@ -45,8 +45,8 @@ out of the title and into the body, where it's lower-stakes and easy to correct.
 
 - **The pipeline is a MENU, not a checklist.** Pick only the stages this ticket needs; skip the rest. A valid plan can be a single stage (a spike = just `research`). Do **not** materialize an empty/ceremonial stage (no `db` on a FE-only ticket, no `deploy` under CD-on-merge).
 - **Hybrid: add ad-hoc chunks** for genuine off-pipeline work (mark `ad_hoc`, pick the closest stage). Don't force-fit; don't invent stages.
-- **Title = stage + short qualifier.** "Backend: pricer API + carry-back", not a bare "Backend changes" (which blurs across tickets in a flat view). The *concrete first action* goes in the body (`Where:` / first physical action), not the title — that preserves startability while keeping titles stable.
-- **Session-sized; split oversized stages with the qualifier.** A big `backend` becomes two `backend` chunks ("Backend: pricer API", "Backend: carry-back") — same stage (so calibration still groups), different qualifier.
+- **Title = verb-first next action; stage rides a tag.** "Wire the pricer API + carry-back" with `#backend`, not a bare "Backend changes". The object stays in the title; conditions/detail go in the body, not the title (see `task-contract.md`).
+- **Session-sized; split oversized stages.** A big `backend` becomes two `#backend` chunks ("Wire the pricer API", "Add the carry-back") — same stage tag (so calibration still groups), different action.
 - **2–6 chunks.** After selecting stages, merge adjacent thin ones (fold a tiny `db` into `backend`) to land in range. Fewer than 2 = a single action; a wall of stages discourages use.
 - **Non-feature work maps onto the same pipeline:** a BUG = `research` ("reproduce X", `none`) → the fix stage → `qa`; a REFACTOR/CHORE = the build stage (often `discounted`) + `review`; a one-liner = a single ad-hoc chunk. No special mini-pipelines.
 - **Today-only scheduling.** Create the whole tree so it persists; only the target day's chunks get times (that's `butler:plan`).
@@ -112,7 +112,7 @@ day comes out too light to feel worth using, lower `day_slack_pct` or raise
 The packer (`scripts/pack_schedule.py`) enforces this; the logic here explains it.
 
 - **Subtract fixed commitments first.** Calendar events + off-calendar duties are removed before placing. Meetings also act as natural breaks.
-- **Intensity-aware ordering.** `deep` work goes in the earliest (freshest) slots by default; `shallow` batches later. Within an intensity tier the packer clusters by *activity* — derived from `stage` (build → verify → comms → admin) — then by pipeline order (research → … → deploy) as a low-priority tiebreak. Activity is never hand-tagged.
+- **Intensity-aware ordering.** `deep` work goes in the earliest (freshest) slots by default; `shallow` batches later. Within an intensity tier the packer clusters by *activity* — derived from the `stage` tag (build → verify → comms → admin) — then by pipeline order (research → … → deploy) as a low-priority tiebreak. Activity is never hand-tagged.
 - **Intensity is focus, not activity.** A deep code review or verifying coupled AI output is `deep` (it needs a fresh slot), even though its activity is "verify". Judge the focus a chunk demands, not what kind of work it is.
 - **No reliable peak.** Deep-early is a *default*, not a law — there's no fixed daily energy peak to assume. When you flag low/high energy at plan time, reorder accordingly (the `deep_first` config and per-chunk `intensity` are the levers).
 - **Block length.** Blocks run to ~`max_block_min` (~50). A chunk longer than one sitting stays *one* block with a pomo estimate so the in-app timer handles the mid-break — don't split one chunk into two calendar entries. Genuine deep-flow chunks may warrant a longer block; raise `max_block_min` for those rather than fragmenting.
@@ -142,7 +142,7 @@ Calibration works only because the original estimate (the immutable `~<n>m` line
 `est0_min`) is stored and never overwritten on re-blocking, and only if the focus
 timer is run.
 
-- Compare the `~<n>m` estimate to actual focus minutes (`focusSummaries` / `get_focuses_by_time`), grouped by **stage** (parsed from the title prefix). Over a few weeks, surface drift in one sentence during reconciliation ("backend chunks have run ~1.5× your estimate lately"). Stage is a better reference class than the old 15-value taxonomy — fewer classes fill with data faster.
+- Compare the `~<n>m` estimate to actual focus minutes (`focusSummaries` / `get_focuses_by_time`), grouped by **stage** (read from the stage tag; legacy title-prefix titles parse as a fallback). Over a few weeks, surface drift in one sentence during reconciliation ("backend chunks have run ~1.5× your estimate lately"). Stage is a better reference class than the old 15-value taxonomy — fewer classes fill with data faster.
 - `research` and `backend` are high-variance (a 20-min trace vs a multi-hour spike); report their drift cautiously.
 - This is reference-class forecasting: trust the pattern for that stage over the gut.
 - Keep it lightweight — a sentence, not bookkeeping. Without the timer, say so honestly and fall back to a gut-check; don't pretend to data you don't have.
