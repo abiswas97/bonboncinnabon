@@ -57,10 +57,10 @@ Conduct the interview per `references/interview.md` → Decompose (honor each qu
         single-vs-multi are confirmed.
 - [ ] 5. DECOMPOSE per context:
         - work → pick stages from contexts.work.pipeline (heuristics → Decomposition
-          (work)): 2–6 chunks, title = stage + qualifier, context: work, stage default
+          (work)): 2–6 chunks, title = verb-first action + stage tag, context: work, stage default
           intensity + ai_discount (override per chunk), set est0 now.
         - personal → 2–4 free-form session steps (no stage/intensity/ai_discount; title
-          per task-contract without the stage prefix; optional priority + light est0),
+          per task-contract (verb-first, no stage tag); optional priority + light est0),
           OR conclude it's a single action and do NOT decompose — offer to schedule/cue
           it instead.
 - [ ] 6. CONFIRM the proposed chunks (interview.md → Decompose, "Confirm, then write").

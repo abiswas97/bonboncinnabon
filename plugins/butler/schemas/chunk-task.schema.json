@@ -24,12 +24,12 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 70,
-      "description": "Stage label + short qualifier, sentence case. e.g. 'Backend: pricer API + carry-back'. No ticket prefix, no emoji, no trailing period. Code identifiers verbatim. The concrete first action lives in the body, not the title. See task-contract.md."
+      "description": "Verb-first next action naming the object, sentence case. e.g. 'Verify Neighborhood Location end to end on both pricers'. No stage prefix (stage is a tag), no ticket prefix, no emoji, no trailing period. Code identifiers verbatim. Conditions/detail live in the body or subtasks, not the title. See task-contract.md."
     },
     "stage": {
       "enum": ["research", "db", "backend", "frontend", "review", "address-comments", "qa", "deploy"],
       "$comment": "SSOT for these stage keys is config.yaml `contexts.work.pipeline`; keep in sync (also mirrored in packer-input.schema.json).",
-      "description": "Work context only. Pipeline stage (see config.yaml `contexts.work.pipeline`). The decomposition unit, the calibration reference class, and the SINGLE SOURCE for the derived activity bucket the packer clusters by. Not a TickTick tag. Intake picks applicable stages and may add ad-hoc chunks for off-pipeline work."
+      "description": "Work context only. Pipeline stage (see config.yaml `contexts.work.pipeline`). The decomposition unit, the calibration reference class, and the SINGLE SOURCE for the derived activity bucket the packer clusters by. Rendered as a TickTick stage TAG (a managed family parallel to intensity), NOT a title prefix. Intake picks applicable stages and may add ad-hoc chunks for off-pipeline work."
     },
     "intensity": {
       "enum": ["deep", "shallow"],
@@ -42,7 +42,7 @@
     "est0_min": {
       "type": "integer",
       "minimum": 1,
-      "description": "IMMUTABLE original focus-minute estimate, set once at intake and never overwritten on reschedule. Rendered in the description as `~<n>m` (not the old `est0:` label); the anchor for calibration (compare against actual focus time, grouped by stage from the title). Required for work chunks; optional for personal."
+      "description": "IMMUTABLE original focus-minute estimate, set once at intake and never overwritten on reschedule. Rendered in the description as `~<n>m` (not the old `est0:` label); the anchor for calibration (compare against actual focus time, grouped by the stage tag). Required for work chunks; optional for personal."
     },
     "priority": {
       "enum": ["must", "should", "want", null],

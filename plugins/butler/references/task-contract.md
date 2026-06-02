@@ -11,26 +11,31 @@ These rules are a hard contract. The JSON shapes are pinned in
 ## Title contract
 
 This contract applies to **every generated task, in every context** (work and
-personal). The `<Stage label>:` prefix below is **work-only** — personal titles use
-a lean imperative verb + object with NO stage prefix (e.g. "Book the dentist
-appointment", "Order cat food", "Renew passport") and still obey every other rule
-here: sentence case, no emoji, no trailing period, ≤70 chars, no slop.
+personal). Two shapes, by the task's role:
 
-Work form: **`<Stage label>: <short qualifier>`**
+- **Chunks (next actions) — verb-first.** A chunk title opens with a concrete,
+  physical-action verb and names the object it acts on: "Verify Neighborhood Location
+  end to end on both pricers", "Wire borrower-accept to the draft-invite tasks". The
+  verb is free choice, but it must name a *visible* action — never "think about",
+  "look into", or "deal with" (they fail the done-test). No `Stage:` prefix; the stage
+  rides a tag (`#backend`, `#qa` — see `template.md`).
+- **Parents (work units) — outcome nouns.** A parent is an outcome, not an action, so
+  it takes a noun/outcome title ("Rules-to-checklist mapping (spike)", "Draft
+  Application Invite (V1)"), NOT a forced verb. This is the GTD project-vs-action split.
 
-A chunk's title is its pipeline stage plus a short qualifier that disambiguates it
-in a flat list. The qualifier names *what* within the stage, not *how* — the
-concrete first action lives in the body (`Where:`), not the title.
+Every title, both shapes, obeys: sentence case, no emoji, no trailing period, ≤70
+chars (aim ≤50), no slop, code identifiers verbatim (`NeighborhoodLocation`,
+`POST /sessions`), no `[TICKET-123]` prefix (the id is metadata on the parent).
 
-- **Stage label** comes from the pipeline (`config.yaml`): Research, DB, Backend, Frontend, PR + AI review, Address PR comments, QA, Deploy. Use the human label, lightly.
-- **Qualifier** is a real, specific thing: a symbol, endpoint, component, area. Not "changes", "stuff", "the system". e.g. `Backend: pricer API + carry-back`, `QA: both portals, empty + set`, `Research: reproduce 500 on POST /sessions`.
-- A bare stage with no qualifier is allowed only when the ticket has exactly one chunk in that stage and the parent makes it unambiguous.
-- **Length:** aim ≤ 50 characters, hard ceiling 70. If the qualifier won't fit, it's carrying body content — move it to `Where:`/`Done:`.
-- **Casing:** sentence case in the qualifier. Not Title Case (itself an AI tell).
-- **Punctuation:** no trailing period. No emoji, ever. No `[TICKET-123]` prefix — the id is metadata (the parent carries it). Preserve code identifiers verbatim (`NeighborhoodLocation`, `POST /sessions`).
+**Name the object; don't hollow the title.** The title keeps the object and the one
+disambiguating when/where cue you need to act ("on both pricers", "on dev"). A bare
+verb or bare stage ("Verify", "QA") re-creates the vague-item paralysis the verb is
+meant to cure. Everything else — the test-matrix, conditions, acceptance criteria,
+why, links — lives in the body or in subtasks, never crammed into the title.
 
-Qualifier verbs, when one helps (pick the precise one): trace, reproduce, wire,
-add, remove, rename, extract, refactor, migrate, backfill, review, address, deploy.
+Verbs that tend to fit (pick the precise one, not a fixed list): verify, trace,
+reproduce, wire, add, remove, rename, extract, refactor, migrate, backfill, decide,
+design, define, review, address, merge, deploy.
 
 ## Description contract
 
@@ -52,7 +57,7 @@ Done when <one observable signal>.
 - **`~<n>m`** — the estimate, and the immutable calibration anchor (set once at intake, never overwritten). Replaces the old `est0:` label.
 - **Link** — `[<TICKET> ↗](url)` to the source ticket; detail/AC live there. Personal chunks (no ticket) omit the link.
 
-Stage is carried by the title prefix (`Backend: …`), not the body. Do NOT write
+Stage is carried by a stage tag (`#backend`), not the title or the body. Do NOT write
 `stage` or `ai_discount` into the description. Parent work units use the metadata
 header instead (see `template.md`).
 
@@ -78,15 +83,15 @@ prefix or emoji.
 
 ## Before / after
 
-| Slop | Lean (stage: qualifier) |
+| Slop | Lean (verb-first; stage = tag) |
 |---|---|
-| Dive deep into understanding the current field wiring to ensure a robust foundation | Research: trace NeighborhoodLocation reads |
-| Seamlessly integrate and wire up the new analytics service to enhance tracking | Backend: analytics client in checkout submit |
-| Address and resolve all the valuable feedback on the pull request comprehensively | Address PR comments: #482 |
-| Perform thorough and meticulous QA to validate, verify, and confirm the feature | QA: signup on Safari iOS |
-| Carefully orchestrate the deployment of the latest changes for a seamless rollout | Deploy: v2.3 to prod behind flag |
-| Investigate and delve into the root cause of the intricate session bug | Research: reproduce 500 on POST /sessions |
-| Leverage best practices to refactor and streamline the auth module for scalability | Backend: extract token refresh from useAuth() |
+| Dive deep into understanding the current field wiring to ensure a robust foundation | Trace NeighborhoodLocation reads · `#research` |
+| Seamlessly integrate and wire up the new analytics service to enhance tracking | Wire the analytics client into checkout submit · `#backend` |
+| Address and resolve all the valuable feedback on the pull request comprehensively | Address PR 482 review comments · `#address-comments` |
+| Perform thorough and meticulous QA to validate, verify, and confirm the feature | Verify signup on Safari iOS · `#qa` |
+| Carefully orchestrate the deployment of the latest changes for a seamless rollout | Deploy v2.3 to prod behind the flag · `#deploy` |
+| Investigate and delve into the root cause of the intricate session bug | Reproduce the 500 on POST /sessions · `#research` |
+| Leverage best practices to refactor and streamline the auth module for scalability | Extract token refresh from useAuth() · `#backend` |
 
 Sources behind this contract: Wikipedia "Signs of AI writing" (the overused-vocabulary
 cluster, hedging, rule-of-three, em-dash tell); GTD next-action guidance (verb-first,

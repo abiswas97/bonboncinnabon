@@ -2,6 +2,21 @@
 
 All notable changes to butler. Versioning follows [SemVer](https://semver.org).
 
+## [0.7.0] - 2026-06-02
+
+Verb-first task titles; stage moves to a tag.
+
+### Changed
+- **Chunk titles are now verb-first next actions**, replacing the `Stage: qualifier` prefix. A chunk opens with a concrete physical-action verb and names the object (e.g. `Verify Neighborhood Location end to end on both pricers`). Free verb choice, but it must name a visible action (no "think about / look into / deal with"). **Reverses 0.6.0's "stage stays in the title prefix"** — validated by research (GTD, bullet-journal, productivity forums, ADHD task-initiation; McCrea et al. 2008 on concrete construal → earlier initiation).
+- **Stage moves from the title prefix to a tag** (`#research`…`#deploy`), a managed family parallel to `#intensity`. Calibration groups by the stage tag (legacy title-prefix titles parse as a fallback); the packer still reads stage from packer-input at plan time, so ordering is unchanged.
+- **Parents stay outcome nouns, not verb-first** (the GTD project-vs-action split). The title keeps the object and one disambiguating cue; the test-matrix / conditions / AC / links move to the body or subtasks.
+- One-time setup gains the `#stage` tag family.
+
+### Notes
+- References + config + schema docs only (`task-contract.md`, `heuristics.md`, `template.md`, `config.yaml`, `chunk-task.schema.json`). No code; packer + schema tests unchanged.
+- The live ING-165 QA chunk + the three LOS spike trees were migrated to the new convention as the reference example.
+- Spec: `task-titles` (new) + `task-contexts` (modified). See `openspec/changes/butler-verb-first-task-titles`.
+
 ## [0.6.1] - 2026-06-02
 
 ### Changed

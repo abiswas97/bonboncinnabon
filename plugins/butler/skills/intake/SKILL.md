@@ -66,13 +66,13 @@ STOP and resolve before creating ANY task:
 
 User: "linear ticket ABC-123, I want to start it today." A 1-point change that
 adds a field to two forms and wires it to a pricing API. Pick stages (no `db` —
-the field already exists). Each line is `stage: qualifier` — `intensity`, ai `discount`:
+the field already exists). Each chunk is a verb-first action + a stage tag (with `intensity`, ai `discount`):
 
-- Research: trace where the field is read + pricer→API flow — `deep`, ai `none`.
-- Frontend: dropdown on both forms + carry-over — `shallow`, ai `discounted`.
-- Backend: send value to pricing API (empty-safe) + carry-back — `deep`, ai `discounted`.
-- Submit PR + AI-assisted review — `deep`, ai `none` (the review stage; absorbs AI-output verification).
-- QA: both forms, set + empty, end to end — `shallow`, ai `none`.
+- Trace where the field is read + the pricer→API flow — `#research`, `deep`, ai `none`.
+- Add the dropdown to both forms + carry-over — `#frontend`, `shallow`, ai `discounted`.
+- Wire the value into the pricing API (empty-safe) + carry-back — `#backend`, `deep`, ai `discounted`.
+- Submit the PR + AI-assisted review — `#review`, `deep`, ai `none` (absorbs AI-output verification).
+- Verify the new field end to end on both forms — `#qa`, `shallow`, ai `none`.
 
 The whole tree is created; `butler:plan` schedules only the chosen day's chunks.
 
