@@ -1,0 +1,49 @@
+openspec/changes/butler-lean-task-descriptions/specs/task-descriptions/spec.md
+  s_c952712fa6cac1::t_4d9b984d3658e8 1-74
+openspec/changes/butler-lean-task-descriptions/tasks.md
+  s_c952712fa6cac1::t_75b377f99d2e93 1-2,6-8,12-14,16-18,22-24,27-29
+  s_c952712fa6cac1::t_3b79ff47d47630 3-5,9-11,15,19-21,25-26
+  ai_agent 30-33
+plugins/butler/.claude-plugin/plugin.json
+  s_c952712fa6cac1::t_2caf7d0131416b 3
+openspec/changes/butler-lean-task-descriptions/proposal.md
+  s_c952712fa6cac1::t_26261242715d0e 1-57
+plugins/butler/schemas/chunk-task.schema.json
+  s_c952712fa6cac1::t_cc68dbf15af2e9 45
+  s_c952712fa6cac1::t_47a01813131c58 52-55
+plugins/butler/CHANGELOG.md
+  s_c952712fa6cac1::t_ab5d39a95c28de 5-19
+.claude-plugin/marketplace.json
+  s_c952712fa6cac1::t_87266ad3eef2f0 34
+openspec/changes/butler-lean-task-descriptions/design.md
+  s_c952712fa6cac1::t_bdb61ed15c4898 1-88
+plugins/butler/references/template.md
+  s_c952712fa6cac1::t_dc945cad4ab3a5 42,44-47,49-50
+  s_c952712fa6cac1::t_e629aea03c4c03 61
+  s_c952712fa6cac1::t_9e5c4bed1b61f4 78
+  s_c952712fa6cac1::t_a700b19f70e420 143
+openspec/changes/butler-lean-task-descriptions/.openspec.yaml
+  s_c952712fa6cac1::t_a2993e1da7f7e2 1-2
+CHANGELOG.md
+  s_c952712fa6cac1::t_bfcdc41ec73ae5 13
+plugins/butler/references/heuristics.md
+  s_c952712fa6cac1::t_c7fc522901831b 140-142,144-145
+plugins/butler/references/task-contract.md
+  s_c952712fa6cac1::t_5dd42d0a36eb9a 37-39,41,44-47,50-57,59-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "1af860c066482c600ec5f1f9655743d7de50bcb1",
+  "prompts": {},
+  "sessions": {
+    "s_c952712fa6cac1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "006da2fd-66c1-44a3-b2b7-9004655c433e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
