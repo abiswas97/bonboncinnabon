@@ -1,0 +1,30 @@
+CHANGELOG.md
+  s_c952712fa6cac1::t_1a1f8dd93306b8 20
+.claude-plugin/marketplace.json
+  s_c952712fa6cac1::t_574dc84f97330e 33
+plugins/butler/CHANGELOG.md
+  s_c952712fa6cac1::t_5c831d28630dd2 5-11
+plugins/butler/schemas/config.schema.json
+  s_c952712fa6cac1::t_812b637165ad43 4
+plugins/butler/commands/setup.md
+  s_c952712fa6cac1::t_c8db0acf9d8c64 1,3-11
+  s_c952712fa6cac1::t_bc9e4c94554641 2
+plugins/butler/.claude-plugin/plugin.json
+  s_c952712fa6cac1::t_33b98e9115983c 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "46a3411f59eb0386a7f61cb38c7663b79eb19404",
+  "prompts": {},
+  "sessions": {
+    "s_c952712fa6cac1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "006da2fd-66c1-44a3-b2b7-9004655c433e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": null
+    }
+  }
+}
