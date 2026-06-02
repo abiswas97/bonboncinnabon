@@ -1,0 +1,21 @@
+openspec/specs/structured-interview/spec.md
+  s_c952712fa6cac1::t_555f8312a095a8 83-103
+  s_c952712fa6cac1::t_9d096ca6fdeaa1 14-22
+  s_c952712fa6cac1::t_6162413fdeee08 40-54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "0bd5fdce6f97a2b8655aa2e477eb0813e24836fb",
+  "prompts": {},
+  "sessions": {
+    "s_c952712fa6cac1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "006da2fd-66c1-44a3-b2b7-9004655c433e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
