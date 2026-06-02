@@ -1,0 +1,21 @@
+openspec/specs/global-config/spec.md
+  s_c952712fa6cac1::t_f623aab4d6aa3a 1-45
+openspec/specs/setup-skill/spec.md
+  s_c952712fa6cac1::t_76f3f6528dba36 1-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "7873f44a9fc4128537d88226dd7538d9c3272d65",
+  "prompts": {},
+  "sessions": {
+    "s_c952712fa6cac1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "006da2fd-66c1-44a3-b2b7-9004655c433e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
