@@ -1,0 +1,19 @@
+plugins/butler/scripts/test_chunk_schema.py
+  s_c952712fa6cac1::t_daa37d1832f6ad 1-138
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "c393c8992a0411be7bd1c42e6d40c4fb0f6678a6",
+  "prompts": {},
+  "sessions": {
+    "s_c952712fa6cac1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "006da2fd-66c1-44a3-b2b7-9004655c433e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
