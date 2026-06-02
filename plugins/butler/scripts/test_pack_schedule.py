@@ -247,6 +247,35 @@ class CoverageGaps(unittest.TestCase):
         self.assertEqual(ids(res["scheduled"]), ["a", "b"])
         self.assertEqual(res["breaks"], [])
 
+    def test_overlapping_commitments_collapse(self):
+        # True overlap (not just back-to-back): 14:00-15:00 and 14:30-16:00 merge
+        # to a single 14:00-16:00 busy span, so free time starts at 16:00.
+        res = ps.pack(make_input(
+            [chunk("a", 30)],
+            busy=[busy("14:00", "15:00"), busy("14:30", "16:00")],
+        ))
+        self.assertTrue(res["scheduled"][0]["block"]["start"].endswith("16:00:00+05:30"))
+
+    def test_unfittable_must_reason_is_no_slot(self):
+        # A 90-min must with only 40-min gaps overflows specifically as NO_SLOT
+        # (the cap is high, so it is not OVER_CAP, and free time exists).
+        res = ps.pack(make_input(
+            [chunk("big_must", 90, priority="must")],
+            busy=[busy("14:40", "15:40"), busy("16:20", "17:20"), busy("18:00", "21:00")],
+            config={"focus_cap_min": 500, "day_slack_pct": 0},
+        ))
+        reasons = {o["id"]: o["reason"] for o in res["overflow"]}
+        self.assertEqual(reasons.get("big_must"), ps.NO_SLOT)
+
+    def test_off_day_commitment_ignored(self):
+        # A commitment on a different calendar day must not subtract from today's
+        # window — full-datetime comparison places it entirely outside.
+        off_day = {"title": "Tomorrow", "start": "2026-06-03T14:00:00+05:30",
+                   "end": "2026-06-03T16:00:00+05:30"}
+        res = ps.pack(make_input([chunk("a", 30)], busy=[off_day]))
+        self.assertEqual(ids(res["scheduled"]), ["a"])
+        self.assertTrue(res["scheduled"][0]["block"]["start"].endswith("14:00:00+05:30"))
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
