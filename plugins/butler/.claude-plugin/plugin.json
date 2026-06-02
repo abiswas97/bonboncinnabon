@@ -1,7 +1,7 @@
 {
   "name": "butler",
-  "version": "0.2.0",
-  "description": "Personal work planner: turns a task into human, session-sized chunks and time-boxes today or tomorrow in TickTick, scheduling around Google Calendar. Built for executive-function support.",
+  "version": "0.3.0",
+  "description": "Work and personal task planner: breaks a task into human, session-sized chunks and time-boxes the day in TickTick around Google Calendar. Work gets packed focus blocks; personal gets light reminders. Executive-function support.",
   "author": {
     "name": "Avi Biswas",
     "email": "avishek.biswas.1997@gmail.com"

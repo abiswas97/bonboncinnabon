@@ -3,52 +3,65 @@
 # list_tags); ids differ per account and change, so never hard-code them.
 
 timezone: "Asia/Kolkata"
-work_window: { start: "14:00", end: "21:00" }   # core focus window, local time
 
-work_project: "Plate"          # TickTick list holding active work units + chunks
-planning_project: "Ops"        # where the planning ritual lives
+# Cross-context infrastructure — owned by no single context.
+planning_project: "Ops"              # where the daily planning ritual lives
+priority_tags: [must, should, want]  # daily commitment layer (both contexts)
+ai_tag: "ai"                         # marks every butler-generated task (filterable)
+parked_tag: "parked"                 # no-blame "park" route during reconcile
 
-priority_tags: [must, should, want]              # daily commitment layer
-intensity_tags: [deep, shallow]                  # freshness axis used for ordering
-recharge_tag: "recharge"
-
-# Decomposition pipeline — the MENU of stages intake picks from. Skip stages that
-# don't apply; merge adjacent thin ones; a valid plan can be one stage. Hybrid:
-# append ad-hoc chunks for off-pipeline work. Each stage carries defaults;
-# `intensity` and `ai_discount` are overridable per chunk. `activity` (derived,
-# never hand-tagged) clusters like work in the packer. Order matters (research
-# first). Keep the stage keys in sync with schemas/chunk-task.schema.json.
-pipeline:
-  - { stage: research,         label: "Research / spec",     intensity: deep,    ai_discount: none,       activity: build }
-  - { stage: db,               label: "DB changes",          intensity: deep,    ai_discount: discounted, activity: build }
-  - { stage: backend,          label: "Backend",             intensity: deep,    ai_discount: discounted, activity: build }
-  - { stage: frontend,         label: "Frontend",            intensity: shallow, ai_discount: discounted, activity: build }
-  - { stage: review,           label: "PR + AI review",      intensity: deep,    ai_discount: none,       activity: verify }
-  - { stage: address-comments, label: "Address PR comments", intensity: shallow, ai_discount: none,       activity: comms }
-  - { stage: qa,               label: "QA / verify",         intensity: shallow, ai_discount: none,       activity: verify }
-  - { stage: deploy,           label: "Deploy",              intensity: shallow, ai_discount: none,       activity: admin }
-ai_tag: "ai"                   # marks every butler-generated task (filterable)
-parked_tag: "parked"           # no-blame "park" route during reconcile
-
-# executes_with_ai gates the selective AI discount. If false, estimate without it.
-executes_with_ai: true
-
-capacity:
-  focus_cap_min: 270           # ~4.5h true focus/day inside a 7h window
-  max_block_min: 50            # cadence; longer chunks stay one block w/ a pomo estimate
-  transition_min: 10
-  recharge_after_blocks: 2
-  recharge_min: 15
-  day_slack_pct: 20            # leave ~20% of free time unscheduled
-  max_musts: 3                 # more than this is a flag, not a plan
-  deep_first: true             # default; no fixed daily peak, override at plan time
-  pomo_len_min: 25
-
-points_calibration:            # complexity/uncertainty envelope, NOT a time budget
-  "1": "~a day end-to-end (groom->deploy)"
-  "2": "~two days"
-  "3": "multi-day; plan to re-plan"
-  "5": "a week-ish or less; expect a spike + several re-plans"
+# Contexts — a task's context is DERIVED from its TickTick project, then CONFIRMED
+# with the user (never silent). A project not listed under any context → ask which
+# one. A chunk with no `context` field is treated as `work` (0.2.0 back-compat).
+# Each context owns its decomposition style, axes, and scheduling config.
+contexts:
+  work:
+    projects: [Plate, "Promo Track"]   # membership: which lists count as "work"
+    default_project: "Plate"           # where intake creates a new unit; MUST be a member of `projects`
+    decomposition: pipeline            # chunks are stages from `pipeline` below
+    axes: [stage, intensity, ai_discount]
+    scheduling: packed                 # full packer inside the focus window
+    work_window: { start: "14:00", end: "21:00" }   # core focus window, local time
+    intensity_tags: [deep, shallow]    # freshness axis used for ordering
+    recharge_tag: "recharge"
+    executes_with_ai: true             # gates the selective AI discount; if false, estimate without it
+    # Decomposition pipeline — the MENU of stages intake picks from. Skip stages that
+    # don't apply; merge adjacent thin ones; a valid plan can be one stage. Hybrid:
+    # append ad-hoc chunks for off-pipeline work. Each stage carries defaults;
+    # `intensity` and `ai_discount` are overridable per chunk. `activity` (derived,
+    # never hand-tagged) clusters like work in the packer. Order matters (research
+    # first). Keep the stage keys in sync with schemas/chunk-task.schema.json.
+    pipeline:
+      - { stage: research,         label: "Research / spec",     intensity: deep,    ai_discount: none,       activity: build }
+      - { stage: db,               label: "DB changes",          intensity: deep,    ai_discount: discounted, activity: build }
+      - { stage: backend,          label: "Backend",             intensity: deep,    ai_discount: discounted, activity: build }
+      - { stage: frontend,         label: "Frontend",            intensity: shallow, ai_discount: discounted, activity: build }
+      - { stage: review,           label: "PR + AI review",      intensity: deep,    ai_discount: none,       activity: verify }
+      - { stage: address-comments, label: "Address PR comments", intensity: shallow, ai_discount: none,       activity: comms }
+      - { stage: qa,               label: "QA / verify",         intensity: shallow, ai_discount: none,       activity: verify }
+      - { stage: deploy,           label: "Deploy",              intensity: shallow, ai_discount: none,       activity: admin }
+    capacity:
+      focus_cap_min: 270           # ~4.5h true focus/day inside a 7h window
+      max_block_min: 50            # cadence; longer chunks stay one block w/ a pomo estimate
+      transition_min: 10
+      recharge_after_blocks: 2
+      recharge_min: 15
+      day_slack_pct: 20            # leave ~20% of free time unscheduled
+      max_musts: 3                 # more than this is a flag, not a plan
+      deep_first: true             # default; no fixed daily peak, override at plan time
+      pomo_len_min: 25
+    points_calibration:            # complexity/uncertainty envelope, NOT a time budget
+      "1": "~a day end-to-end (groom->deploy)"
+      "2": "~two days"
+      "3": "multi-day; plan to re-plan"
+      "5": "a week-ish or less; expect a spike + several re-plans"
+  personal:
+    projects: [Life, Photo, Finance, Relationships, Medical, Projects]
+    decomposition: free-form       # 2-4 session-sized steps, or none for a single action
+    axes: [priority]               # priority + estimate + reminder only; no stage/intensity/ai_discount
+    scheduling: light              # a due time + reminder, NEVER a packed focus block.
+                                   # On defer, the skill derives a time from a live read of the
+                                   # target day (TickTick timed items + Calendar) — no fixed default time.
 
 ritual:
   habit_name: "Plan the day"   # the daily cue that builds the rhythm

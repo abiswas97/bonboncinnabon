@@ -2,6 +2,22 @@
 
 All notable changes to butler. Versioning follows [SemVer](https://semver.org).
 
+## [0.3.0] - 2026-06-02
+
+### Added
+- **Personal contexts.** `config.yaml` now defines `contexts` (work | personal). A task's context is derived from its TickTick project and confirmed with the user (never silent); an unmapped project prompts. Work keeps the full pipeline model; personal drops the `stage`/`intensity`/`ai_discount` axes and carries only `priority` + `est0` + a reminder.
+- **`butler:decompose`** — break down a task that ALREADY exists in TickTick, interview-first and context-aware. Resolves the task by name/search or pick-from-undecomposed, derives + confirms context, augments an already-split task without duplicating, then splits work into pipeline stages or personal into free-form steps (or not at all). The existing task becomes the parent.
+- **Light personal scheduling.** `plan` schedules personal items as a due time + reminder (never a packed focus block). On defer, the time is derived from a live read of the day — the day's existing TickTick timed items + Calendar — placed in an open slot. Work and personal are shown as separated sections.
+- `chunk-task.schema.json`: a `context` enum and a `reminder` object, with conditional axes — `stage`/`intensity`/`ai_discount`/`est0_min` required only for work and forbidden for personal (`if`/`then`/`else`).
+
+### Changed
+- **The intake interview is now a HARD GATE** (was mandated but skippable): intake and decompose must confirm intent / prior progress / single-vs-multi-step before producing any tree, with an explicit "do not proceed until X" red-flags block.
+- Folded work scheduling config (`work_window`, `pipeline`, `capacity`, `intensity_tags`, `recharge_tag`, `executes_with_ai`, `points_calibration`) under `contexts.work`; renamed `work_project` → `contexts.work.default_project`. Cross-context infrastructure (`planning_project`, `priority_tags`, `ai_tag`, `parked_tag`, `ritual`) stays top-level. The packer script and its 19 tests are unchanged.
+- `plan` / `reschedule` are context-aware: work via the packer (unchanged), personal as light reminders not repacked.
+
+### Compatibility
+- A chunk with no `context` field is treated as `work` — existing 0.2.0 trees (e.g. ING-165) work unchanged.
+
 ## [0.2.0] - 2026-06-01
 
 ### Changed

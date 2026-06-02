@@ -3,6 +3,11 @@
 Marketplace-level changes: plugin additions, structure, and conventions. Each
 plugin keeps its own changelog (e.g. `plugins/butler/CHANGELOG.md`).
 
+## 2026-06-02
+
+### Added
+- **butler** `0.3.0` — personal contexts (work | personal) + `butler:decompose` skill; intake interview hard-gate; context-aware `plan`/`reschedule` (work packed, personal light reminders). Release tag `butler--v0.3.0`. See `plugins/butler/CHANGELOG.md`.
+
 ## 2026-06-01
 
 ### Added

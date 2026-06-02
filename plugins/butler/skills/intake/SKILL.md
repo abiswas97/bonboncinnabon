@@ -1,6 +1,6 @@
 ---
 name: intake
-description: Use when the user names an explicit Linear ticket ID (e.g. "linear ticket ING-165, I want to do X") or describes a new piece of work and wants it broken down — "break this down", "decompose", "scope this", "how should I approach X", "turn this into tasks". Builds a durable human task tree in TickTick. Never queries Linear without an explicit ticket ID.
+description: Use when the user names an explicit Linear ticket ID (e.g. "linear ticket ING-165, I want to do X") or describes a NEW piece of work not yet in TickTick and wants it broken down — "break this down", "scope this", "how should I approach X", "turn this into tasks". Builds a durable human task tree in TickTick. For a task that ALREADY exists in TickTick, use butler:decompose instead. Never queries Linear without an explicit ticket ID.
 ---
 
 # Intake new work
@@ -17,11 +17,21 @@ Load deferred MCP tools (TickTick; Linear only if an ID is named) with tool_sear
 
 ## Core rules
 
-1. **Never assume a ticket.** Pull Linear only when the user names an ID this turn; else use the described work.
-2. **Idempotency first.** Before creating anything, search work_project for a parent whose `content` has `Ticket: <ID>`. If found → resume that tree (hand to `butler:plan`), do NOT create a duplicate.
-3. **Points are complexity, not time.** Use the envelope to shape the tree (more grooming/spike chunks, more slack); never divide into hours.
-4. **Lean, human tasks.** Follow `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md`. Tag every created task `ai`.
-5. **Confirm before writing.**
+1. **Interview is a HARD GATE.** Do NOT decompose or write anything until you have run the interview and confirmed intent / prior progress / single-vs-multi-step (`${CLAUDE_PLUGIN_ROOT}/references/interview.md` → Hard gate). A skimmed interview is a defect, not a shortcut.
+2. **Never assume a ticket.** Pull Linear only when the user names an ID this turn; else use the described work.
+3. **Idempotency first.** Before creating anything, search the work context's `default_project` for a parent whose `content` has `Ticket: <ID>`. If found → resume that tree (hand to `butler:plan`), do NOT create a duplicate.
+4. **Points are complexity, not time.** Use the envelope to shape the tree (more grooming/spike chunks, more slack); never divide into hours.
+5. **Lean, human tasks.** Follow `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md`. Tag every created task `ai`.
+6. **Confirm before writing.**
+
+## Red flags — do not proceed until cleared
+
+STOP and resolve before creating ANY task:
+
+- Haven't confirmed what "done" looks like → ask, don't assume.
+- Haven't confirmed fresh-start vs already-part-done → already-done work is not re-created.
+- Haven't confirmed multi-step vs single action → a single action is not shredded into a tree.
+- About to decompose straight from the ticket/description without the interview → that is exactly the skip this gate exists to prevent.
 
 ## Procedure
 
@@ -30,15 +40,19 @@ Load deferred MCP tools (TickTick; Linear only if an ID is named) with tool_sear
         (references/template.md → Linear): estimate.value for Points; AC from the
         description "Acceptance Criteria" section; gitBranchName; url; labels (ignore v* tags).
         NEVER fetch Linear without an explicit ID.
-- [ ] 2. IDEMPOTENCY CHECK: search work_project for an existing parent with `Ticket: <ID>`.
-        If found, summarize the existing tree and route to `butler:plan` instead of creating.
-- [ ] 3. Interview for the human shape and what to land first
-        (references/interview.md → Intake). Surface unknowns, blockers, prior progress.
-- [ ] 4. Decompose by PICKING STAGES from the config `pipeline` (references/heuristics.md →
-        Decomposition): skip stages that don't apply; merge thin ones to land in 2–6; add ad-hoc
-        chunks for off-pipeline work. Title = stage + short qualifier. Each chunk inherits its
-        stage's default intensity + ai_discount (override per chunk); set est0 now. Include a
-        `review` stage when there are `discounted` build stages (it absorbs AI-output verification).
+- [ ] 2. IDEMPOTENCY CHECK: search the work context's `default_project` for an existing parent
+        with `Ticket: <ID>`. If found, summarize the existing tree and route to `butler:plan`
+        instead of creating.
+- [ ] 3. HARD GATE — interview for the human shape and what to land first
+        (references/interview.md → Hard gate, then Intake). Confirm intent / prior progress /
+        single-vs-multi-step and surface unknowns and blockers. Do NOT proceed to step 4 until
+        this is cleared; a single-action task is not decomposed.
+- [ ] 4. Decompose by PICKING STAGES from `contexts.work.pipeline` (references/heuristics.md →
+        Decomposition (work)): skip stages that don't apply; merge thin ones to land in 2–6; add
+        ad-hoc chunks for off-pipeline work. Title = stage + short qualifier. Each chunk is
+        `context: work` and inherits its stage's default intensity + ai_discount (override per
+        chunk); set est0 now. Include a `review` stage when there are `discounted` build stages
+        (it absorbs AI-output verification).
 - [ ] 5. Build the tree (references/template.md, schemas/parent-task + chunk-task): create the
         parent (kind TEXT, metadata in `content`), capture its id, then create ALL chunks as
         child tasks with parentId set. RE-READ to confirm childIds linked (create response is stale).

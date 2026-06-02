@@ -5,18 +5,40 @@ The reasoning the skill applies. Prefer judgment over rigid rules — these expl
 
 ## Contents
 
-- Decomposition — work into startable chunks
+- Contexts — derive from project, confirm, then route (work vs personal)
+- Decomposition (work) — work into startable pipeline-stage chunks
+- Personal — free-form steps (or none) + light scheduling
 - Estimation — points as complexity, the AI discount, paired verification
 - Buffering — where the slack actually lives (read this; it's easy to double-count)
 - Time-blocking — placing the target day's chunks
 - Reconciliation — capped, no-blame
 - Calibration — what TickTick can and can't tell you
 
-## Decomposition — pick stages from the pipeline
+## Contexts — derive, then confirm
 
-Chunks are **pipeline stages**, not freeform steps. The `pipeline` in `config.yaml`
-is the menu (research → db → backend → frontend → review → address-comments → qa →
-deploy), each carrying default `intensity`, `ai_discount`, and a derived `activity`.
+Every task belongs to a **context**, defined in `config.yaml` under `contexts`. The
+context decides how a task is decomposed and scheduled. Resolve it the same way
+everywhere (intake, decompose, plan):
+
+- **Derive from the project.** Look up the task's TickTick project in `contexts.<name>.projects`. `Plate`/`Promo Track` → work; `Life`/`Photo`/`Finance`/`Relationships`/`Medical`/`Projects` → personal.
+- **Confirm, never silent.** State the derived context and confirm in one line ("This is in Life, so personal — treat it as personal?"). Proceed only on a yes.
+- **Unmapped project → ask.** A project listed under no context is not a guess to make; ask which context applies.
+- **Missing context on an existing chunk = work.** Chunks created before 0.3.0 have no `context` field; read them as work (full pipeline model). Applies on every read.
+
+What each context changes:
+
+| | work | personal |
+|---|---|---|
+| decompose | pipeline stages (research→deploy) | free-form steps, or none |
+| axes | stage, intensity, ai_discount, est0 | priority, est0, reminder |
+| schedule | packed (focus window) | light (due time + reminder) |
+
+## Decomposition (work) — pick stages from the pipeline
+
+Work chunks are **pipeline stages**, not freeform steps. The `pipeline` in
+`config.yaml` (under `contexts.work`) is the menu (research → db → backend →
+frontend → review → address-comments → qa → deploy), each carrying default
+`intensity`, `ai_discount`, and a derived `activity`.
 This is deliberate: a predictable template removes the "what are my chunks?"
 decision every ticket, which is the executive-function win. The AI's guessing moves
 out of the title and into the body, where it's lower-stakes and easy to correct.
@@ -32,6 +54,16 @@ out of the title and into the body, where it's lower-stakes and easy to correct.
 The Linear ticket's acceptance criteria are **input** to filling each stage's body,
 never mirrored as chunks.
 
+## Personal — free-form steps (or none) + light scheduling
+
+Personal tasks are NOT shredded into a pipeline. Default to **not** decomposing.
+
+- **Free-form, 2–4 steps, only if multi-step.** When a personal task genuinely has separable sittings ("plan the trip" = pick dates → book flights → book stay), break it into 2–4 concrete steps. No stage/intensity/ai_discount — just a title, optional priority (must/should/want), optional light `est0`, and a reminder when scheduled.
+- **Single action → don't decompose.** Most personal tasks ("book the dentist") are one action. Leave them whole and offer to schedule/cue. Over-shredding a personal errand is the failure mode; resist it.
+- **Titles still follow the task contract**, minus the `stage:` prefix: lean imperative verb + object, sentence case, no emoji, no trailing period, ≤70.
+- **Light scheduling — no packer.** A personal chunk never enters packer input. It gets a `dueDate` + a `reminders` TRIGGER (see template.md), not a focus block. It does not consume `focus_cap_min`, has no intensity/`deep_first` ordering, and doesn't contend for the work window.
+- **Choosing "when".** Ask the user. On defer, derive a sensible time from a LIVE read of the target day — the day's existing TickTick timed items (`list_undone_tasks_by_date`) plus Calendar events — and place the reminder in an open slot that doesn't stack on an existing anchor or collide with a commitment. There is no fixed default time.
+
 ## Estimation — points as complexity, the AI discount
 
 **Points are complexity, effort, and uncertainty — never a time budget.** Use the
@@ -45,8 +77,8 @@ history for that **stage** (see Calibration) — not on the gut alone, which is
 exactly the faculty time-blindness impairs. `est0` is set at intake and never
 overwritten.
 
-**The selective AI discount** seeds from the stage default (`pipeline` in config)
-and is overridable per chunk:
+**The selective AI discount** seeds from the stage default (`contexts.work.pipeline`
+in config) and is overridable per chunk:
 
 - **`discounted`** (AI compresses): the build stages — `db`/`backend`/`frontend` — when on code you already understand; mechanical refactors, codemods, boilerplate.
 - **`none` / `premium`** (AI doesn't reliably help, and on unfamiliar/coupled code can slow an experienced dev — METR 2025): `research` (ambiguous-spec resolution, cross-system tracing), `review` (verifying AI output is the hidden cost), decisions needing people.

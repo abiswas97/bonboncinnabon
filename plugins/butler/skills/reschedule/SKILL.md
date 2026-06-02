@@ -18,20 +18,23 @@ Load deferred MCP tools (TickTick, Google Calendar) with tool_search.
 
 1. **From now.** Placement never starts before the current time.
 2. **Schedule only today.** Don't spill into tomorrow's blocks; overflow cascades to unscheduled-for-later, surfaced explicitly.
-3. **Never silently drop a must.** A must that can't fit surfaces as overflow with a warning.
-4. **Confirm before moving blocks.**
+3. **Work only in the packer.** Only WORK blocks are repacked from now. PERSONAL items keep their reminders (adjust a time only if the user asks); they never enter the packer. A chunk with no context is work.
+4. **Never silently drop a must.** A must that can't fit surfaces as overflow with a warning.
+5. **Confirm before moving blocks.**
 
 ## Procedure
 
 ```
 - [ ] 1. Establish "now" and what's done vs left today (ask briefly).
-- [ ] 2. Re-read today's remaining chunks from TickTick (scheduled-but-not-done).
+- [ ] 2. Re-read today's remaining WORK chunks from TickTick (scheduled-but-not-done).
+        Note any personal reminders still ahead today — these are kept as-is, not repacked.
 - [ ] 3. Re-read the remaining fixed commitments from Calendar (those after now).
-- [ ] 4. Build packer input with now = current time (schemas/packer-input.schema.json),
-        then run: python3 ${CLAUDE_PLUGIN_ROOT}/scripts/pack_schedule.py input.json
+- [ ] 4. Build packer input with now = current time (schemas/packer-input.schema.json) from
+        the WORK chunks only, then run: python3 ${CLAUDE_PLUGIN_ROOT}/scripts/pack_schedule.py input.json
         Review scheduled / overflow / summary.warnings. Do NOT rewrite est0 — it is immutable.
-- [ ] 5. On confirmation, update today's blocks in TickTick (batch_update_tasks for moves):
-        new startDate/dueDate; keep tags, parentId, est0, focusSummaries intact.
+- [ ] 5. On confirmation, update today's WORK blocks in TickTick (batch_update_tasks for moves):
+        new startDate/dueDate; keep tags, parentId, est0, focusSummaries intact. Leave personal
+        reminders untouched unless the user asked to shift one (then just move its due/reminder).
 - [ ] 6. State the next physical action from now.
 ```
 

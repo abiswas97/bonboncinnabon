@@ -10,7 +10,13 @@ These rules are a hard contract. The JSON shapes are pinned in
 
 ## Title contract
 
-Form: **`<Stage label>: <short qualifier>`**
+This contract applies to **every generated task, in every context** (work and
+personal). The `<Stage label>:` prefix below is **work-only** — personal titles use
+a lean imperative verb + object with NO stage prefix (e.g. "Book the dentist
+appointment", "Order cat food", "Renew passport") and still obey every other rule
+here: sentence case, no emoji, no trailing period, ≤70 chars, no slop.
+
+Work form: **`<Stage label>: <short qualifier>`**
 
 A chunk's title is its pipeline stage plus a short qualifier that disambiguates it
 in a flat list. The qualifier names *what* within the stage, not *how* — the

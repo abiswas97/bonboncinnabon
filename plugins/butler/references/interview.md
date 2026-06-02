@@ -9,10 +9,30 @@ the evening), not a multi-day schedule.
 ## Contents
 
 - Target day (shared, ask first when ambiguous)
+- Hard gate (shared, before decomposing) — do not proceed until X
 - Intake
+- Decompose
 - Plan / reconcile
 - Reschedule
 - Fixed duties (shared)
+
+## Hard gate (shared) — do not proceed until X
+
+Both Intake and Decompose MUST clear this gate before producing or writing ANY task.
+It is a real stop, not a checklist line you can skim. Decomposition that skips it is
+a defect.
+
+**DO NOT decompose, create, or write a single task until you have confirmed, out
+loud with the user:**
+
+- **Intent / done-criteria** — what "done" actually looks like for this task.
+- **Prior progress** — fresh start, or already part-done? (Already-done work is not re-created.)
+- **Shape** — is this genuinely multi-step, or a single action? (A single action is NOT decomposed.)
+
+Skip questions already answered by the user, the ticket, or TickTick — but still
+CONFIRM these three, even when they seem obvious. If any is unresolved, ask; do not
+infer and proceed. (Rationale: a mandated-but-skimmable step gets skipped — this is
+the stop that prevents shredding work that was never understood.)
 
 ## Target day (shared)
 
@@ -45,6 +65,29 @@ Goal: understand the human shape of the work, then narrow hard to what to land o
 - "Roughly how long if it goes normally?" Then sanity-check: mechanical/AI-amenable → trim; tracing/ambiguous/decision/review → don't trim.
 
 Then read Calendar (Fixed duties), pack, review, confirm, write.
+
+## Decompose
+
+Goal: break down a task that ALREADY exists in TickTick (work or personal),
+interview-first. Clear the **Hard gate** before any decomposition.
+
+**Resolve the task**
+- (Named) "Is this the one — '<title>' in <project>?" Confirm the match before touching it.
+- (Not named) "Here are tasks with no breakdown yet: … which do you want to work through?" (undecomposed = no `childIds`.)
+
+**Confirm context** (heuristics → Contexts)
+- "That's in <project>, so <context> — treat it as <context>?"
+
+**Already split?**
+- "It already has these chunks: … want to refine or fill a gap?" Augment; never duplicate existing chunks.
+
+**Then the Hard gate** (intent / prior progress / single-vs-multi), then decompose per context:
+- work → pipeline stages (use the Intake "surface the real shape" + "narrow" questions for stages, intensity, AI, first action).
+- personal → 2–4 free-form steps, or conclude it's a single action and just schedule/cue it (don't over-shred).
+
+**Confirm, then write**: the existing task becomes the parent; create chunks as
+children (`parentId`, kind TEXT, `ai` tag); re-read to confirm `childIds`. Offer the
+next step (`butler:plan` for work, a light reminder for personal).
 
 ## Plan / reconcile
 

@@ -31,9 +31,9 @@
     },
     {
       "name": "butler",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "source": "./plugins/butler",
-      "description": "Personal work planner: breaks a task into human, session-sized chunks and time-boxes today or tomorrow in TickTick around Google Calendar. Executive-function support.",
+      "description": "Work and personal task planner: breaks a task into human, session-sized chunks and time-boxes the day in TickTick around Google Calendar. Work gets packed focus blocks; personal gets light reminders. Executive-function support.",
       "category": "productivity",
       "tags": ["ticktick", "calendar", "linear", "planning", "time-blocking", "adhd", "productivity"]
     }

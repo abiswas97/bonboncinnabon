@@ -29,7 +29,7 @@ field (not `desc` — `desc` is for `kind: CHECKLIST` only).
   ```
   Omit any line that doesn't apply. The `Ticket:` line is the idempotency key.
 - `tags`: `ai` always; plus the day's commitment tag (`must`/`should`/`want`) when the unit is active. Priority tags live on chunks, not the parent, when chunks are scheduled.
-- `projectId`: the work list from config (default `Plate`); resolve name → id at runtime.
+- `projectId`: the work context's `default_project` from config (`contexts.work.default_project`, default `Plate`); resolve name → id at runtime.
 - `priority`: mapped from Linear (see Linear mapping).
 
 **Chunk** = a child task, one focused sitting. `kind: "TEXT"`. Created for every
@@ -54,6 +54,24 @@ checklist items can't carry their own due date, reminder, or focus estimate.
 
 A recharge break is advisory (packer `breaks`); materialize it as a short
 `recharge`-tagged task only if you want breaks visible. Off by default.
+
+**Personal chunk** = a child task in a personal-context tree, or a standalone
+personal task — one action. `kind: "TEXT"`. Personal chunks **bypass the packer**.
+
+- `title`: lean imperative verb + object, NO `stage:` prefix (task-contract.md).
+- `content`: optional `Why:`/`Where:`/`Done:` keys if they help. NO `est0`/`stage`/`ai` calibration line — those are work-only.
+- `tags`: `ai` always; plus `must`/`should`/`want` when committed for the day. NO intensity tag (personal has no intensity axis).
+- `parentId`: set only when a multi-step personal task was decomposed into children; single-action personal tasks have no parent. Re-read to confirm `childIds` exactly as for work.
+- **Scheduling (light)**: set `dueDate` + `isAllDay: false` + `timeZone` + a `reminders` TRIGGER. NO `startDate` focus block, NO `focusSummaries` (no pomo estimate). The reminder is anchored to `dueDate` — never write a TRIGGER on a dateless task.
+- The due time is asked, or derived from a live read of the day on defer (heuristics → Personal). It is not packed and does not consume `focus_cap_min`.
+
+## Reading context (back-compat)
+
+A chunk's context is **derived from its TickTick project**, not stored as a TickTick
+field. On every read, map the task's `projectId` back to a context via `config.yaml`
+`contexts.<name>.projects`. A task whose logical `context` is absent — any chunk that
+predates 0.3.0 — is treated as **work** (the full pipeline model). This keeps every
+existing tree (e.g. ING-165) working unchanged.
 
 ## Idempotency and calibration
 
