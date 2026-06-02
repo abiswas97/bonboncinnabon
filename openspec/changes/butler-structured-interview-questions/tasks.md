@@ -23,7 +23,7 @@
 
 ## 5. Release (0.4.0)
 
-- [ ] 5.1 Bump `version` to `0.4.0` in `plugins/butler/.claude-plugin/plugin.json` AND the marketplace entry (keep equal).
-- [ ] 5.2 Update `plugins/butler/CHANGELOG.md` and root `CHANGELOG.md` with the 0.4.0 entry.
-- [ ] 5.3 `claude plugin tag ./plugins/butler` → `butler--v0.4.0` (validates version agreement).
-- [ ] 5.4 `git push origin main && git push origin refs/tags/butler--v0.4.0`.
+- [x] 5.1 Bumped `version` to `0.4.0` in `plugins/butler/.claude-plugin/plugin.json` AND the marketplace entry (equal).
+- [x] 5.2 Updated `plugins/butler/CHANGELOG.md` ([0.4.0] - 2026-06-02) and root `CHANGELOG.md`.
+- [x] 5.3 `claude plugin tag ./plugins/butler` created `butler--v0.4.0` (version agreement validated).
+- [x] 5.4 Pushed `origin main` (ecfc4b8..71a6602) and `refs/tags/butler--v0.4.0`.
