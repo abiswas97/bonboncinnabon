@@ -1,0 +1,21 @@
+openspec/specs/task-titles/spec.md
+  s_1afaa3a6e19c0a::t_ac9d469271c7cc 1-75
+openspec/specs/task-contexts/spec.md
+  s_1afaa3a6e19c0a::t_2a1c7b1f3466e2 100-111,116-122
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "5df6923c9fdbc93ba5219c17c47362ded505e0e6",
+  "prompts": {},
+  "sessions": {
+    "s_1afaa3a6e19c0a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d2626d8f-44d2-4e32-9db7-13065d55c0b8",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
