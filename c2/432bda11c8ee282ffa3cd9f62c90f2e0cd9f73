@@ -1,0 +1,43 @@
+CHANGELOG.md
+  s_52f5f2bba22384::t_4e7177020971a6 11
+openspec/changes/archive/2026-07-30-portable-standards-marketplace/proposal.md
+  s_52f5f2bba22384::t_5e967bf0f2c5e9 12,21
+openspec/changes/archive/2026-07-30-portable-standards-marketplace/design.md
+  s_52f5f2bba22384::t_5e967bf0f2c5e9 138,158,166
+plugins/standards/CHANGELOG.md
+  s_52f5f2bba22384::t_4e7177020971a6 13
+openspec/changes/archive/2026-07-30-correct-standards-lifecycle-contracts/specs/plugin-portability-validation/spec.md
+  s_52f5f2bba22384::t_03e67ce64bfacd 36,60,62-64,66,68-69
+package.json
+  s_52f5f2bba22384::t_4e7177020971a6 18
+openspec/specs/plugin-portability-validation/spec.md
+  s_52f5f2bba22384::t_4e7177020971a6 71,107,109-111,113,115-117,121-123
+RELEASING.md
+  s_52f5f2bba22384::t_4e7177020971a6 9
+openspec/changes/archive/2026-07-30-portable-standards-marketplace/tasks.md
+  s_52f5f2bba22384::t_5e967bf0f2c5e9 52-54
+openspec/changes/archive/2026-07-30-correct-standards-lifecycle-contracts/tasks.md
+  s_52f5f2bba22384::t_03e67ce64bfacd 16-17
+openspec/changes/archive/2026-07-30-correct-standards-lifecycle-contracts/design.md
+  s_52f5f2bba22384::t_03e67ce64bfacd 21,66,68-70,78-79,86
+openspec/changes/archive/2026-07-30-correct-standards-lifecycle-contracts/proposal.md
+  s_52f5f2bba22384::t_03e67ce64bfacd 19,32
+openspec/changes/archive/2026-07-30-portable-standards-marketplace/specs/plugin-portability-validation/spec.md
+  s_52f5f2bba22384::t_5e967bf0f2c5e9 34,58-61,63-65,68-70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "c2432bda11c8ee282ffa3cd9f62c90f2e0cd9f73",
+  "prompts": {},
+  "sessions": {
+    "s_52f5f2bba22384": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb224-9fd7-7c81-a541-1915dcc01202",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
