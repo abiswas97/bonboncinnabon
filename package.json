@@ -1,0 +1,25 @@
+{
+  "name": "bonboncinnabon",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22 <23"
+  },
+  "scripts": {
+    "plugins:sync": "node tools/portability/sync-plugins.mjs",
+    "plugins:check": "node tools/portability/sync-plugins.mjs --check",
+    "validators:install": "node node_modules/@anthropic-ai/claude-code/install.cjs",
+    "test": "node --test tests/*.test.mjs plugins/standards/tests/*.test.mjs",
+    "test:schemas": "python3 tools/portability/validate-json-schemas.py",
+    "test:butler": "python3 plugins/butler/scripts/test_chunk_schema.py && python3 plugins/butler/scripts/test_pack_schedule.py",
+    "validate:repo": "node tools/portability/validate-repository.mjs",
+    "validate:hosts": "node tools/portability/validate-hosts.mjs",
+    "validate:release": "node tools/portability/validate-release.mjs",
+    "validate": "npm run plugins:check && npm test && npm run test:schemas && npm run test:butler && npm run validate:repo && npm run validate:hosts && npm run validate:release"
+  },
+  "devDependencies": {
+    "@anthropic-ai/claude-code": "2.1.220",
+    "@openai/codex": "0.146.0"
+  }
+}

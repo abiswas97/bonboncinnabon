@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "rules": [
+    {
+      "id": "ARCH-BOUNDARY",
+      "title": "Preserve architectural boundaries",
+      "summary": "Keep dependencies directed toward the domain and avoid boundary leaks.",
+      "class": "review",
+      "lifecycles": ["plan", "edit"],
+      "paths": ["**/*"],
+      "roles": ["architecture", "implementation", "review"],
+      "reference": "references/architecture.md"
+    },
+    {
+      "id": "ARCH-REUSE",
+      "title": "Search before adding behavior",
+      "summary": "Reuse or generalize an existing component before creating a parallel implementation.",
+      "class": "review",
+      "lifecycles": ["plan", "edit"],
+      "paths": ["**/*"],
+      "roles": ["implementation", "review"],
+      "reference": "references/architecture.md"
+    },
+    {
+      "id": "CODE-COHESION",
+      "title": "Keep modules cohesive",
+      "summary": "Prefer small modules with one reason to change and explicit inputs and outputs.",
+      "class": "advisory",
+      "lifecycles": ["plan", "edit"],
+      "paths": ["**/*.{c,cc,cpp,cs,go,java,js,jsx,kt,kts,mjs,php,py,rb,rs,swift,ts,tsx}"],
+      "roles": ["implementation", "review"],
+      "reference": "references/clean-code.md"
+    },
+    {
+      "id": "CODE-NO-PLACEHOLDERS",
+      "title": "Do not ship placeholders",
+      "summary": "Do not leave TODO implementations, fake success, or silent fallbacks in completed work.",
+      "class": "review",
+      "lifecycles": ["edit"],
+      "paths": ["**/*"],
+      "roles": ["implementation", "review"],
+      "reference": "references/clean-code.md"
+    },
+    {
+      "id": "SEC-SECRETS",
+      "title": "Keep secrets out of artifacts",
+      "summary": "Never print, persist, or commit resolved credentials or sensitive environment values.",
+      "class": "enforced",
+      "lifecycles": ["plan", "edit"],
+      "paths": ["**/*"],
+      "roles": ["implementation", "review", "operations"],
+      "reference": "references/safety.md"
+    },
+    {
+      "id": "VERIFY-BEHAVIOR",
+      "title": "Verify observable behavior",
+      "summary": "Use the narrowest behavioral test first, then broader checks proportional to risk.",
+      "class": "review",
+      "lifecycles": ["plan", "edit"],
+      "paths": ["**/*"],
+      "roles": ["implementation", "review"],
+      "reference": "references/verification.md"
+    },
+    {
+      "id": "VERIFY-BOUNDARIES",
+      "title": "Exercise boundaries and failures",
+      "summary": "Cover empty, missing, boundary, concurrency, timeout, and network-failure behavior where relevant.",
+      "class": "review",
+      "lifecycles": ["plan"],
+      "paths": ["**/*"],
+      "roles": ["implementation", "review"],
+      "reference": "references/verification.md"
+    },
+    {
+      "id": "VERIFY-NO-SUPPRESSION",
+      "title": "Do not hide failures",
+      "summary": "Fix the cause instead of weakening assertions, suppressing diagnostics, or swallowing errors.",
+      "class": "review",
+      "lifecycles": ["edit"],
+      "paths": ["**/*"],
+      "roles": ["implementation", "review"],
+      "reference": "references/verification.md"
+    },
+    {
+      "id": "DATA-MIGRATION",
+      "title": "Keep data changes deploy-safe",
+      "summary": "Plan compatibility, locking, integrity, rollback, and mixed-version operation for migrations.",
+      "class": "review",
+      "lifecycles": ["plan", "edit"],
+      "paths": ["**/migrations/**", "**/*.sql"],
+      "roles": ["data", "implementation", "review"],
+      "reference": "references/safety.md"
+    },
+    {
+      "id": "OPS-FAILURE",
+      "title": "Make failure behavior explicit",
+      "summary": "Define timeouts, cancellation, retries, idempotency, and observable errors at effectful boundaries.",
+      "class": "review",
+      "lifecycles": ["plan", "edit"],
+      "paths": ["**/*"],
+      "roles": ["implementation", "operations", "review"],
+      "reference": "references/safety.md"
+    }
+  ]
+}

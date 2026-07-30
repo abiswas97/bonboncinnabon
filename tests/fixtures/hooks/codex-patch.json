@@ -1,0 +1,9 @@
+{
+  "hook_event_name": "PostToolUse",
+  "session_id": "codex-patch",
+  "cwd": ".",
+  "tool_name": "apply_patch",
+  "tool_input": {
+    "command": "*** Begin Patch\n*** Update File: src/main.rs\n*** Move to: src/lib.rs\n*** Delete File: db/migrations/old.sql\n*** End Patch"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "standards",
+  "displayName": "Standards",
+  "version": "0.1.0",
+  "description": "Portable engineering commandments and low-noise lifecycle guidance for Claude Code and Codex.",
+  "author": {
+    "name": "Avishek Biswas"
+  },
+  "repository": "https://github.com/abiswas97/bonboncinnabon",
+  "license": "MIT",
+  "keywords": [
+    "engineering-standards",
+    "code-quality",
+    "architecture",
+    "verification",
+    "hooks"
+  ],
+  "hooks": "./hooks/claude.json"
+}

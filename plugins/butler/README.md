@@ -1,6 +1,6 @@
 # butler
 
-A personal work planner for Claude Code. It turns a unit of work into human,
+A personal work planner for Claude Code and Codex. It turns a unit of work into human,
 session-sized chunks and time-boxes **one day at a time** in TickTick, scheduling
 around fixed commitments read from Google Calendar. Built for executive-function
 support: a durable plan you build once, a small committed day (today *or*
@@ -36,11 +36,14 @@ Part of the `bonboncinnabon` marketplace. Namespace: `butler:`.
 ## Adoption
 
 Run **`/butler:setup`** — it interviews you and writes your config to
-`${CLAUDE_PLUGIN_DATA}/config.yaml`: a global, machine-wide file (the same in every
-project) that persists across plugin updates and is never committed. It holds
+the host-provided persistent plugin-data `config.yaml`: a global, machine-wide file
+(the same in every project) that persists across plugin updates and is never committed. It holds
 everything user-specific: timezone, work window, project + tag names, capacity, the
 `pipeline`, breaks, and pacing. The repo ships `config.example.yaml` as the generic
 template; re-run `/butler:setup` anytime to update individual fields.
+
+In Codex, invoke `$setup`; in Claude, use `/butler:setup`. Portable path resolution
+is defined once in `references/paths.md`.
 
 ## Setup
 

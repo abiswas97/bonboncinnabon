@@ -11,7 +11,7 @@ starts from this moment, and only today's remaining chunks are considered.
 
 ## Config
 
-Read `${CLAUDE_PLUGIN_DATA}/config.yaml` (your global config; if absent, run `/butler:setup`), then run the config preflight (references/template.md → Config preflight; migrate if behind, error if ahead). Resolve TickTick names → ids at runtime.
+Resolve the plugin-data directory per `../../references/paths.md` and read its `config.yaml` (if absent, run the setup skill), then run the config preflight (`../../references/template.md` → Config preflight; migrate if behind, error if ahead). Resolve TickTick names → ids at runtime.
 Load deferred MCP tools (TickTick, Google Calendar) with tool_search.
 
 ## Core rules
@@ -37,7 +37,7 @@ are [choice]; "what's done / left" stays prose.
         a connected Google Calendar MCP, reading the calendars named in `config.yaml`
         `calendar.calendars` (default primary); no MCP → run calendar-blind but state it.
 - [ ] 4. Build packer input with now = current time (schemas/packer-input.schema.json) from
-        the WORK chunks only, then run: python3 ${CLAUDE_PLUGIN_ROOT}/scripts/pack_schedule.py input.json
+        the WORK chunks only, then run: python3 ../../scripts/pack_schedule.py input.json
         Review scheduled / overflow / summary.warnings. Do NOT rewrite est0 — it is immutable.
         Handle a slipped block non-punitively (references/accommodations.md → non-punitive,
         flexibility-with-spine): re-surface it as a neutral event, and where one won't fit,
@@ -51,8 +51,9 @@ are [choice]; "what's done / left" stays prose.
 
 ## References
 
-- `${CLAUDE_PLUGIN_ROOT}/references/heuristics.md` — Time-blocking, Reconciliation.
-- `${CLAUDE_PLUGIN_ROOT}/references/template.md` — field mappings + packer I/O.
-- `${CLAUDE_PLUGIN_ROOT}/references/interview.md` — Reschedule.
-- `${CLAUDE_PLUGIN_ROOT}/references/accommodations.md` — how butler speaks to a user under EF load; apply at miss-handling, selection, next-action, and tone. Single source, don't restate.
-- `${CLAUDE_PLUGIN_ROOT}/schemas/` — packer I/O schema.
+- `../../references/paths.md` — host-neutral package and data path resolution.
+- `../../references/heuristics.md` — Time-blocking, Reconciliation.
+- `../../references/template.md` — field mappings + packer I/O.
+- `../../references/interview.md` — Reschedule.
+- `../../references/accommodations.md` — how butler speaks to a user under EF load; apply at miss-handling, selection, next-action, and tone. Single source, don't restate.
+- `../../schemas/` — packer I/O schema.

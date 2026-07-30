@@ -2,6 +2,24 @@
 
 All notable changes to butler. Versioning follows [SemVer](https://semver.org).
 
+## [0.11.0] - 2026-07-30
+
+Portable Claude and Codex packaging with no planning-semantics change.
+
+### Changed
+
+- Added a generated Codex manifest and native skill metadata.
+- Replaced Claude-only bundled-resource paths with paths relative to each skill.
+- Centralized persistent plugin-data resolution for Claude and Codex in `references/paths.md`.
+- Repaired quoted setup-command frontmatter for strict Claude validation.
+
+### Verification
+
+- Existing Butler schema and packer tests pass.
+- Both Claude and Codex install Butler from isolated homes and enumerate its expected components.
+
+Release tag: `butler--v0.11.0`.
+
 ## [0.10.1] - 2026-06-03
 
 Patch: make `/butler:setup` reachable under the butler namespace.

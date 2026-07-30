@@ -1,7 +1,7 @@
 {
   "$schema": "https://claude.ai/schemas/marketplace.json",
   "name": "bonboncinnabon",
-  "description": "Claude Code plugins by bonboncinnabon",
+  "description": "Portable Claude and Codex plugins by bonboncinnabon",
   "owner": {
     "name": "bonboncinnabon"
   },
@@ -15,7 +15,12 @@
       "description": "PostgreSQL database access with health diagnostics, slow query analysis, and connection monitoring",
       "category": "database",
       "homepage": "https://github.com/abiswas97/postgres-mcp",
-      "tags": ["postgresql", "database", "mcp", "diagnostics"]
+      "tags": [
+        "postgresql",
+        "database",
+        "mcp",
+        "diagnostics"
+      ]
     },
     {
       "name": "devlab",
@@ -26,15 +31,44 @@
       "description": "Task-centric project management for Dev Lab repos. Debate-driven task creation, terminal dashboards, and Notion sync.",
       "category": "productivity",
       "homepage": "https://github.com/abiswas97/devlab",
-      "tags": ["notion", "project-management", "brainstorming", "sync", "dashboard", "tasks"]
+      "tags": [
+        "notion",
+        "project-management",
+        "brainstorming",
+        "sync",
+        "dashboard",
+        "tasks"
+      ]
     },
     {
       "name": "butler",
-      "version": "0.10.1",
+      "version": "0.11.0",
       "source": "./plugins/butler",
-      "description": "Work and personal task planner: breaks a task into human, session-sized chunks and time-boxes the day in TickTick around Google Calendar. Work gets packed focus blocks; personal gets light reminders. Executive-function support.",
+      "description": "Work and personal task planner: breaks a task into human, session-sized chunks and time-boxes the day around existing commitments.",
       "category": "productivity",
-      "tags": ["ticktick", "calendar", "linear", "planning", "time-blocking", "adhd", "productivity"]
+      "tags": [
+        "ticktick",
+        "calendar",
+        "linear",
+        "planning",
+        "time-blocking",
+        "adhd",
+        "productivity"
+      ]
+    },
+    {
+      "name": "standards",
+      "version": "0.1.0",
+      "source": "./plugins/standards",
+      "description": "Portable engineering commandments and low-noise lifecycle guidance for Claude Code and Codex.",
+      "category": "developertools",
+      "tags": [
+        "engineering-standards",
+        "code-quality",
+        "architecture",
+        "verification",
+        "hooks"
+      ]
     }
   ]
 }

@@ -12,7 +12,7 @@ already persists; only the target day gets times.
 
 ## Config
 
-Read `${CLAUDE_PLUGIN_DATA}/config.yaml` — your global, machine-wide config (survives plugin updates); if absent, stop and run `/butler:setup` — then run
+Resolve the plugin-data directory per `../../references/paths.md` and read its `config.yaml`; if absent, stop and run the setup skill — then run
 the config preflight (references/template.md → Config preflight; migrate if behind,
 error if ahead). Resolve TickTick project and tag names → ids at runtime
 (`list_projects` / `list_tags`).
@@ -24,7 +24,7 @@ Load deferred MCP tools with tool_search before use (TickTick, Google Calendar).
 2. **Context-aware.** WORK chunks go through the packer (focus blocks). PERSONAL items get a light due time + reminder and NEVER enter packer input. Read a chunk's context from its project (`references/heuristics.md` → Contexts); a chunk with no context is work. Keep the two visually separated in the proposal.
 3. **Points are complexity, not time.** Never divide Linear story points into hours.
 4. **Confirm before writing.** Show the proposed blocks + the packer summary, get a yes, then write.
-5. **Lean, human tasks.** Follow `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md`. Every butler-created task carries the `ai` tag.
+5. **Lean, human tasks.** Follow `../../references/task-contract.md`. Every butler-created task carries the `ai` tag.
 6. **Never assume a ticket.** Touch Linear only when the user names an explicit ID this turn.
 7. **Never duplicate what already exists.** Reconcile against open tasks AND recurring habits before scheduling. A routine that already fires as a habit (or an existing task) is already handled — do NOT create a task for it. Schedule only the gap: net-new work, and a dateless existing task gets a date rather than a recreated copy (`references/heuristics.md` → Reconciliation).
 8. **Breaks are constraints, never tasks.** Reserve lunch + flexible decompress breaks as packer fixed-commitments (gaps) the packer subtracts — scaled to load, deferred when one would interrupt an in-progress block. Never materialize a break as a TickTick task (`references/heuristics.md` → Buffering).
@@ -87,7 +87,7 @@ and the fixed-duties read-back are [choice]; "what got in the way?" stays prose.
         Buffering). Build packer input (schemas/packer-input.schema.json) from the
         contexts.work config + the target day's WORK chunks + commitments + reserved breaks,
         then run:
-            python3 ${CLAUDE_PLUGIN_ROOT}/scripts/pack_schedule.py input.json
+            python3 ../../scripts/pack_schedule.py input.json
         Personal items NEVER enter packer input. Review scheduled / overflow /
         summary.warnings with the user. Adjust, re-run until it fits.
 - [ ] 8. SCHEDULE PERSONAL (light, no packer): give each committed personal item a due
@@ -111,11 +111,12 @@ and the fixed-duties read-back are [choice]; "what got in the way?" stays prose.
 
 Read when the step points to them; each is self-contained:
 
-- `${CLAUDE_PLUGIN_ROOT}/references/heuristics.md` — estimation, AI discount, time-blocking, reconciliation, calibration.
-- `${CLAUDE_PLUGIN_ROOT}/references/template.md` — task template + TickTick/Linear/Calendar field mappings + packer I/O.
-- `${CLAUDE_PLUGIN_ROOT}/references/interview.md` — question banks per mode.
-- `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md` — the lean task writing contract.
-- `${CLAUDE_PLUGIN_ROOT}/references/accommodations.md` — how butler speaks to a user under EF load; apply at miss-handling, selection, next-action, and tone. Single source, don't restate.
-- `${CLAUDE_PLUGIN_ROOT}/schemas/` — JSON Schema for tasks and packer I/O.
+- `../../references/paths.md` — host-neutral package and data path resolution.
+- `../../references/heuristics.md` — estimation, AI discount, time-blocking, reconciliation, calibration.
+- `../../references/template.md` — task template + TickTick/Linear/Calendar field mappings + packer I/O.
+- `../../references/interview.md` — question banks per mode.
+- `../../references/task-contract.md` — the lean task writing contract.
+- `../../references/accommodations.md` — how butler speaks to a user under EF load; apply at miss-handling, selection, next-action, and tone. Single source, don't restate.
+- `../../schemas/` — JSON Schema for tasks and packer I/O.
 
 New work with no tree yet → use `butler:intake` first. Mid-day slip → `butler:reschedule`.

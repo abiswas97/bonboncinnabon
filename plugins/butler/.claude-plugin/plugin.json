@@ -1,10 +1,20 @@
 {
   "name": "butler",
-  "version": "0.10.1",
-  "description": "Work and personal task planner: breaks a task into human, session-sized chunks and time-boxes the day in TickTick around Google Calendar. Work gets packed focus blocks; personal gets light reminders. Executive-function support.",
+  "displayName": "Butler",
+  "version": "0.11.0",
+  "description": "Work and personal task planner: breaks a task into human, session-sized chunks and time-boxes the day around existing commitments.",
   "author": {
     "name": "Avi Biswas"
   },
   "repository": "https://github.com/abiswas97/bonboncinnabon",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": [
+    "ticktick",
+    "calendar",
+    "linear",
+    "planning",
+    "time-blocking",
+    "adhd",
+    "productivity"
+  ]
 }

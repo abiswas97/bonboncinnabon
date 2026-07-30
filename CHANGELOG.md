@@ -3,6 +3,18 @@
 Marketplace-level changes: plugin additions, structure, and conventions. Each
 plugin keeps its own changelog (e.g. `plugins/butler/CHANGELOG.md`).
 
+## 2026-07-30
+
+### Added
+
+- **standards** `0.1.0` — portable commandments, supporting rules, repository overlays, advisory lifecycle hooks, and Claude/Codex skills. Release tag `standards--v0.1.0`.
+- A host-neutral marketplace and plugin model with committed Claude and Codex projections, macOS/Linux CI, strict validation, and deterministic package-shape tests.
+
+### Changed
+
+- **butler** `0.11.0` — generated Codex packaging and host-neutral bundled-resource/data-path guidance with no planning-semantics change. Release tag `butler--v0.11.0`.
+- `devlab` and `postgres` remain unchanged in Claude and are omitted from Codex until their repositories publish native Codex packages.
+
 ## 2026-06-02
 
 ### Added
