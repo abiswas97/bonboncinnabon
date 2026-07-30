@@ -1,0 +1,62 @@
+plugins/standards/hooks/lib/runtime.mjs
+  s_52f5f2bba22384::t_12c2606cdeb71c 1
+plugins/standards/tests/hooks.test.mjs
+  s_52f5f2bba22384::t_12c2606cdeb71c 11
+schemas/marketplace.schema.json
+  s_52f5f2bba22384::t_0998d6c40814a9 31
+tools/portability/validate-release.mjs
+  s_52f5f2bba22384::t_e28045d5a005b0 6,9-13,18-28,30-34,37-38
+tools/portability/sync-plugins.mjs
+  s_52f5f2bba22384::t_8fd7fabc4b1085 41,65,69,71-72,75-82,140-142,144-146
+  s_52f5f2bba22384::t_b5ae4e992c673a 95-96,143
+tests/generator.test.mjs
+  s_52f5f2bba22384::t_3c16ffacbe4a62 94-114
+  s_52f5f2bba22384::t_f041777095691b 66,79-90
+  s_52f5f2bba22384::t_b5ae4e992c673a 58-65,67-78,91-93
+tools/portability/validate-repository.mjs
+  s_52f5f2bba22384::t_8fd7fabc4b1085 91-94
+  s_52f5f2bba22384::t_b5ae4e992c673a 70-72,84-87
+  s_52f5f2bba22384::t_e28045d5a005b0 108
+plugins/standards/plugin.json
+  s_52f5f2bba22384::t_8fd7fabc4b1085 28-50
+.gitignore
+  s_52f5f2bba22384::t_0433e7bf910568 3
+package.json
+  s_52f5f2bba22384::t_0998d6c40814a9 14,19
+schemas/plugin.schema.json
+  s_52f5f2bba22384::t_0998d6c40814a9 48,74
+  s_52f5f2bba22384::t_291e65e9cc1019 7-31,52,69-73,75-82
+tools/portability/contracts.mjs
+  s_52f5f2bba22384::t_8fd7fabc4b1085 59-80,159,163,167-173
+  s_52f5f2bba22384::t_0998d6c40814a9 108,138,164-166
+  s_52f5f2bba22384::t_291e65e9cc1019 160-162
+tools/portability/validate-json-schemas.py
+  s_52f5f2bba22384::t_0998d6c40814a9 1-22,24-49
+  s_52f5f2bba22384::t_3c16ffacbe4a62 23
+tools/portability/validate-hosts.mjs
+  s_52f5f2bba22384::t_e28045d5a005b0 8,13,16,19-24,41-50,52-59
+README.md
+  s_52f5f2bba22384::t_bdfabe9f1b9564 3
+tests/validation.test.mjs
+  s_52f5f2bba22384::t_7b2192d101fc89 2-3,7,9,13,15-26,31-35,39,45
+plugins/butler/scripts/test_chunk_schema.py
+  s_52f5f2bba22384::t_e28045d5a005b0 7,11-13,36-39
+plugins/butler/plugin.json
+  s_52f5f2bba22384::t_8fd7fabc4b1085 48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "a70ce8ce5ecbe9f73ff5f05e6b16886ccf488640",
+  "prompts": {},
+  "sessions": {
+    "s_52f5f2bba22384": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb224-9fd7-7c81-a541-1915dcc01202",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
