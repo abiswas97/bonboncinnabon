@@ -1,0 +1,9 @@
+{
+  "hook_event_name": "PostToolUse",
+  "session_id": "claude-edit",
+  "cwd": ".",
+  "tool_name": "Edit",
+  "tool_input": {
+    "file_path": "src/example.py"
+  }
+}

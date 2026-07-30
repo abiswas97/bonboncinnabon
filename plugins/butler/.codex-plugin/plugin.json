@@ -1,0 +1,33 @@
+{
+  "name": "butler",
+  "version": "0.11.0",
+  "description": "Work and personal task planner: breaks a task into human, session-sized chunks and time-boxes the day around existing commitments.",
+  "author": {
+    "name": "Avi Biswas"
+  },
+  "repository": "https://github.com/abiswas97/bonboncinnabon",
+  "license": "MIT",
+  "keywords": [
+    "ticktick",
+    "calendar",
+    "linear",
+    "planning",
+    "time-blocking",
+    "adhd",
+    "productivity"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Butler",
+    "shortDescription": "Executive-function friendly task planning.",
+    "longDescription": "Butler breaks work into human, session-sized chunks and time-boxes the day around existing calendar commitments.",
+    "developerName": "Avi Biswas",
+    "category": "Productivity",
+    "capabilities": [
+      "Task decomposition",
+      "Time-boxed planning",
+      "Schedule recovery"
+    ],
+    "defaultPrompt": "Help me turn this task into a realistic plan."
+  }
+}

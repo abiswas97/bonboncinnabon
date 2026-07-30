@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abiswas97/bonboncinnabon/schemas/plugin.schema.json",
+  "title": "Bonboncinnabon canonical local plugin",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "name", "version", "description", "author", "repository", "license", "category", "tags", "hosts", "components", "interface"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "name": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "description": { "type": "string", "minLength": 1 },
+    "author": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": { "name": { "type": "string", "minLength": 1 } }
+    },
+    "repository": { "type": "string", "pattern": "^https://" },
+    "license": { "type": "string", "minLength": 1 },
+    "category": { "type": "string", "minLength": 1 },
+    "tags": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "hosts": { "type": "array", "items": { "enum": ["claude", "codex"] }, "uniqueItems": true },
+    "components": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["skills", "commands"],
+      "properties": {
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "displayName", "shortDescription", "defaultPrompt"],
+            "properties": {
+              "name": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+              "displayName": { "type": "string", "minLength": 1 },
+              "shortDescription": { "type": "string", "minLength": 25, "maxLength": 64 },
+              "defaultPrompt": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "commands": { "type": "array", "items": { "type": "string", "pattern": "^[a-z0-9-]+$" } },
+        "hooks": { "type": "boolean" }
+      }
+    },
+    "interface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["displayName", "shortDescription", "longDescription", "developerName", "capabilities", "defaultPrompt"],
+      "properties": {
+        "displayName": { "type": "string", "minLength": 1 },
+        "shortDescription": { "type": "string", "minLength": 1 },
+        "longDescription": { "type": "string", "minLength": 1 },
+        "developerName": { "type": "string", "minLength": 1 },
+        "capabilities": { "type": "array", "items": { "type": "string" } },
+        "defaultPrompt": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

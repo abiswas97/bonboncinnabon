@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/abiswas97/bonboncinnabon/schemas/standards-overlay.schema.json",
+  "title": "Repository standards overlay",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "rules"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "extends": { "const": "default" },
+    "rules": {
+      "type": "array",
+      "items": { "$ref": "standards-registry.schema.json#/$defs/rule" }
+    }
+  }
+}

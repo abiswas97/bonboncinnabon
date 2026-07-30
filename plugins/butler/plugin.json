@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "name": "butler",
+  "version": "0.11.0",
+  "description": "Work and personal task planner: breaks a task into human, session-sized chunks and time-boxes the day around existing commitments.",
+  "author": {
+    "name": "Avi Biswas"
+  },
+  "repository": "https://github.com/abiswas97/bonboncinnabon",
+  "license": "MIT",
+  "category": "Productivity",
+  "tags": ["ticktick", "calendar", "linear", "planning", "time-blocking", "adhd", "productivity"],
+  "hosts": ["claude", "codex"],
+  "components": {
+    "skills": [
+      {
+        "name": "decompose",
+        "displayName": "Decompose",
+        "shortDescription": "Break work into session-sized tasks",
+        "defaultPrompt": "Use $decompose to break this work into executable tasks."
+      },
+      {
+        "name": "intake",
+        "displayName": "Intake",
+        "shortDescription": "Clarify a task before planning it",
+        "defaultPrompt": "Use $intake to clarify this task before planning."
+      },
+      {
+        "name": "plan",
+        "displayName": "Plan",
+        "shortDescription": "Time-box work around commitments",
+        "defaultPrompt": "Use $plan to time-box my work around existing commitments."
+      },
+      {
+        "name": "reschedule",
+        "displayName": "Reschedule",
+        "shortDescription": "Recover when today's plan slips",
+        "defaultPrompt": "Use $reschedule to recover today's plan."
+      },
+      {
+        "name": "setup",
+        "displayName": "Setup Butler",
+        "shortDescription": "Configure Butler for this machine",
+        "defaultPrompt": "Use $setup to configure Butler for this machine."
+      }
+    ],
+    "commands": ["decompose", "intake", "plan", "reschedule", "setup"],
+    "hooks": false
+  },
+  "interface": {
+    "displayName": "Butler",
+    "shortDescription": "Executive-function friendly task planning.",
+    "longDescription": "Butler breaks work into human, session-sized chunks and time-boxes the day around existing calendar commitments.",
+    "developerName": "Avi Biswas",
+    "capabilities": ["Task decomposition", "Time-boxed planning", "Schedule recovery"],
+    "defaultPrompt": "Help me turn this task into a realistic plan."
+  }
+}

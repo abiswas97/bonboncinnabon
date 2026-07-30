@@ -1,6 +1,6 @@
 ---
 name: decompose
-description: Use when the user wants to break down, decompose, scope, or think through a task that ALREADY exists in TickTick — "break down this task", "decompose <task>", "scope the thing in Personal", "help me think through <existing task>", or names/points at a captured task to split. Context-aware (work → pipeline stages, personal → free-form or none). For NEW work or a Linear ticket not yet in TickTick, use butler:intake instead.
+description: Use when the user wants to break down, decompose, scope, or think through a task that ALREADY exists in TickTick — "break down this task", "decompose this task", "scope the thing in Personal", "help me think through an existing task", or names or points at a captured task to split. Context-aware (work → pipeline stages, personal → free-form or none). For NEW work or a Linear ticket not yet in TickTick, use butler:intake instead.
 ---
 
 # Decompose an existing task
@@ -13,17 +13,17 @@ duplicates chunks.
 
 ## Config
 
-Read `${CLAUDE_PLUGIN_DATA}/config.yaml` (your global config; if absent, run `/butler:setup`), then run the config preflight (references/template.md → Config preflight; migrate if behind, error if ahead). Resolve TickTick names → ids at runtime
+Resolve the plugin-data directory per `../../references/paths.md` and read its `config.yaml` (if absent, run the setup skill), then run the config preflight (`../../references/template.md` → Config preflight; migrate if behind, error if ahead). Resolve TickTick names → ids at runtime
 (`list_projects` / `list_tags`). Load deferred MCP tools (TickTick; Google Calendar
 only when placing a personal reminder) with tool_search.
 
 ## Core rules
 
-1. **Interview is a HARD GATE.** Do NOT decompose or write anything until you have confirmed intent / prior progress / single-vs-multi-step (`${CLAUDE_PLUGIN_ROOT}/references/interview.md` → Hard gate). A skimmed interview is a defect.
+1. **Interview is a HARD GATE.** Do NOT decompose or write anything until you have confirmed intent / prior progress / single-vs-multi-step (`../../references/interview.md` → Hard gate). A skimmed interview is a defect.
 2. **Existing task only.** Operate on a task already in TickTick. New work / a Linear ticket not yet captured → route to `butler:intake`.
-3. **Context, derived then confirmed.** Derive the task's context from its project and confirm before decomposing (`${CLAUDE_PLUGIN_ROOT}/references/heuristics.md` → Contexts). Never silent.
+3. **Context, derived then confirmed.** Derive the task's context from its project and confirm before decomposing (`../../references/heuristics.md` → Contexts). Never silent.
 4. **Default to NOT over-shredding.** Personal tasks are usually a single action — leave them whole unless genuinely multi-step. Augment, never duplicate, an already-split task.
-5. **Lean, human tasks.** Follow `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md`. Tag every created task `ai`.
+5. **Lean, human tasks.** Follow `../../references/task-contract.md`. Tag every created task `ai`.
 6. **Confirm before writing.**
 
 ## Red flags — do not proceed until cleared
@@ -74,11 +74,12 @@ Conduct the interview per `references/interview.md` → Decompose (honor each qu
 
 ## References
 
-- `${CLAUDE_PLUGIN_ROOT}/references/heuristics.md` — Contexts, Decomposition (work), Personal.
-- `${CLAUDE_PLUGIN_ROOT}/references/interview.md` — Hard gate, Decompose.
-- `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md` — the lean task writing contract (all contexts).
-- `${CLAUDE_PLUGIN_ROOT}/references/template.md` — task template + TickTick field mappings (work + personal).
-- `${CLAUDE_PLUGIN_ROOT}/references/accommodations.md` — how butler speaks to a user under EF load; apply at miss-handling, selection, next-action, and tone. Single source, don't restate.
-- `${CLAUDE_PLUGIN_ROOT}/schemas/` — JSON Schema for tasks.
+- `../../references/paths.md` — host-neutral package and data path resolution.
+- `../../references/heuristics.md` — Contexts, Decomposition (work), Personal.
+- `../../references/interview.md` — Hard gate, Decompose.
+- `../../references/task-contract.md` — the lean task writing contract (all contexts).
+- `../../references/template.md` — task template + TickTick field mappings (work + personal).
+- `../../references/accommodations.md` — how butler speaks to a user under EF load; apply at miss-handling, selection, next-action, and tone. Single source, don't restate.
+- `../../schemas/` — JSON Schema for tasks.
 
 New work with no TickTick task yet → use `butler:intake`. Scheduling the day → `butler:plan`.

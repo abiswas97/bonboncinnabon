@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "name": "standards",
+  "version": "0.1.0",
+  "description": "Portable engineering commandments and low-noise lifecycle guidance for Claude Code and Codex.",
+  "author": { "name": "Avishek Biswas" },
+  "repository": "https://github.com/abiswas97/bonboncinnabon",
+  "license": "MIT",
+  "category": "DeveloperTools",
+  "tags": ["engineering-standards", "code-quality", "architecture", "verification", "hooks"],
+  "hosts": ["claude", "codex"],
+  "components": {
+    "skills": [
+      {
+        "name": "standards",
+        "displayName": "Standards",
+        "shortDescription": "Inspect effective engineering standards",
+        "defaultPrompt": "Use $standards to explain the standards that apply to this task."
+      },
+      {
+        "name": "standards-init",
+        "displayName": "Standards Init",
+        "shortDescription": "Propose a repository standards overlay",
+        "defaultPrompt": "Use $standards-init to propose standards for this repository."
+      }
+    ],
+    "commands": ["standards", "standards-init"],
+    "hooks": true
+  },
+  "interface": {
+    "displayName": "Standards",
+    "shortDescription": "Portable, low-noise engineering guidance.",
+    "longDescription": "Standards applies ten engineering commandments and scoped supporting rules while Claude Code or Codex plans, edits, and verifies code.",
+    "developerName": "Avishek Biswas",
+    "capabilities": ["Engineering standards", "Repository overlays", "Lifecycle guidance"],
+    "defaultPrompt": "Show me the engineering standards that apply to this work."
+  }
+}

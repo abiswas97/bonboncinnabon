@@ -12,16 +12,16 @@ existing tree, never duplicates it.
 
 ## Config
 
-Read `${CLAUDE_PLUGIN_DATA}/config.yaml` (your global config; if absent, run `/butler:setup`), then run the config preflight (references/template.md → Config preflight; migrate if behind, error if ahead). Resolve TickTick names → ids at runtime.
+Resolve the plugin-data directory per `../../references/paths.md` and read its `config.yaml` (if absent, run the setup skill), then run the config preflight (`../../references/template.md` → Config preflight; migrate if behind, error if ahead). Resolve TickTick names → ids at runtime.
 Load deferred MCP tools (TickTick; Linear only if an ID is named) with tool_search.
 
 ## Core rules
 
-1. **Interview is a HARD GATE.** Do NOT decompose or write anything until you have run the interview and confirmed intent / prior progress / single-vs-multi-step (`${CLAUDE_PLUGIN_ROOT}/references/interview.md` → Hard gate). A skimmed interview is a defect, not a shortcut.
+1. **Interview is a HARD GATE.** Do NOT decompose or write anything until you have run the interview and confirmed intent / prior progress / single-vs-multi-step (`../../references/interview.md` → Hard gate). A skimmed interview is a defect, not a shortcut.
 2. **Never assume a ticket.** Pull Linear only when the user names an ID this turn; else use the described work.
 3. **Idempotency first.** Before creating anything, search the work context's `default_project` for a parent whose `content` has `Ticket: <ID>`. If found → resume that tree (hand to `butler:plan`), do NOT create a duplicate.
 4. **Points are complexity, not time.** Use the envelope to shape the tree (more grooming/spike chunks, more slack); never divide into hours.
-5. **Lean, human tasks.** Follow `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md`. Tag every created task `ai`.
+5. **Lean, human tasks.** Follow `../../references/task-contract.md`. Tag every created task `ai`.
 6. **Confirm before writing.**
 
 ## Red flags — do not proceed until cleared
@@ -80,9 +80,10 @@ The whole tree is created; `butler:plan` schedules only the chosen day's chunks.
 
 ## References
 
-- `${CLAUDE_PLUGIN_ROOT}/references/heuristics.md`
-- `${CLAUDE_PLUGIN_ROOT}/references/template.md`
-- `${CLAUDE_PLUGIN_ROOT}/references/interview.md`
-- `${CLAUDE_PLUGIN_ROOT}/references/task-contract.md`
-- `${CLAUDE_PLUGIN_ROOT}/references/accommodations.md` — how butler speaks to a user under EF load; apply at miss-handling, selection, next-action, and tone. Single source, don't restate.
-- `${CLAUDE_PLUGIN_ROOT}/schemas/`
+- `../../references/paths.md`
+- `../../references/heuristics.md`
+- `../../references/template.md`
+- `../../references/interview.md`
+- `../../references/task-contract.md`
+- `../../references/accommodations.md` — how butler speaks to a user under EF load; apply at miss-handling, selection, next-action, and tone. Single source, don't restate.
+- `../../schemas/`

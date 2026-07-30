@@ -20,8 +20,8 @@ and Linear MCP. Titles/descriptions follow `task-contract.md`.
 Every skill runs this ONCE right after reading the config, before using it. It is
 the single source of the rule — skills reference it, they don't restate it.
 
-The config lives at `${CLAUDE_PLUGIN_DATA}/config.yaml` — global, machine-wide, and
-persistent across plugin updates (NOT `${CLAUDE_PLUGIN_ROOT}`, which is ephemeral). If
+Resolve the config path using `paths.md`; it is global, machine-wide, and
+persistent across plugin updates, never inside the installed plugin package. If
 it is absent, STOP and tell the user to run `/butler:setup`; never fall back to the
 shipped `config.example.yaml` (its placeholder projects would mis-target TickTick).
 
@@ -152,7 +152,7 @@ commute, family, AFK) before packing. Never write to Calendar.
 Build the packer input from config + the target day's chunks + commitments, then:
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/pack_schedule.py input.json
+python3 ../../scripts/pack_schedule.py input.json
 ```
 
 Input/output shapes are pinned in `schemas/packer-input.schema.json` and

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "name": "bonboncinnabon",
+  "displayName": "Bonboncinnabon",
+  "description": "Portable Claude and Codex plugins by bonboncinnabon",
+  "owner": {
+    "name": "bonboncinnabon"
+  },
+  "plugins": [
+    {
+      "name": "postgres",
+      "kind": "external",
+      "hosts": ["claude"],
+      "claudeEntry": {
+        "name": "postgres",
+        "source": {
+          "source": "github",
+          "repo": "abiswas97/postgres-mcp"
+        },
+        "description": "PostgreSQL database access with health diagnostics, slow query analysis, and connection monitoring",
+        "category": "database",
+        "homepage": "https://github.com/abiswas97/postgres-mcp",
+        "tags": ["postgresql", "database", "mcp", "diagnostics"]
+      }
+    },
+    {
+      "name": "devlab",
+      "kind": "external",
+      "hosts": ["claude"],
+      "claudeEntry": {
+        "name": "devlab",
+        "source": {
+          "source": "github",
+          "repo": "abiswas97/devlab"
+        },
+        "description": "Task-centric project management for Dev Lab repos. Debate-driven task creation, terminal dashboards, and Notion sync.",
+        "category": "productivity",
+        "homepage": "https://github.com/abiswas97/devlab",
+        "tags": ["notion", "project-management", "brainstorming", "sync", "dashboard", "tasks"]
+      }
+    },
+    {
+      "name": "butler",
+      "kind": "local",
+      "path": "./plugins/butler",
+      "hosts": ["claude", "codex"]
+    },
+    {
+      "name": "standards",
+      "kind": "local",
+      "path": "./plugins/standards",
+      "hosts": ["claude", "codex"]
+    }
+  ]
+}
