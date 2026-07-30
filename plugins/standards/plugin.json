@@ -25,7 +25,29 @@
       }
     ],
     "commands": ["standards", "standards-init"],
-    "hooks": true
+    "hooks": {
+      "claude": {
+        "manifest": "hooks/claude.json",
+        "script": "hooks/scripts/claude.mjs",
+        "registrations": [
+          { "event": "SessionStart", "matcher": "*", "timeout": 10 },
+          { "event": "UserPromptSubmit", "matcher": "*", "timeout": 10 },
+          { "event": "PostToolUse", "matcher": "Write|Edit|apply_patch", "timeout": 10 },
+          { "event": "SubagentStart", "matcher": "*", "timeout": 10 },
+          { "event": "PreToolUse", "matcher": "ExitPlanMode", "timeout": 10 }
+        ]
+      },
+      "codex": {
+        "manifest": "hooks/hooks.json",
+        "script": "hooks/scripts/codex.mjs",
+        "registrations": [
+          { "event": "SessionStart", "matcher": "*", "timeout": 10 },
+          { "event": "UserPromptSubmit", "matcher": "*", "timeout": 10 },
+          { "event": "PostToolUse", "matcher": "Write|Edit|apply_patch", "timeout": 10 },
+          { "event": "SubagentStart", "matcher": "*", "timeout": 10 }
+        ]
+      }
+    }
   },
   "interface": {
     "displayName": "Standards",

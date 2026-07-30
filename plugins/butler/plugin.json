@@ -45,7 +45,7 @@
       }
     ],
     "commands": ["decompose", "intake", "plan", "reschedule", "setup"],
-    "hooks": false
+    "hooks": null
   },
   "interface": {
     "displayName": "Butler",

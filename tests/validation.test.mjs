@@ -1,39 +1,48 @@
 import assert from "node:assert/strict";
-import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { execFile } from "node:child_process";
+import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
+import { buildProjections } from "../tools/portability/sync-plugins.mjs";
 import { validateRepository } from "../tools/portability/validate-repository.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const execFileAsync = promisify(execFile);
 
-function fixtureFilter(source) {
-  const segments = path.relative(ROOT, source).split(path.sep);
-  return !segments.includes(".git") && !segments.includes("node_modules");
+async function trackedFixture(prefix) {
+  const root = await mkdtemp(path.join(os.tmpdir(), prefix));
+  const { stdout } = await execFileAsync("git", ["-C", ROOT, "ls-files", "-z"], {
+    encoding: "buffer",
+    maxBuffer: 4 * 1024 * 1024,
+  });
+  for (const relative of stdout.toString("utf8").split("\0").filter(Boolean)) {
+    const target = path.join(root, relative);
+    await mkdir(path.dirname(target), { recursive: true });
+    await copyFile(path.join(ROOT, relative), target);
+  }
+  return root;
 }
 
 test("current repository contracts are valid", async () => {
   const result = await validateRepository(ROOT);
-  assert.deepEqual(result, { plugins: 2, projections: 15 });
+  const marketplace = JSON.parse(await readFile(path.join(ROOT, "marketplace/marketplace.json"), "utf8"));
+  assert.deepEqual(result, {
+    plugins: marketplace.plugins.filter(({ kind }) => kind === "local").length,
+    projections: (await buildProjections({ root: ROOT })).size,
+  });
 });
 
 test("missing generated components fail with an actionable path", async () => {
-  const root = await mkdtemp(path.join(os.tmpdir(), "bonbon-invalid-"));
-  await cp(ROOT, root, {
-    recursive: true,
-    filter: fixtureFilter,
-  });
+  const root = await trackedFixture("bonbon-invalid-");
   await rm(path.join(root, "plugins/standards/skills/standards/SKILL.md"));
   await assert.rejects(() => validateRepository(root), /skills\/standards\/SKILL\.md: missing component/);
 });
 
 test("clean CI installs the Claude native validator explicitly", async () => {
-  const root = await mkdtemp(path.join(os.tmpdir(), "bonbon-invalid-ci-"));
-  await cp(ROOT, root, {
-    recursive: true,
-    filter: fixtureFilter,
-  });
+  const root = await trackedFixture("bonbon-invalid-ci-");
   const workflow = path.join(root, ".github/workflows/validate.yml");
   const contents = await readFile(workflow, "utf8");
   await writeFile(workflow, contents.replace("      - run: npm run validators:install\n", ""));

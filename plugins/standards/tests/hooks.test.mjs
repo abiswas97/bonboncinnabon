@@ -8,7 +8,7 @@ import { promisify } from "node:util";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { adaptPayload, affectedPaths, nativeResponse, patchPaths } from "../hooks/lib/adapters.mjs";
-import { handleEvent, readPayload, traceDelivery } from "../hooks/lib/runtime.mjs";
+import { handleEvent, readPayload } from "../hooks/lib/runtime.mjs";
 
 const execFileAsync = promisify(execFile);
 const PLUGIN_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -175,39 +175,6 @@ test("native response rejects additionalContext for unregistered lifecycle event
   for (const nativeEvent of ["PreCompact", "Stop"]) {
     assert.equal(nativeResponse({ nativeEvent }, "must not be emitted"), null);
   }
-});
-
-test("opt-in lifecycle trace records only bounded contract metadata", async () => {
-  const directory = await mkdtemp(path.join(os.tmpdir(), "standards-trace-"));
-  const trace = path.join(directory, "trace.jsonl");
-  await traceDelivery(
-    {
-      hook_event_name: "UserPromptSubmit",
-      source: "compact",
-      permission_mode: "plan",
-      tool_name: "Write",
-      prompt: "secret prompt value",
-      tool_input: { content: "secret source value" },
-    },
-    {
-      hookSpecificOutput: {
-        hookEventName: "UserPromptSubmit",
-        additionalContext: "secret guidance value",
-      },
-    },
-    { STANDARDS_TRACE_FILE: trace },
-  );
-  const contents = await readFile(trace, "utf8");
-  assert(!contents.includes("secret"));
-  assert.deepEqual(JSON.parse(contents), {
-    event: "UserPromptSubmit",
-    source: "compact",
-    permissionMode: "plan",
-    toolName: "Write",
-    delivered: true,
-    guidanceLength: "secret guidance value".length,
-    outputFields: ["additionalContext", "hookEventName"],
-  });
 });
 
 test("event output is advisory, bounded, and deduplicated by session", async () => {

@@ -38,7 +38,7 @@ function claudeManifest(plugin) {
     license: plugin.license,
     keywords: plugin.tags,
   };
-  if (plugin.components.hooks) manifest.hooks = "./hooks/claude.json";
+  if (plugin.components.hooks?.claude) manifest.hooks = `./${plugin.components.hooks.claude.manifest}`;
   return manifest;
 }
 
@@ -62,27 +62,24 @@ function codexManifest(plugin) {
       defaultPrompt: plugin.interface.defaultPrompt,
     },
   };
-  if (plugin.components.hooks) manifest.hooks = "./hooks/hooks.json";
+  if (plugin.components.hooks?.codex) manifest.hooks = `./${plugin.components.hooks.codex.manifest}`;
   return manifest;
 }
 
-function hookCommand(host) {
+function hookCommand(host, script) {
   return host === "claude"
-    ? 'node "${CLAUDE_PLUGIN_ROOT}/hooks/scripts/claude.mjs"'
-    : 'node "$PLUGIN_ROOT/hooks/scripts/codex.mjs"';
+    ? `node "\${CLAUDE_PLUGIN_ROOT}/${script}"`
+    : `node "$PLUGIN_ROOT/${script}"`;
 }
 
-function hooks(host) {
-  const command = hookCommand(host);
-  const entry = (timeout = 10) => [{ matcher: "*", hooks: [{ type: "command", command, timeout }] }];
-  const hookMap = {
-    SessionStart: entry(),
-    UserPromptSubmit: entry(),
-    PostToolUse: [{ matcher: "Write|Edit|apply_patch", hooks: [{ type: "command", command, timeout: 10 }] }],
-    SubagentStart: entry(),
-  };
-  if (host === "claude") {
-    hookMap.PreToolUse = [{ matcher: "ExitPlanMode", hooks: [{ type: "command", command, timeout: 10 }] }];
+function hooks(host, config) {
+  const command = hookCommand(host, config.script);
+  const hookMap = {};
+  for (const registration of config.registrations) {
+    hookMap[registration.event] = [{
+      matcher: registration.matcher,
+      hooks: [{ type: "command", command, timeout: registration.timeout }],
+    }];
   }
   return { hooks: hookMap };
 }
@@ -95,8 +92,8 @@ async function loadCanonical(root) {
     const pluginFile = path.join(root, entry.path, "plugin.json");
     const plugin = validatePlugin(await readJson(pluginFile), pluginFile);
     if (plugin.name !== entry.name) throw new Error(`${pluginFile}.name: expected "${entry.name}"`);
-    for (const host of entry.hosts) {
-      if (!plugin.hosts.includes(host)) throw new Error(`${pluginFile}.hosts: missing marketplace host "${host}"`);
+    if ([...plugin.hosts].sort().join("\0") !== [...entry.hosts].sort().join("\0")) {
+      throw new Error(`${pluginFile}.hosts: must exactly match marketplace hosts`);
     }
     plugins.set(plugin.name, plugin);
   }
@@ -140,9 +137,13 @@ export async function buildProjections({ root = ROOT, platform = process.platfor
         outputs.set(path.join(entry.path, `skills/${skill.name}/agents/openai.yaml`), skillYaml(skill));
       }
     }
-    if (plugin.components.hooks) {
-      outputs.set(path.join(entry.path, "hooks/claude.json"), json(hooks("claude")));
-      outputs.set(path.join(entry.path, "hooks/hooks.json"), json(hooks("codex")));
+    if (plugin.components.hooks?.claude) {
+      const config = plugin.components.hooks.claude;
+      outputs.set(path.join(entry.path, config.manifest), json(hooks("claude", config)));
+    }
+    if (plugin.components.hooks?.codex) {
+      const config = plugin.components.hooks.codex;
+      outputs.set(path.join(entry.path, config.manifest), json(hooks("codex", config)));
     }
   }
   outputs.set(

@@ -56,6 +56,28 @@ function strings(value, at, errors, allowed) {
   });
 }
 
+function hookConfig(value, at, errors) {
+  exactKeys(value, ["manifest", "script", "registrations"], at, errors);
+  string(value?.manifest, `${at}.manifest`, errors, /^hooks\/[a-z0-9/-]+\.json$/);
+  string(value?.script, `${at}.script`, errors, /^hooks\/[a-z0-9/-]+\.mjs$/);
+  if (!Array.isArray(value?.registrations) || value.registrations.length === 0) {
+    errors.push(`${at}.registrations: expected non-empty array`);
+    return;
+  }
+  const events = new Set();
+  value.registrations.forEach((registration, index) => {
+    const registrationAt = `${at}.registrations[${index}]`;
+    exactKeys(registration, ["event", "matcher", "timeout"], registrationAt, errors);
+    string(registration?.event, `${registrationAt}.event`, errors);
+    string(registration?.matcher, `${registrationAt}.matcher`, errors);
+    if (!Number.isInteger(registration?.timeout) || registration.timeout < 1 || registration.timeout > 60) {
+      errors.push(`${registrationAt}.timeout: expected integer from 1 to 60`);
+    }
+    if (events.has(registration?.event)) errors.push(`${registrationAt}.event: duplicate event "${registration?.event}"`);
+    events.add(registration?.event);
+  });
+}
+
 function schemaVersion(value, at, errors) {
   if (value !== 1) errors.push(`${at}.schemaVersion: unsupported schema version ${JSON.stringify(value)}`);
 }
@@ -83,6 +105,7 @@ export function validateMarketplace(value, file = "marketplace.json") {
     names.add(plugin?.name);
     if (!["local", "external"].includes(plugin?.kind)) errors.push(`${at}.kind: expected local or external`);
     strings(plugin?.hosts, `${at}.hosts`, errors, HOSTS);
+    if (Array.isArray(plugin?.hosts) && plugin.hosts.length === 0) errors.push(`${at}.hosts: expected at least one host`);
     if (plugin?.kind === "local") string(plugin?.path, `${at}.path`, errors, /^\.\/plugins\/[a-z0-9-]+$/);
     if (plugin?.kind === "external" && !object(plugin?.claudeEntry, `${at}.claudeEntry`, errors)) continue;
     if (plugin?.kind === "external" && plugin?.hosts?.includes("codex")) {
@@ -112,6 +135,7 @@ export function validatePlugin(value, file = "plugin.json") {
   string(value?.category, `${file}.category`, errors);
   strings(value?.tags, `${file}.tags`, errors);
   strings(value?.hosts, `${file}.hosts`, errors, HOSTS);
+  if (Array.isArray(value?.hosts) && value.hosts.length === 0) errors.push(`${file}.hosts: expected at least one host`);
   exactKeys(value?.components, ["skills", "commands", "hooks"], `${file}.components`, errors);
   if (!Array.isArray(value?.components?.skills)) errors.push(`${file}.components.skills: expected array`);
   const skills = new Set();
@@ -132,7 +156,21 @@ export function validatePlugin(value, file = "plugin.json") {
     }
   }
   strings(value?.components?.commands, `${file}.components.commands`, errors);
-  if (typeof value?.components?.hooks !== "boolean") errors.push(`${file}.components.hooks: expected boolean`);
+  const hooks = value?.components?.hooks;
+  if (hooks === undefined) {
+    errors.push(`${file}.components.hooks: expected object or null`);
+  } else if (hooks !== null) {
+    exactKeys(hooks, ["claude", "codex"], `${file}.components.hooks`, errors);
+    if (object(hooks, `${file}.components.hooks`, errors) && Object.keys(hooks).length === 0) {
+      errors.push(`${file}.components.hooks: expected at least one host hook configuration or null`);
+    }
+    for (const host of ["claude", "codex"]) {
+      if (hooks?.[host] !== undefined) {
+        if (!value?.hosts?.includes(host)) errors.push(`${file}.components.hooks.${host}: host is not enabled`);
+        hookConfig(hooks[host], `${file}.components.hooks.${host}`, errors);
+      }
+    }
+  }
   exactKeys(
     value?.interface,
     ["displayName", "shortDescription", "longDescription", "developerName", "capabilities", "defaultPrompt"],

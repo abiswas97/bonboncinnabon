@@ -1,6 +1,6 @@
 # bonboncinnabon
 
-A portable personal plugin marketplace for Claude Code and Codex. The repository keeps host-neutral metadata as the source of truth and commits generated Claude and Codex packages so consumers do not need a build step.
+A portable plugin marketplace for Claude Code and Codex. The repository keeps host-neutral metadata as the source of truth and commits generated Claude and Codex packages so consumers do not need a build step.
 
 ## Plugins
 

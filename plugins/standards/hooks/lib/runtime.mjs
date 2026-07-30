@@ -1,4 +1,4 @@
-import { appendFile, readFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { adaptPayload, nativeResponse } from "./adapters.mjs";
 import { compactGitContext } from "./git-context.mjs";
@@ -92,32 +92,11 @@ export async function readPayload(stream = process.stdin, maxBytes = 1024 * 1024
   }
 }
 
-export async function traceDelivery(payload, response, env = process.env) {
-  const traceFile = env.STANDARDS_TRACE_FILE;
-  if (typeof traceFile !== "string" || !path.isAbsolute(traceFile)) return;
-  const output = response?.hookSpecificOutput;
-  const record = {
-    event: typeof payload?.hook_event_name === "string" ? payload.hook_event_name : null,
-    source: typeof payload?.source === "string" ? payload.source : null,
-    permissionMode: typeof payload?.permission_mode === "string" ? payload.permission_mode : null,
-    toolName: typeof payload?.tool_name === "string" ? payload.tool_name : null,
-    delivered: Boolean(output?.additionalContext),
-    guidanceLength: typeof output?.additionalContext === "string" ? output.additionalContext.length : 0,
-    outputFields: output ? Object.keys(output).sort() : [],
-  };
-  try {
-    await appendFile(traceFile, `${JSON.stringify(record)}\n`, { encoding: "utf8", mode: 0o600 });
-  } catch {
-    // Release diagnostics must never alter host behavior.
-  }
-}
-
 export async function run(host, { pluginRoot, env = process.env } = {}) {
   const payload = await readPayload();
   if (!payload) return;
   try {
     const response = await handleEvent(host, payload, { pluginRoot, env });
-    await traceDelivery(payload, response, env);
     if (response) process.stdout.write(`${JSON.stringify(response)}\n`);
   } catch (error) {
     if (env.STANDARDS_DEBUG === "1") process.stderr.write(`[standards] ${error.message}\n`);

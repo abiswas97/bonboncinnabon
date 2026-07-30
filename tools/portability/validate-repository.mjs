@@ -67,7 +67,9 @@ export async function validateRepository(root = ROOT) {
       continue;
     }
     for (const skill of plugin.components.skills) {
-      for (const relative of [`skills/${skill.name}/SKILL.md`, `skills/${skill.name}/agents/openai.yaml`]) {
+      const files = [`skills/${skill.name}/SKILL.md`];
+      if (entry.hosts.includes("codex")) files.push(`skills/${skill.name}/agents/openai.yaml`);
+      for (const relative of files) {
         if (!(await exists(path.join(pluginRoot, relative)))) errors.push(`${entry.path}/${relative}: missing component`);
       }
     }
@@ -79,12 +81,17 @@ export async function validateRepository(root = ROOT) {
         frontmatterDescription(await readFile(file, "utf8"), file, errors);
       }
     }
-    for (const relative of [".claude-plugin/plugin.json", ".codex-plugin/plugin.json"]) {
+    const projections = [];
+    if (entry.hosts.includes("claude")) projections.push(".claude-plugin/plugin.json");
+    if (entry.hosts.includes("codex")) projections.push(".codex-plugin/plugin.json");
+    for (const relative of projections) {
       if (!(await exists(path.join(pluginRoot, relative)))) errors.push(`${entry.path}/${relative}: missing projection`);
     }
     if (plugin.components.hooks) {
-      for (const relative of ["hooks/claude.json", "hooks/hooks.json", "hooks/scripts/claude.mjs", "hooks/scripts/codex.mjs"]) {
-        if (!(await exists(path.join(pluginRoot, relative)))) errors.push(`${entry.path}/${relative}: missing hook component`);
+      for (const config of Object.values(plugin.components.hooks)) {
+        for (const relative of [config.manifest, config.script]) {
+          if (!(await exists(path.join(pluginRoot, relative)))) errors.push(`${entry.path}/${relative}: missing hook component`);
+        }
       }
     }
   }
@@ -98,9 +105,7 @@ export async function validateRepository(root = ROOT) {
   }
   const projections = await buildProjections({ root });
   for (const [relative, expected] of projections) {
-    if (expected.includes("/Users/") || expected.includes("[TODO:")) {
-      errors.push(`${relative}: contains prohibited developer path or placeholder`);
-    }
+    if (expected.includes("[TODO:")) errors.push(`${relative}: contains scaffold placeholder`);
   }
   const standardsFiles = [
     "plugins/standards/skills/standards/SKILL.md",

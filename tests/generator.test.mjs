@@ -55,6 +55,63 @@ test("host hook projections intentionally differ and Codex declares its hook pat
   assert(projections.has(path.posix.join("plugins/standards", manifest.hooks)));
 });
 
+test("single-host plugins generate only eligible host artifacts", async () => {
+  const root = await fixtureRoot();
+  const marketplaceFile = path.join(root, "marketplace/marketplace.json");
+  const pluginFile = path.join(root, "plugins/standards/plugin.json");
+  const marketplace = JSON.parse(await readFile(marketplaceFile, "utf8"));
+  const plugin = JSON.parse(await readFile(pluginFile, "utf8"));
+  marketplace.plugins.find(({ name }) => name === "standards").hosts = ["claude"];
+  plugin.hosts = ["claude"];
+  delete plugin.components.hooks.codex;
+  await writeFile(marketplaceFile, `${JSON.stringify(marketplace, null, 2)}\n`);
+  await writeFile(pluginFile, `${JSON.stringify(plugin, null, 2)}\n`);
+
+  const projections = await buildProjections({ root });
+  assert(projections.has("plugins/standards/.claude-plugin/plugin.json"));
+  assert(projections.has("plugins/standards/hooks/claude.json"));
+  assert.equal(projections.has("plugins/standards/.codex-plugin/plugin.json"), false);
+  assert.equal(projections.has("plugins/standards/hooks/hooks.json"), false);
+  assert.equal(
+    [...projections.keys()].some((target) =>
+      target.startsWith("plugins/standards/skills/") && target.endsWith("/agents/openai.yaml")),
+    false,
+  );
+});
+
+test("marketplace and plugin host eligibility must match exactly", async () => {
+  const root = await fixtureRoot();
+  const marketplaceFile = path.join(root, "marketplace/marketplace.json");
+  const marketplace = JSON.parse(await readFile(marketplaceFile, "utf8"));
+  marketplace.plugins.find(({ name }) => name === "standards").hosts = ["claude"];
+  await writeFile(marketplaceFile, `${JSON.stringify(marketplace, null, 2)}\n`);
+  await assert.rejects(
+    () => buildProjections({ root }),
+    /plugins\/standards\/plugin\.json\.hosts: must exactly match marketplace hosts/,
+  );
+});
+
+test("hook projections are driven by each plugin's canonical host contract", async () => {
+  const root = await fixtureRoot();
+  const pluginFile = path.join(root, "plugins/standards/plugin.json");
+  const plugin = JSON.parse(await readFile(pluginFile, "utf8"));
+  plugin.components.hooks.claude.manifest = "hooks/custom.json";
+  plugin.components.hooks.claude.script = "hooks/scripts/custom.mjs";
+  plugin.components.hooks.claude.registrations = [
+    { event: "PostToolUse", matcher: "CustomTool", timeout: 7 },
+  ];
+  await writeFile(pluginFile, `${JSON.stringify(plugin, null, 2)}\n`);
+
+  const projections = await buildProjections({ root });
+  const manifest = JSON.parse(projections.get("plugins/standards/.claude-plugin/plugin.json"));
+  const hookMap = JSON.parse(projections.get("plugins/standards/hooks/custom.json"));
+  assert.equal(manifest.hooks, "./hooks/custom.json");
+  assert.deepEqual(Object.keys(hookMap.hooks), ["PostToolUse"]);
+  assert.equal(hookMap.hooks.PostToolUse[0].matcher, "CustomTool");
+  assert.equal(hookMap.hooks.PostToolUse[0].hooks[0].timeout, 7);
+  assert.match(hookMap.hooks.PostToolUse[0].hooks[0].command, /hooks\/scripts\/custom\.mjs/);
+});
+
 test("generated hook commands use host plugin roots and timeout shape", async () => {
   const projections = await buildProjections({ root: ROOT });
   for (const [host, target, expectedRoot] of [

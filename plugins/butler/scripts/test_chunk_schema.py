@@ -4,13 +4,13 @@
     python3 scripts/test_chunk_schema.py          (from the plugin root)
 
 Two layers:
-- STRUCTURAL (always run, stdlib `json` only): pin the load-bearing clauses so a
+- STRUCTURAL: pin the load-bearing clauses so a
   careless edit can't silently weaken the contract — the work-axes if/then, the
   personal-forbids-axes else, the required list, kind=TEXT, and reminder.triggers
   being a non-empty array.
-- SEMANTIC (run only when `jsonschema` is installed; pip install jsonschema):
-  validate canonical instances against the real schema. Skips cleanly otherwise,
-  so the stdlib-only invariant of the test suite is preserved.
+- SEMANTIC: validate canonical instances against the real schema. `jsonschema`
+  is a required development dependency so missing setup fails instead of
+  producing a false-green validation run.
 
 The stage enum's single source of truth is config.yaml `contexts.work.pipeline`;
 these tests pin the schema's own copy, not the cross-file sync (that has no stdlib
@@ -33,9 +33,10 @@ STAGES = ["research", "db", "backend", "frontend", "review",
 
 try:
     from jsonschema import Draft202012Validator
-    HAS_JSONSCHEMA = True
-except ImportError:
-    HAS_JSONSCHEMA = False
+except ImportError as error:
+    raise SystemExit(
+        "jsonschema is required; run python3 -m pip install -r requirements-dev.txt"
+    ) from error
 
 
 class Structure(unittest.TestCase):
@@ -92,7 +93,6 @@ def personal(**over):
     return c
 
 
-@unittest.skipUnless(HAS_JSONSCHEMA, "pip install jsonschema to run semantic validation")
 class Semantic(unittest.TestCase):
     def setUp(self):
         Draft202012Validator.check_schema(SCHEMA)
