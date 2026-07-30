@@ -24,18 +24,6 @@
         ]
       }
     ],
-    "PreToolUse": [
-      {
-        "matcher": "ExitPlanMode",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/claude.mjs\"",
-            "timeout": 10
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit|apply_patch",
@@ -48,7 +36,7 @@
         ]
       }
     ],
-    "PreCompact": [
+    "SubagentStart": [
       {
         "matcher": "*",
         "hooks": [
@@ -60,9 +48,9 @@
         ]
       }
     ],
-    "Stop": [
+    "PreToolUse": [
       {
-        "matcher": "*",
+        "matcher": "ExitPlanMode",
         "hooks": [
           {
             "type": "command",

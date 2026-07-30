@@ -81,3 +81,12 @@ test("overlay rejects unsupported schema versions and selectors", () => {
     /unsupported schema version[\s\S]*unsupported value "ship"/,
   );
 });
+
+test("registry rejects the removed complete lifecycle", () => {
+  const rule = validRule();
+  rule.lifecycles = ["complete"];
+  assert.throws(
+    () => validateRegistry({ schemaVersion: 1, rules: [rule] }),
+    /unsupported value "complete"/,
+  );
+});

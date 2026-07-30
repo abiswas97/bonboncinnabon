@@ -1,6 +1,0 @@
-{
-  "hook_event_name": "Stop",
-  "session_id": "codex-stop",
-  "cwd": ".",
-  "reason": "complete"
-}

@@ -24,18 +24,6 @@
         ]
       }
     ],
-    "PreToolUse": [
-      {
-        "matcher": "ExitPlanMode",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"$PLUGIN_ROOT/hooks/scripts/codex.mjs\"",
-            "timeout": 10
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit|apply_patch",
@@ -48,19 +36,7 @@
         ]
       }
     ],
-    "PreCompact": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"$PLUGIN_ROOT/hooks/scripts/codex.mjs\"",
-            "timeout": 10
-          }
-        ]
-      }
-    ],
-    "Stop": [
+    "SubagentStart": [
       {
         "matcher": "*",
         "hooks": [

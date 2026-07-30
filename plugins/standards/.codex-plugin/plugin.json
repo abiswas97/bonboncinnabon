@@ -27,5 +27,6 @@
       "Lifecycle guidance"
     ],
     "defaultPrompt": "Show me the engineering standards that apply to this work."
-  }
+  },
+  "hooks": "./hooks/hooks.json"
 }

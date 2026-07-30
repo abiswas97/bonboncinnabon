@@ -2,10 +2,10 @@ import path from "node:path";
 
 const EVENT_LIFECYCLE = new Map([
   ["SessionStart", "session"],
-  ["PreCompact", "compact"],
   ["PostToolUse", "edit"],
-  ["Stop", "complete"],
+  ["SubagentStart", "subagent"],
 ]);
+const CONTEXT_EVENTS = new Set(["SessionStart", "UserPromptSubmit", "PreToolUse", "PostToolUse", "SubagentStart"]);
 
 function inside(root, candidate) {
   if (typeof candidate !== "string" || candidate.length === 0) return null;
@@ -62,11 +62,12 @@ export function adaptPayload(host, payload, repositoryRoot) {
     paths: resolvedLifecycle === "edit" ? affectedPaths(payload, repositoryRoot) : [],
     role: "implementation",
     toolName,
+    source: resolvedLifecycle === "session" && typeof payload.source === "string" ? payload.source : null,
   };
 }
 
 export function nativeResponse(event, guidance) {
-  if (!event || !guidance) return null;
+  if (!event || !guidance || !CONTEXT_EVENTS.has(event.nativeEvent)) return null;
   return {
     hookSpecificOutput: {
       hookEventName: event.nativeEvent,

@@ -1,0 +1,7 @@
+{
+  "hook_event_name": "SubagentStart",
+  "session_id": "codex-subagent",
+  "cwd": ".",
+  "agent_id": "worker-1",
+  "agent_type": "worker"
+}

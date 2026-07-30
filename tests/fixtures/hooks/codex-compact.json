@@ -1,6 +1,0 @@
-{
-  "hook_event_name": "PreCompact",
-  "session_id": "codex-compact",
-  "cwd": ".",
-  "trigger": "auto"
-}

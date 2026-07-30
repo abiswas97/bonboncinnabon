@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 
 import { execFile } from "node:child_process";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
 
 const execFileAsync = promisify(execFile);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+const PACKAGE = JSON.parse(await readFile(path.join(ROOT, "package.json"), "utf8"));
+const EXPECTED_CODEX_VERSION = PACKAGE.devDependencies?.["@openai/codex"];
 
 async function binary(name) {
   const local = path.join(ROOT, "node_modules/.bin", name);
@@ -37,5 +40,7 @@ for (const target of ["plugins/butler", "plugins/standards", ".claude-plugin/mar
   await run(claude, ["plugin", "validate", "--strict", target]);
 }
 const { stdout: codexVersion } = await run(codex, ["--version"]);
-if (!codexVersion.includes("0.145.0")) throw new Error(`Expected pinned Codex 0.145.0, got ${codexVersion.trim()}`);
+if (!EXPECTED_CODEX_VERSION || !codexVersion.includes(EXPECTED_CODEX_VERSION)) {
+  throw new Error(`Expected pinned Codex ${EXPECTED_CODEX_VERSION ?? "(missing)"}, got ${codexVersion.trim()}`);
+}
 process.stdout.write("Pinned Claude manifests and Codex CLI contract validated.\n");

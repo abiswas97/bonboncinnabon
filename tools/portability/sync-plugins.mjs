@@ -43,7 +43,7 @@ function claudeManifest(plugin) {
 }
 
 function codexManifest(plugin) {
-  return {
+  const manifest = {
     name: plugin.name,
     version: plugin.version,
     description: plugin.description,
@@ -62,6 +62,8 @@ function codexManifest(plugin) {
       defaultPrompt: plugin.interface.defaultPrompt,
     },
   };
+  if (plugin.components.hooks) manifest.hooks = "./hooks/hooks.json";
+  return manifest;
 }
 
 function hookCommand(host) {
@@ -73,16 +75,16 @@ function hookCommand(host) {
 function hooks(host) {
   const command = hookCommand(host);
   const entry = (timeout = 10) => [{ matcher: "*", hooks: [{ type: "command", command, timeout }] }];
-  return {
-    hooks: {
-      SessionStart: entry(),
-      UserPromptSubmit: entry(),
-      PreToolUse: [{ matcher: "ExitPlanMode", hooks: [{ type: "command", command, timeout: 10 }] }],
-      PostToolUse: [{ matcher: "Write|Edit|apply_patch", hooks: [{ type: "command", command, timeout: 10 }] }],
-      PreCompact: entry(),
-      Stop: entry(),
-    },
+  const hookMap = {
+    SessionStart: entry(),
+    UserPromptSubmit: entry(),
+    PostToolUse: [{ matcher: "Write|Edit|apply_patch", hooks: [{ type: "command", command, timeout: 10 }] }],
+    SubagentStart: entry(),
   };
+  if (host === "claude") {
+    hookMap.PreToolUse = [{ matcher: "ExitPlanMode", hooks: [{ type: "command", command, timeout: 10 }] }];
+  }
+  return { hooks: hookMap };
 }
 
 async function loadCanonical(root) {

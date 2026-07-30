@@ -15,11 +15,12 @@
     "validate:repo": "node tools/portability/validate-repository.mjs",
     "validate:hosts": "node tools/portability/validate-hosts.mjs",
     "validate:install": "node tools/portability/smoke-install.mjs",
+    "validate:lifecycle": "node tools/portability/lifecycle-smoke.mjs",
     "validate:release": "node tools/portability/validate-release.mjs",
     "validate": "npm run plugins:check && npm test && npm run test:butler && npm run validate:repo && npm run validate:hosts && npm run validate:install && npm run validate:release"
   },
   "devDependencies": {
     "@anthropic-ai/claude-code": "2.1.220",
-    "@openai/codex": "0.145.0"
+    "@openai/codex": "0.146.0"
   }
 }

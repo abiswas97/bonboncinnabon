@@ -7,8 +7,8 @@ import { Readable } from "node:stream";
 import { promisify } from "node:util";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
-import { adaptPayload, affectedPaths, patchPaths } from "../hooks/lib/adapters.mjs";
-import { handleEvent, readPayload } from "../hooks/lib/runtime.mjs";
+import { adaptPayload, affectedPaths, nativeResponse, patchPaths } from "../hooks/lib/adapters.mjs";
+import { handleEvent, readPayload, traceDelivery } from "../hooks/lib/runtime.mjs";
 
 const execFileAsync = promisify(execFile);
 const PLUGIN_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -28,11 +28,14 @@ test("native fixtures map to neutral lifecycle contracts", async () => {
   const root = await repository();
   const cases = [
     ["claude-session.json", "claude", "session"],
+    ["codex-session-compact.json", "codex", "session"],
+    ["claude-prompt-plan.json", "claude", "plan"],
+    ["codex-prompt-plan.json", "codex", "plan"],
     ["claude-plan.json", "claude", "plan"],
     ["claude-edit.json", "claude", "edit"],
     ["codex-patch.json", "codex", "edit"],
-    ["codex-compact.json", "codex", "compact"],
-    ["codex-stop.json", "codex", "complete"],
+    ["claude-subagent.json", "claude", "subagent"],
+    ["codex-subagent.json", "codex", "subagent"],
   ];
   for (const [name, host, lifecycle] of cases) {
     const payload = await fixture(name, { cwd: root });
@@ -65,34 +68,146 @@ test("affected paths are normalized, deduplicated, and cannot escape the reposit
   assert.deepEqual(paths, ["src/a.ts", "src/b.ts"]);
 });
 
-test("session output contains all commandments once and stays within budget", async () => {
+test("Claude and Codex startup, resume, and clear sessions contain commandments and index without Git context", async () => {
   const root = await repository();
-  const response = await handleEvent("claude", await fixture("claude-session.json", { cwd: root }), {
-    pluginRoot: PLUGIN_ROOT,
-    env: {},
-  });
-  const guidance = response.hookSpecificOutput.additionalContext;
-  for (let index = 1; index <= 10; index += 1) {
-    assert.match(guidance, new RegExp(`C${String(index).padStart(2, "0")}\\.`));
+  for (const host of ["claude", "codex"]) {
+    for (const source of ["startup", "resume", "clear"]) {
+      const response = await handleEvent(
+        host,
+        await fixture("claude-session.json", { cwd: root, session_id: `${host}-${source}`, source }),
+        {
+          pluginRoot: PLUGIN_ROOT,
+          env: {},
+        },
+      );
+      const guidance = response.hookSpecificOutput.additionalContext;
+      for (let index = 1; index <= 10; index += 1) {
+        assert.match(guidance, new RegExp(`C${String(index).padStart(2, "0")}\\.`));
+      }
+      assert.match(guidance, /## Supporting rule index/);
+      assert(!guidance.includes("## Working context"));
+      assert(guidance.length <= 7_000);
+      assert.deepEqual(Object.keys(response.hookSpecificOutput).sort(), ["additionalContext", "hookEventName"]);
+    }
   }
-  assert(guidance.length <= 7_000);
-  assert.deepEqual(Object.keys(response.hookSpecificOutput).sort(), ["additionalContext", "hookEventName"]);
 });
 
-test("compaction includes capped safe Git context without secrets or absolute roots", async () => {
+test("Claude and Codex compacted sessions include capped secret-safe Git context", async () => {
   const root = await repository();
   await writeFile(path.join(root, "tracked.txt"), "token=super-secret-value\n");
   await execFileAsync("git", ["-C", root, "add", "tracked.txt"]);
   await execFileAsync("git", ["-C", root, "remote", "add", "origin", "https://user:secret@example.invalid/repo.git"]);
-  const response = await handleEvent("codex", await fixture("codex-compact.json", { cwd: root }), {
-    pluginRoot: PLUGIN_ROOT,
-    env: { API_TOKEN: "super-secret-value" },
+  for (const host of ["claude", "codex"]) {
+    const response = await handleEvent(host, await fixture("codex-session-compact.json", { cwd: root, session_id: `${host}-compact` }), {
+      pluginRoot: PLUGIN_ROOT,
+      env: { API_TOKEN: "super-secret-value" },
+    });
+    const guidance = response.hookSpecificOutput.additionalContext;
+    assert.match(guidance, /Changed tracked paths: 1/);
+    assert(!guidance.includes("super-secret-value"));
+    assert(!guidance.includes("example.invalid"));
+    assert(!guidance.includes(root));
+  }
+});
+
+test("subagent start contains exact commandments and precedence without index or Git context", async () => {
+  const root = await repository();
+  const canonical = (await readFile(path.join(PLUGIN_ROOT, "standards/commandments.md"), "utf8")).trim();
+  for (const [host, name] of [
+    ["claude", "claude-subagent.json"],
+    ["codex", "codex-subagent.json"],
+  ]) {
+    const response = await handleEvent(host, await fixture(name, { cwd: root }), {
+      pluginRoot: PLUGIN_ROOT,
+      env: {},
+    });
+    const guidance = response.hookSpecificOutput.additionalContext;
+    assert.equal(guidance, canonical);
+    assert(!guidance.includes("## Supporting rule index"));
+    assert(!guidance.includes("## Working context"));
+  }
+});
+
+test("normal prompts are silent while permission_mode plan is advisory", async () => {
+  const root = await repository();
+  const normal = await handleEvent(
+    "codex",
+    { hook_event_name: "UserPromptSubmit", permission_mode: "default", cwd: root },
+    { pluginRoot: PLUGIN_ROOT, env: {} },
+  );
+  assert.equal(normal, null);
+  for (const [host, name] of [
+    ["claude", "claude-prompt-plan.json"],
+    ["codex", "codex-prompt-plan.json"],
+  ]) {
+    const response = await handleEvent(host, await fixture(name, { cwd: root }), {
+      pluginRoot: PLUGIN_ROOT,
+      env: {},
+    });
+    assert(response.hookSpecificOutput.additionalContext.length <= 2_500);
+  }
+});
+
+test("every registered event emits only its allowed native output fields", async () => {
+  const root = await repository();
+  const cases = [
+    ["claude", "claude-session.json"],
+    ["codex", "codex-session-compact.json"],
+    ["claude", "claude-prompt-plan.json"],
+    ["codex", "codex-prompt-plan.json"],
+    ["claude", "claude-plan.json"],
+    ["claude", "claude-edit.json"],
+    ["codex", "codex-patch.json"],
+    ["claude", "claude-subagent.json"],
+    ["codex", "codex-subagent.json"],
+  ];
+  for (const [host, name] of cases) {
+    const response = await handleEvent(host, await fixture(name, { cwd: root, session_id: `${host}-${name}` }), {
+      pluginRoot: PLUGIN_ROOT,
+      env: {},
+    });
+    assert.deepEqual(Object.keys(response), ["hookSpecificOutput"]);
+    assert.deepEqual(Object.keys(response.hookSpecificOutput).sort(), ["additionalContext", "hookEventName"]);
+  }
+});
+
+test("native response rejects additionalContext for unregistered lifecycle events", () => {
+  for (const nativeEvent of ["PreCompact", "Stop"]) {
+    assert.equal(nativeResponse({ nativeEvent }, "must not be emitted"), null);
+  }
+});
+
+test("opt-in lifecycle trace records only bounded contract metadata", async () => {
+  const directory = await mkdtemp(path.join(os.tmpdir(), "standards-trace-"));
+  const trace = path.join(directory, "trace.jsonl");
+  await traceDelivery(
+    {
+      hook_event_name: "UserPromptSubmit",
+      source: "compact",
+      permission_mode: "plan",
+      tool_name: "Write",
+      prompt: "secret prompt value",
+      tool_input: { content: "secret source value" },
+    },
+    {
+      hookSpecificOutput: {
+        hookEventName: "UserPromptSubmit",
+        additionalContext: "secret guidance value",
+      },
+    },
+    { STANDARDS_TRACE_FILE: trace },
+  );
+  const contents = await readFile(trace, "utf8");
+  assert(!contents.includes("secret"));
+  assert.deepEqual(JSON.parse(contents), {
+    event: "UserPromptSubmit",
+    source: "compact",
+    permissionMode: "plan",
+    toolName: "Write",
+    delivered: true,
+    guidanceLength: "secret guidance value".length,
+    outputFields: ["additionalContext", "hookEventName"],
   });
-  const guidance = response.hookSpecificOutput.additionalContext;
-  assert.match(guidance, /Changed tracked paths: 1/);
-  assert(!guidance.includes("super-secret-value"));
-  assert(!guidance.includes("example.invalid"));
-  assert(!guidance.includes(root));
 });
 
 test("event output is advisory, bounded, and deduplicated by session", async () => {
@@ -114,7 +229,7 @@ test("event output is advisory, bounded, and deduplicated by session", async () 
 
 test("unwritable or absent state remains a non-blocking optimization", async () => {
   const root = await repository();
-  const response = await handleEvent("codex", await fixture("codex-stop.json", { cwd: root }), {
+  const response = await handleEvent("codex", await fixture("codex-prompt-plan.json", { cwd: root }), {
     pluginRoot: PLUGIN_ROOT,
     env: {},
   });
@@ -126,6 +241,8 @@ test("unsupported, incomplete, non-plan prompt, and malformed payloads are silen
   assert.equal(adaptPayload("claude", {}, root), null);
   assert.equal(adaptPayload("codex", { hook_event_name: "Notification" }, root), null);
   assert.equal(adaptPayload("claude", { hook_event_name: "UserPromptSubmit", mode: "default" }, root), null);
+  assert.equal(adaptPayload("codex", { hook_event_name: "PreCompact" }, root), null);
+  assert.equal(adaptPayload("codex", { hook_event_name: "Stop" }, root), null);
   assert.equal(await readPayload(Readable.from(["not-json"])), null);
   assert.equal(await readPayload(Readable.from(["x".repeat(1_100_000)])), null);
 });

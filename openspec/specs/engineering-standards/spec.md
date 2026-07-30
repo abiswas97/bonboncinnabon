@@ -61,26 +61,47 @@ Standards SHALL resolve an optional `.standards/standards.json` repository overl
 
 ### Requirement: Lifecycle-aware advisory guidance
 
-Host adapters SHALL map native events into a shared lifecycle model for session start, compaction or resume, planning, editing, and completion where the host exposes a suitable event. Version 1 hooks MUST remain advisory and MUST NOT deny a tool, require confirmation, or force a continuation loop.
+Host adapters SHALL map native events into a shared lifecycle model for session
+start, compacted continuation, planning, editing, and subagent start where the
+host exposes a suitable event. Version 1 hooks MUST remain advisory and MUST NOT
+deny a tool, approve a permission, or force a continuation loop.
+
+#### Scenario: Start or resume a root session
+
+- **WHEN** `SessionStart` has source `startup`, `resume`, or `clear`
+- **THEN** the hook delivers the exact commandments, precedence rule, and
+  supporting-rule index through an event-supported context field
+
+#### Scenario: Continue after compaction
+
+- **WHEN** `SessionStart` has source `compact`
+- **THEN** the hook delivers the same guidance plus bounded secret-safe Git context
+
+#### Scenario: Start a delegated subagent
+
+- **WHEN** a supported host emits `SubagentStart`
+- **THEN** the hook delivers the exact commandments and precedence rule without
+  the supporting-rule index or Git context
+
+#### Scenario: Plan has an evidence gap
+
+- **WHEN** `UserPromptSubmit` reports `permission_mode: "plan"` or Claude invokes
+  `ExitPlanMode`
+- **THEN** the hook returns compact advisory guidance with applicable rule IDs
+  and permits the plan to proceed
 
 #### Scenario: Host exposes no equivalent lifecycle event
 
 - **WHEN** one host lacks an event available in the other host
 - **THEN** that guidance is omitted or delivered at the nearest safe lifecycle without fabricating blocking semantics
 
-#### Scenario: Plan has an evidence gap
-
-- **WHEN** a planning lifecycle event describes implementation without proportionate verification
-- **THEN** the hook returns compact advisory guidance with applicable rule IDs and permits the plan to proceed
-
-#### Scenario: Completion has no detectable gap
-
-- **WHEN** a completion lifecycle event contains sufficient verification evidence
-- **THEN** the hook emits no output and does not alter completion
-
 ### Requirement: Low-context delivery
 
-Standards MUST inject full commandments only at session start and after compaction or resume. Later lifecycle feedback MUST use stable rule IDs, deduplicate already-delivered rules when session state is available, and respect defined output caps.
+Standards MUST inject full commandments only at root `SessionStart` and
+`SubagentStart`. Root session guidance MAY include the supporting index, while
+subagent guidance MUST omit it. Later plan and edit feedback MUST use stable rule
+IDs, deduplicate already-delivered rules when session state is available, and
+respect defined output caps.
 
 #### Scenario: Repeat an edit in the same scope
 
@@ -113,12 +134,21 @@ Deduplication state MUST contain only host identifier, session identifier, deliv
 
 ### Requirement: Compact and safe Git context
 
-Session and compaction guidance MAY include repository root, branch state, a capped changed-path summary, and a short recent-commit summary. It MUST NOT include raw diffs, file contents, commit bodies, remote URLs, environment variables, or resolved secrets.
+Standards SHALL limit Git context to compacted-continuation guidance, which MAY
+include repository root label, branch state, a capped changed-path summary, and a
+short recent-commit summary. It MUST NOT include raw diffs, source contents,
+commit bodies, remote URLs, environment variables, resolved secrets, or an
+absolute developer path.
 
-#### Scenario: Start inside a Git repository
+#### Scenario: Continue after compaction inside a Git repository
 
-- **WHEN** Git commands finish within their timeout
+- **WHEN** `SessionStart` has source `compact` and Git commands finish within their timeout
 - **THEN** guidance includes only the allowed capped repository context
+
+#### Scenario: Start or resume without compaction
+
+- **WHEN** `SessionStart` has source `startup`, `resume`, or `clear`
+- **THEN** guidance omits Git context
 
 #### Scenario: Git is absent or times out
 

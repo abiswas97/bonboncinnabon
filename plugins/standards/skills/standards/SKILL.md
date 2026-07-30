@@ -16,7 +16,7 @@ Use the canonical files under `${PLUGIN_ROOT}/standards/`; do not reproduce or i
    - `extends: "default"` merges defaults first and lets matching supporting-rule IDs override.
    - no `extends` replaces supporting defaults.
    - commandments and precedence are always retained and cannot be overridden.
-5. Filter supporting rules by the requested lifecycle, role, and path. Treat an empty selector as universal. If the user omits lifecycle or role, state the assumption and use all relevant implementation phases (`plan`, `edit`, and `complete`) with role `implementation`.
+5. Filter supporting rules by the requested lifecycle, role, and path. Treat an empty selector as universal. If the user omits lifecycle or role, state the assumption and use all relevant implementation phases (`plan` and `edit`) with role `implementation`.
 6. Check `AGENTS.md`, `CLAUDE.md`, and narrower repository instructions relevant to the target. Explicit repository instructions win over supporting defaults; report conflicts.
 7. Lead with applicable commandment or rule IDs and concise actions. Read detailed references only for cited rules. Resolve default references under `${PLUGIN_ROOT}/standards/`; resolve overlay references under the repository's `.standards/`.
 

@@ -2,7 +2,7 @@ import { access, readFile } from "node:fs/promises";
 import path from "node:path";
 
 const COMMANDMENTS = new Set(Array.from({ length: 10 }, (_, index) => `C${String(index + 1).padStart(2, "0")}`));
-const LIFECYCLES = new Set(["session", "compact", "plan", "edit", "complete"]);
+const LIFECYCLES = new Set(["session", "plan", "edit", "subagent"]);
 const CLASSES = new Set(["enforced", "review", "advisory"]);
 const RULE_KEYS = new Set(["id", "title", "summary", "class", "lifecycles", "paths", "roles", "reference"]);
 

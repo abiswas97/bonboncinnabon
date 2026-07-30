@@ -30,6 +30,50 @@ test("projection order and host filtering are deterministic", async () => {
   assert.deepEqual(codex.plugins.map(({ name }) => name), ["butler", "standards"]);
 });
 
+test("host hook projections intentionally differ and Codex declares its hook path", async () => {
+  const projections = await buildProjections({ root: ROOT });
+  const claude = JSON.parse(projections.get("plugins/standards/hooks/claude.json"));
+  const codex = JSON.parse(projections.get("plugins/standards/hooks/hooks.json"));
+  assert.notDeepEqual(claude, codex);
+  assert.deepEqual(Object.keys(claude.hooks).sort(), [
+    "PostToolUse",
+    "PreToolUse",
+    "SessionStart",
+    "SubagentStart",
+    "UserPromptSubmit",
+  ]);
+  assert.deepEqual(Object.keys(codex.hooks).sort(), [
+    "PostToolUse",
+    "SessionStart",
+    "SubagentStart",
+    "UserPromptSubmit",
+  ]);
+  assert.equal(claude.hooks.PreToolUse[0].matcher, "ExitPlanMode");
+  assert.equal(codex.hooks.PreToolUse, undefined);
+  const manifest = JSON.parse(projections.get("plugins/standards/.codex-plugin/plugin.json"));
+  assert.equal(manifest.hooks, "./hooks/hooks.json");
+  assert(projections.has(path.posix.join("plugins/standards", manifest.hooks)));
+});
+
+test("generated hook commands use host plugin roots and timeout shape", async () => {
+  const projections = await buildProjections({ root: ROOT });
+  for (const [host, target, expectedRoot] of [
+    ["claude", "plugins/standards/hooks/claude.json", "${CLAUDE_PLUGIN_ROOT}"],
+    ["codex", "plugins/standards/hooks/hooks.json", "$PLUGIN_ROOT"],
+  ]) {
+    const hookMap = JSON.parse(projections.get(target));
+    for (const registrations of Object.values(hookMap.hooks)) {
+      for (const registration of registrations) {
+        for (const hook of registration.hooks) {
+          assert.equal(hook.type, "command", host);
+          assert.equal(hook.timeout, 10, host);
+          assert.match(hook.command, new RegExp(expectedRoot.replace(/[${}]/g, "\\$&")), host);
+        }
+      }
+    }
+  }
+});
+
 test("unsupported platform fails clearly", async () => {
   await assert.rejects(() => buildProjections({ root: ROOT, platform: "win32" }), /supports macOS and Linux/);
 });

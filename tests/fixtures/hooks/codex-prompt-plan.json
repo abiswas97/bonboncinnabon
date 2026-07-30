@@ -1,0 +1,7 @@
+{
+  "hook_event_name": "UserPromptSubmit",
+  "session_id": "codex-prompt-plan",
+  "cwd": ".",
+  "permission_mode": "plan",
+  "prompt": "Plan a safe implementation."
+}

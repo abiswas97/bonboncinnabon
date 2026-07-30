@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 const HOSTS = new Set(["claude", "codex"]);
-const LIFECYCLES = new Set(["session", "compact", "plan", "edit", "complete"]);
+const LIFECYCLES = new Set(["session", "plan", "edit", "subagent"]);
 const CLASSES = new Set(["enforced", "review", "advisory"]);
 const RULE_ID = /^[A-Z][A-Z0-9-]+$/;
 const NAME = /^[a-z0-9-]+$/;

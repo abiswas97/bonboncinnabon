@@ -30,7 +30,7 @@ export async function compactGitContext(root) {
     const [branch, status, recent] = await Promise.all([
       safeGit(root, ["branch", "--show-current"]),
       safeGit(root, ["status", "--porcelain=v1", "-uno"]),
-      safeGit(root, ["log", "-1", "--pretty=%h %s"]),
+      safeGit(root, ["log", "-1", "--pretty=%h"]),
     ]);
     const changed = status
       .split("\n")
@@ -42,7 +42,7 @@ export async function compactGitContext(root) {
       `Repository: ${path.basename(root)}`,
       `Branch: ${branch || "detached HEAD"}`,
       `Changed tracked paths: ${changed.length}${omitted ? ` (+${omitted} more)` : ""}${changed.length ? ` — ${changed.join(", ")}` : ""}`,
-      recent ? `Recent commit: ${recent.slice(0, 160)}` : null,
+      recent ? `Recent commit: ${recent.slice(0, 40)}` : null,
     ]
       .filter(Boolean)
       .join("\n");

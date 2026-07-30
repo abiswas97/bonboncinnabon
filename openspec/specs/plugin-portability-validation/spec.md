@@ -37,7 +37,28 @@ The repository MUST provide a check mode that computes every expected projection
 
 ### Requirement: Strict host contract validation
 
-Generated Claude and Codex marketplace catalogs, plugin manifests, skills, command frontmatter, hook maps, and executable references MUST pass repository contract checks and the pinned host validators where available.
+Generated Claude and Codex artifacts MUST pass repository contract checks and
+the pinned host validators where available, including marketplace catalogs,
+plugin manifests, skills, command frontmatter, purpose-specific hook maps, and
+executable references.
+The Codex manifest MUST explicitly declare its hook map path, and validation MUST
+assert that each host receives only its intended registrations.
+
+#### Scenario: Host hook capabilities differ
+
+- **WHEN** generated artifacts are validated
+- **THEN** Claude alone contains the `ExitPlanMode` `PreToolUse` registration and
+  both hosts contain only their supported shared registrations
+
+#### Scenario: Codex manifest references hook configuration
+
+- **WHEN** the Codex plugin manifest is generated
+- **THEN** its explicit hook path resolves to the generated Codex hook map
+
+#### Scenario: Generated command invokes plugin code
+
+- **WHEN** generated command frontmatter is validated
+- **THEN** it uses that host's plugin-root environment variable and required timeout shape
 
 #### Scenario: Claude command contains invalid frontmatter
 
@@ -51,17 +72,23 @@ Generated Claude and Codex marketplace catalogs, plugin manifests, skills, comma
 
 ### Requirement: Native payload contract fixtures
 
-Tests MUST cover representative Claude and Codex payload fixtures for each supported lifecycle and tool event, including malformed, incomplete, multi-path, moved-path, non-repository, and oversized input.
+Tests MUST cover representative Claude and Codex payload fixtures for every
+registered lifecycle and tool event, including startup and compact session
+sources, normal and plan prompts, Claude `ExitPlanMode`, multi-path patches,
+subagent start, malformed input, traversal paths, deduplication, and oversized
+input. Tests MUST also reject the former `PreCompact` and `Stop`
+`additionalContext` responses.
 
-#### Scenario: Parse a recorded host payload
+#### Scenario: Parse a registered host payload
 
 - **WHEN** an adapter receives a supported fixture
-- **THEN** it produces the expected neutral event and bounded native response
+- **THEN** it produces the expected neutral event and exactly the native output
+  fields allowed for that registered event
 
-#### Scenario: Parse malformed input
+#### Scenario: Parse an unregistered or malformed payload
 
-- **WHEN** an adapter receives invalid JSON or missing optional fields
-- **THEN** it exits successfully with no unsafe action or blocking host decision
+- **WHEN** an adapter receives `PreCompact`, `Stop`, invalid JSON, or missing optional fields
+- **THEN** it exits successfully without `additionalContext`, unsafe action, or blocking decision
 
 ### Requirement: Output safety and budget validation
 
@@ -79,7 +106,10 @@ Automated tests MUST prove that hook output remains within its lifecycle budget,
 
 ### Requirement: Isolated dual-host installation smoke tests
 
-CI MUST exercise marketplace addition and local plugin installation in isolated temporary homes for both supported hosts without relying on the developer's global configuration, caches, trust records, or credentials.
+CI MUST exercise marketplace addition and local plugin installation in isolated
+temporary homes for both supported hosts without relying on the developer's
+global configuration, caches, trust records, or credentials. These tests prove
+installation shape only and MUST NOT be described as runtime hook delivery proof.
 
 #### Scenario: Install repository-owned plugins in Claude
 
@@ -95,6 +125,26 @@ CI MUST exercise marketplace addition and local plugin installation in isolated 
 
 - **WHEN** isolated hosts enumerate their generated marketplaces
 - **THEN** Claude includes the preserved external entries and Codex contains only natively supported entries
+
+### Requirement: Authenticated lifecycle release smoke
+
+The repository MUST provide an explicit opt-in macOS release command that
+installs Standards into temporary Claude and Codex homes and uses authenticated
+host calls to exercise startup, prompt, edit, subagent, compaction, and normal
+shutdown. The Codex app-server phase MUST list hooks, trust only their exact
+current hashes, verify lifecycle delivery, and record the `permission_mode`
+observed by a real Plan-mode probe. This command MUST NOT run in ordinary CI.
+
+#### Scenario: Maintainer runs authenticated release smoke
+
+- **WHEN** a maintainer explicitly opts in with valid Claude and Codex credentials
+- **THEN** both temporary installations exercise the required lifecycle and report
+  evidence without printing or copying resolved secrets
+
+#### Scenario: Ordinary CI runs
+
+- **WHEN** the macOS or Ubuntu deterministic workflow executes
+- **THEN** it does not make credentialed model calls or require hook trust state
 
 ### Requirement: macOS and Linux CI coverage
 
