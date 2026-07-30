@@ -1,0 +1,21 @@
+openspec/changes/archive/2026-07-30-portable-standards-marketplace/design.md
+  s_52f5f2bba22384::t_2d33cc3979b963 119
+tools/portability/lifecycle-smoke.mjs
+  s_52f5f2bba22384::t_2d33cc3979b963 96
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "1014c9c9b76677ff2f4979f46b6542a2954eea61",
+  "prompts": {},
+  "sessions": {
+    "s_52f5f2bba22384": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb224-9fd7-7c81-a541-1915dcc01202",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
