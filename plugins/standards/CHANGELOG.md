@@ -10,8 +10,7 @@
 - Automatic root-session, compacted-continuation, plan, edit, and subagent delivery.
 - Safe compact Git context and minimal seven-day delivery state.
 - `standards` and `standards-init` skills with native host metadata.
-- Dual-host manifests and isolated installation validation.
-- Authenticated opt-in lifecycle release smoke for real host execution.
+- Dual-host manifests and deterministic package-shape validation.
 
 ### Changed
 

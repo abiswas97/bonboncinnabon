@@ -8,7 +8,7 @@ plugin keeps its own changelog (e.g. `plugins/butler/CHANGELOG.md`).
 ### Added
 
 - **standards** `0.1.0` — portable commandments, supporting rules, repository overlays, advisory lifecycle hooks, and Claude/Codex skills. Release tag `standards--v0.1.0`.
-- A host-neutral marketplace and plugin model with committed Claude and Codex projections, macOS/Linux CI, strict validation, and isolated installation tests.
+- A host-neutral marketplace and plugin model with committed Claude and Codex projections, macOS/Linux CI, strict validation, and deterministic package-shape tests.
 
 ### Changed
 

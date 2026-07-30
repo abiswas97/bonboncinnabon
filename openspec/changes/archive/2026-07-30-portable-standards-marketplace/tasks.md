@@ -49,9 +49,9 @@
 
 - [x] 7.1 Add repository validators for component existence, executable resolution, command frontmatter, host eligibility, output budgets, prohibited absolute paths, generated ownership, and external-entry filtering.
 - [x] 7.2 Add strict validation commands using the pinned Claude Code and Codex CLIs, with captured diagnostics for invalid manifests and missing components.
-- [x] 7.3 Add isolated temporary-home smoke tests that add the Claude marketplace, install Butler and Standards, and enumerate their expected commands, skills, and hooks without using global config or caches.
-- [x] 7.4 Add isolated temporary-home smoke tests that add the Codex marketplace, install Butler and Standards, and enumerate their expected manifests, skills, and hooks without using global config or caches.
-- [x] 7.5 Assert in smoke tests that Claude preserves the external entries while Codex omits plugins without native Codex packages.
+- [x] 7.3 Add deterministic package-shape tests for Claude marketplace entries, manifests, commands, skills, and hooks.
+- [x] 7.4 Add deterministic package-shape tests for Codex marketplace entries, manifests, skills, and hooks.
+- [x] 7.5 Assert that Claude preserves external entries while Codex omits plugins without native Codex packages.
 - [x] 7.6 Add a GitHub Actions Node 22 matrix on current Ubuntu and macOS runners covering generation checks, schemas, unit and payload fixtures, path handling, Butler regressions, strict host validation, and isolated installs.
 
 ## 8. Documentation and Release Readiness

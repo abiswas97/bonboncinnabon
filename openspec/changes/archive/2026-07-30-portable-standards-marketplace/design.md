@@ -135,7 +135,7 @@ This gives reproducible CI contracts while keeping installed plugins self-contai
 
 ### 11. Commit projections and validate on both supported operating systems
 
-Committed projections make marketplace URLs directly consumable without asking users to run a build and make release diffs reviewable. CI will run an Ubuntu/macOS matrix for generation checks, unit and fixture tests, path handling, and isolated home-directory installation smoke tests.
+Committed projections make marketplace URLs directly consumable without asking users to run a build and make release diffs reviewable. CI will run an Ubuntu/macOS matrix for generation checks, unit and fixture tests, path handling, and deterministic package-shape tests.
 
 Strict host commands will validate the generated Claude and Codex packages when the host exposes such validation. Repository validators will additionally enforce contracts not covered by host CLIs, including external-entry filtering, output budgets, no absolute developer paths, no secrets, and version consistency.
 
@@ -155,7 +155,7 @@ The existing Butler command frontmatter will be made valid under strict Claude v
 - **[Session state can become stale or unwritable]** → Store only non-sensitive delivery metadata, write atomically, prune old entries, and treat state as an optimization rather than a correctness dependency.
 - **[External Claude plugins make the neutral catalog appear asymmetric]** → Model host eligibility explicitly and document why unsupported external entries are absent from Codex.
 - **[Pinned host CLIs increase development install size]** → Keep them development-only and isolate plugin runtime tests from validator installation.
-- **[Codex CLI and Desktop may share package semantics but differ in refresh UX]** → Document install, reload, trust, and cache behavior separately and smoke-test the package contract rather than assuming UI parity.
+- **[Codex CLI and Desktop may share package semantics but differ in refresh UX]** → Document install, reload, trust, and cache behavior separately and validate the package contract rather than assuming UI parity.
 
 ## Migration Plan
 
@@ -163,7 +163,7 @@ The existing Butler command frontmatter will be made valid under strict Claude v
 2. Import Butler metadata into the canonical record, generate both manifests, fix strict frontmatter validation, and prove its existing Python tests and Claude behavior still pass.
 3. Add the Standards canonical content, registry, overlay resolver, shared hook core, host adapters, skills, and fixtures.
 4. Generate and commit both marketplace projections and all local plugin projections.
-5. Add macOS/Linux CI, isolated marketplace/plugin install smoke tests, documentation, changelogs, and version consistency checks.
+5. Add macOS/Linux CI, deterministic package-shape tests, documentation, changelogs, and version consistency checks.
 6. Release Butler and Standards independently after installing each from the repository in clean Claude and Codex homes.
 
 Rollback consists of reverting the generated Codex catalog and new Standards entry, restoring the previous Claude marketplace projection, and releasing corrected plugin versions. Existing installed plugin versions remain cacheable and independently addressable; rollback must not rewrite an already published tag.

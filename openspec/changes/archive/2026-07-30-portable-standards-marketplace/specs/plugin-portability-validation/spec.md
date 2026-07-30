@@ -31,7 +31,7 @@ Generated Claude and Codex marketplace catalogs, plugin manifests, skills, comma
 
 #### Scenario: Host manifest references a missing component
 - **WHEN** a generated manifest points to an absent skill, command, hook file, or executable
-- **THEN** validation fails before an installation smoke test
+- **THEN** validation fails before release
 
 ### Requirement: Native payload contract fixtures
 Tests MUST cover representative Claude and Codex payload fixtures for each supported lifecycle and tool event, including malformed, incomplete, multi-path, moved-path, non-repository, and oversized input.
@@ -55,23 +55,19 @@ Automated tests MUST prove that hook output remains within its lifecycle budget,
 - **WHEN** a lifecycle fixture resolves no new applicable guidance
 - **THEN** stdout is empty and the adapter exits successfully
 
-### Requirement: Isolated dual-host installation smoke tests
-CI MUST exercise marketplace addition and local plugin installation in isolated temporary homes for both supported hosts without relying on the developer's global configuration, caches, trust records, or credentials.
+### Requirement: Deterministic dual-host package validation
+CI MUST validate generated Claude and Codex marketplace entries, manifests,
+skills, commands, and hooks without relying on developer configuration, caches,
+credentials, or trust state.
 
-#### Scenario: Install repository-owned plugins in Claude
-- **WHEN** the Claude smoke test adds the generated marketplace and installs Butler and Standards
-- **THEN** the isolated host enumerates their expected commands, skills, and hooks
-
-#### Scenario: Install repository-owned plugins in Codex
-- **WHEN** the Codex smoke test adds the generated marketplace and installs Butler and Standards
-- **THEN** the isolated host enumerates their expected skills, manifests, and hook configuration
-
-#### Scenario: Verify external plugin filtering
-- **WHEN** isolated hosts enumerate their generated marketplaces
-- **THEN** Claude includes the preserved external entries and Codex contains only natively supported entries
+#### Scenario: Validate repository-owned plugin packages
+- **WHEN** deterministic package validation runs
+- **THEN** declared components exist and host-specific filtering is correct
 
 ### Requirement: macOS and Linux CI coverage
-The validation workflow MUST run generation, unit, fixture, path-handling, existing Butler, and isolated installation checks on current macOS and Ubuntu runners using Node 22.
+The validation workflow MUST run generation, unit, fixture, path-handling,
+existing Butler, and package-shape checks on current macOS and Ubuntu runners
+using Node 22.
 
 #### Scenario: Platform-specific path behavior regresses
 - **WHEN** a hook or generator works on one supported operating system but fails on the other

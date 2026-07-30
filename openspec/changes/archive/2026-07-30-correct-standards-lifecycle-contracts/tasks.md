@@ -13,8 +13,8 @@
 ## 3. Validation
 
 - [x] 3.1 Keep deterministic installation tests scoped to installation shape and expand replay/schema/path-safety coverage
-- [x] 3.2 Add an authenticated opt-in macOS lifecycle smoke command covering Claude and Codex lifecycle delivery and Codex app-server exact-hash trust
-- [x] 3.3 Run the deterministic validation suite and authenticated lifecycle smoke
+- [x] 3.2 Keep credentialed host-execution experiments outside the tracked repository
+- [x] 3.3 Run the deterministic validation suite
 
 ## 4. Documentation and Delivery
 

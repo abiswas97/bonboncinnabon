@@ -9,7 +9,7 @@ Bonboncinnabon is currently a Claude-only marketplace with manually duplicated p
 - Add `standards@bonboncinnabon` with the ten approved engineering commandments, portable supporting standards, path and role scoping, repository overlays, and advisory lifecycle guidance.
 - Inject the complete commandments once at session start and after compaction, then use compact rule IDs for plan, edit, and completion feedback.
 - Support macOS and Linux with Node 22 standard-library tooling; defer Windows and polyglot compiler/linter orchestration to later changes.
-- Add deterministic generation, schema/contracts, strict host validation, isolated install smoke tests, and release/version drift checks.
+- Add deterministic generation, schema/contracts, strict host validation, package-shape tests, and release/version drift checks.
 - Preserve the existing external `devlab` and `postgres` Claude marketplace entries unchanged and exclude them from the Codex projection until their repositories publish native Codex packages.
 
 ## Capabilities
@@ -18,7 +18,7 @@ Bonboncinnabon is currently a Claude-only marketplace with manually duplicated p
 
 - `portable-plugin-marketplace`: Canonical marketplace/plugin metadata, generated Claude and Codex projections, and dual-host installation of local plugins.
 - `engineering-standards`: The commandments, supporting rule registry, repository overlays, skills, and advisory lifecycle behavior for Claude and Codex.
-- `plugin-portability-validation`: Deterministic generation checks, host contract validation, isolated installation tests, and release/version consistency.
+- `plugin-portability-validation`: Deterministic generation checks, host contract validation, package-shape tests, and release/version consistency.
 
 ### Modified Capabilities
 

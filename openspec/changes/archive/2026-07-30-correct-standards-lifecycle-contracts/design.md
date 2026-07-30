@@ -18,7 +18,7 @@ Claude Code and Codex CLI/Desktop remain the supported hosts on macOS and Linux.
 - Keep root sessions, compacted continuations, and subagents automatically covered.
 - Keep later plan and edit guidance bounded and deduplicated.
 - Generate host-specific artifacts from one neutral source.
-- Prove deterministic contracts in CI and real host delivery in an opt-in smoke.
+- Prove deterministic contracts in CI.
 
 **Non-Goals:**
 
@@ -63,12 +63,11 @@ The neutral `complete` lifecycle is removed from schemas, registry records,
 validators, fixtures, skills, and specifications. Verification advice remains in
 `plan` and/or `edit`, while deterministic validation is the release hard gate.
 
-### Separate deterministic CI from authenticated host proof
+### Keep host execution outside repository tooling
 
-Ordinary CI runs schema, generator, unit, replay, installation, and Butler tests
-on macOS and Ubuntu. A separate opt-in command installs into temporary host homes
-and makes authenticated model calls to exercise lifecycle delivery. Codex
-app-server trust is limited to the exact hashes returned by its current hook list.
+Ordinary CI runs schema, generator, unit, replay, package-shape, and Butler tests
+on macOS and Ubuntu. Credentialed host execution is a maintainer-local experiment,
+not a committed script or release contract.
 
 ## Risks / Trade-offs
 
@@ -76,17 +75,15 @@ app-server trust is limited to the exact hashes returned by its current hook lis
   the portable baseline; the live release probe records the observed value.
 - **Subagents receive fewer supporting details** → They receive all immutable
   commandments and precedence while avoiding repeated index and Git token cost.
-- **Host hook schemas change** → Pinned host validation and authenticated smoke
-  make the drift visible before release.
-- **Live smoke is credentialed and nondeterministic** → It is explicit opt-in,
-  secret-safe, and excluded from ordinary CI.
+- **Host hook schemas change** → Pinned host validation and native fixtures make
+  the drift visible before release.
 
 ## Migration Plan
 
 1. Add failing contract tests for the corrected host maps and outputs.
 2. Update the neutral runtime, schemas, generator, and canonical registry.
 3. Regenerate and validate both host projections.
-4. Add documentation and opt-in live smoke coverage.
+4. Add documentation and deterministic package coverage.
 5. Sync the delta requirements to the main specifications and archive this change.
 
 Rollback is the focused follow-up commit; no public released contract or stored

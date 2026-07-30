@@ -16,7 +16,7 @@ portable, and low-context across Claude Code and Codex.
 - **BREAKING** Remove the unreleased `complete` lifecycle and the invalid
   `PreCompact` and `Stop` advisory responses.
 - Add an explicit Codex hook manifest path and deterministic host-contract tests.
-- Add an authenticated, opt-in release smoke test without adding it to ordinary CI.
+- Keep host-execution experiments as maintainer-local proof rather than repository tooling.
 
 ## Capabilities
 
@@ -29,7 +29,7 @@ None.
 - `engineering-standards`: Refine automatic session, compaction, planning,
   editing, and subagent delivery while removing completion-hook semantics.
 - `plugin-portability-validation`: Validate intentionally different host hook
-  maps, explicit Codex hook discovery, and authenticated lifecycle release smoke.
+  maps, explicit Codex hook discovery, and deterministic package contracts.
 
 ## Impact
 

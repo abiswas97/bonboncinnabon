@@ -68,7 +68,7 @@ assert that each host receives only its intended registrations.
 #### Scenario: Host manifest references a missing component
 
 - **WHEN** a generated manifest points to an absent skill, command, hook file, or executable
-- **THEN** validation fails before an installation smoke test
+- **THEN** validation fails before release
 
 ### Requirement: Native payload contract fixtures
 
@@ -104,51 +104,23 @@ Automated tests MUST prove that hook output remains within its lifecycle budget,
 - **WHEN** a lifecycle fixture resolves no new applicable guidance
 - **THEN** stdout is empty and the adapter exits successfully
 
-### Requirement: Isolated dual-host installation smoke tests
+### Requirement: Deterministic dual-host package validation
 
-CI MUST exercise marketplace addition and local plugin installation in isolated
-temporary homes for both supported hosts without relying on the developer's
-global configuration, caches, trust records, or credentials. These tests prove
-installation shape only and MUST NOT be described as runtime hook delivery proof.
+CI MUST validate the generated Claude and Codex marketplace entries, manifests,
+skills, commands, and hook paths without invoking authenticated hosts or relying
+on developer configuration, caches, credentials, or trust state.
 
-#### Scenario: Install repository-owned plugins in Claude
+#### Scenario: Validate repository-owned plugin packages
 
-- **WHEN** the Claude smoke test adds the generated marketplace and installs Butler and Standards
-- **THEN** the isolated host enumerates their expected commands, skills, and hooks
-
-#### Scenario: Install repository-owned plugins in Codex
-
-- **WHEN** the Codex smoke test adds the generated marketplace and installs Butler and Standards
-- **THEN** the isolated host enumerates their expected skills, manifests, and hook configuration
-
-#### Scenario: Verify external plugin filtering
-
-- **WHEN** isolated hosts enumerate their generated marketplaces
-- **THEN** Claude includes the preserved external entries and Codex contains only natively supported entries
-
-### Requirement: Authenticated lifecycle release smoke
-
-The repository MUST provide an explicit opt-in macOS release command that
-installs Standards into temporary Claude and Codex homes and uses authenticated
-host calls to exercise startup, prompt, edit, subagent, compaction, and normal
-shutdown. The Codex app-server phase MUST list hooks, trust only their exact
-current hashes, verify lifecycle delivery, and record the `permission_mode`
-observed by a real Plan-mode probe. This command MUST NOT run in ordinary CI.
-
-#### Scenario: Maintainer runs authenticated release smoke
-
-- **WHEN** a maintainer explicitly opts in with valid Claude and Codex credentials
-- **THEN** both temporary installations exercise the required lifecycle and report
-  evidence without printing or copying resolved secrets
-
-#### Scenario: Ordinary CI runs
-
-- **WHEN** the macOS or Ubuntu deterministic workflow executes
-- **THEN** it does not make credentialed model calls or require hook trust state
+- **WHEN** deterministic package validation runs
+- **THEN** every declared component exists, every generated path resolves inside
+  its plugin package, and host-specific marketplace filtering is correct
 
 ### Requirement: macOS and Linux CI coverage
 
-The validation workflow MUST run generation, unit, fixture, path-handling, existing Butler, and isolated installation checks on current macOS and Ubuntu runners using Node 22.
+The validation workflow MUST run generation, unit, fixture, path-handling,
+existing Butler, and package-shape checks on current macOS and Ubuntu runners
+using Node 22.
 
 #### Scenario: Platform-specific path behavior regresses
 
