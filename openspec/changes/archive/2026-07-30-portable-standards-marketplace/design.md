@@ -116,7 +116,7 @@ When no stable session ID or writable data directory exists, hooks remain correc
 
 Session and compaction hooks may report repository root, branch, detached-head state, a capped list/count of changed paths, and a short recent-commit summary. They will not include raw diffs, file contents, commit bodies, untracked file contents, remote URLs, environment variables, or resolved credentials.
 
-Commands use argument arrays, timeouts, capped stdout/stderr, and graceful fallbacks when Git is absent or the directory is not a repository. This keeps useful orientation from the prior Cloak setup without reintroducing noisy formatter, TODO, test-reminder, search-reminder, or regex-security hooks.
+Commands use argument arrays, timeouts, capped stdout/stderr, and graceful fallbacks when Git is absent or the directory is not a repository. This keeps useful repository orientation without introducing noisy formatter, TODO, test-reminder, search-reminder, or regex-security hooks.
 
 ### 9. Expose standards through skills, with thin Claude command wrappers
 

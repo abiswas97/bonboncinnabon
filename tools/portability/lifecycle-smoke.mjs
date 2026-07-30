@@ -93,11 +93,7 @@ function requireTrace(records, predicate, label) {
 async function smokeClaude(root, workspace) {
   const installed = await installClaude(root);
   const trace = path.join(root, "claude-lifecycle.jsonl");
-  const authConfig = process.env.CLAUDE_AUTH_CONFIG_DIR ??
-    (await access(path.join(os.homedir(), ".cloak/profiles/personal")).then(
-      () => path.join(os.homedir(), ".cloak/profiles/personal"),
-      () => path.join(os.homedir(), ".claude"),
-    ));
+  const authConfig = process.env.CLAUDE_CONFIG_DIR ?? path.join(os.homedir(), ".claude");
   const env = {
     ...installed.env,
     HOME: os.homedir(),
