@@ -1,0 +1,225 @@
+.agents/plugins/marketplace.json
+  s_52f5f2bba22384::t_96eeaae5b93437 1-7,20-32
+  s_52f5f2bba22384::t_508cf5a49cbdbb 8-19
+plugins/butler/plugin.json
+  s_52f5f2bba22384::t_aee326f02c5e40 1-58
+package.json
+  s_52f5f2bba22384::t_aee326f02c5e40 1-11,13-25
+  s_52f5f2bba22384::t_9bb59c3c929ba4 12
+plugins/standards/plugin.json
+  s_52f5f2bba22384::t_ca198e376b06e0 1-38
+plugins/butler/skills/intake/SKILL.md
+  s_52f5f2bba22384::t_633c6696fe2f33 15,20,24,83-89
+plugins/butler/references/template.md
+  s_52f5f2bba22384::t_633c6696fe2f33 23-24,155
+plugins/butler/skills/decompose/SKILL.md
+  s_52f5f2bba22384::t_d7cfcf3926e973 3
+  s_52f5f2bba22384::t_633c6696fe2f33 16,22,24,26,77-83
+openspec/specs/portable-plugin-marketplace/spec.md
+  s_52f5f2bba22384::t_25209c78a548b3 1-111
+plugins/butler/.codex-plugin/plugin.json
+  s_52f5f2bba22384::t_b7ff4bed03ec65 1-33
+plugins/standards/.claude-plugin/plugin.json
+  s_52f5f2bba22384::t_b7ff4bed03ec65 1-19
+plugins/standards/standards/references/architecture.md
+  s_52f5f2bba22384::t_ca198e376b06e0 1-7
+tests/fixtures/hooks/claude-edit.json
+  s_52f5f2bba22384::t_8c4752101cc0aa 1-9
+tests/fixtures/hooks/codex-compact.json
+  s_52f5f2bba22384::t_8c4752101cc0aa 1-6
+plugins/standards/tests/hooks.test.mjs
+  s_52f5f2bba22384::t_0b02f960795c47 1-141
+plugins/standards/README.md
+  s_52f5f2bba22384::t_455584a937faa3 1-34
+plugins/butler/skills/setup/agents/openai.yaml
+  s_52f5f2bba22384::t_b7ff4bed03ec65 1-5
+plugins/standards/standards/commandments.md
+  s_52f5f2bba22384::t_ca198e376b06e0 1-47
+tests/contracts.test.mjs
+  s_52f5f2bba22384::t_f2d1f07b292008 1-83
+plugins/standards/hooks/lib/resolver.mjs
+  s_52f5f2bba22384::t_152d488d693cd1 1-75,82-83,105-107,110-134,136,139-140,142,145-159
+  s_52f5f2bba22384::t_bc43eb39c2ae77 76-81,84-104,108-109
+  s_52f5f2bba22384::t_10bf8fe39584e2 135,137-138,141,143-144
+openspec/specs/engineering-standards/spec.md
+  s_52f5f2bba22384::t_25209c78a548b3 1-163
+openspec/specs/plugin-portability-validation/spec.md
+  s_52f5f2bba22384::t_25209c78a548b3 1-134
+README.md
+  s_52f5f2bba22384::t_455584a937faa3 3,5,7-18,20-21,24-30,32,34,36-39,41-57,59-89,91-103
+  s_52f5f2bba22384::t_85d6b2cdbddc29 90
+tests/fixtures/hooks/codex-patch.json
+  s_52f5f2bba22384::t_8c4752101cc0aa 1-9
+tools/portability/validate-repository.mjs
+  s_52f5f2bba22384::t_a5031c338d015c 1-35,51-110,114-127
+  s_52f5f2bba22384::t_4d84a7b68e4f1d 111-113
+  s_52f5f2bba22384::t_0d2c8bc954bdff 36-50
+.github/workflows/validate.yml
+  s_52f5f2bba22384::t_85d6b2cdbddc29 26-28,31
+  s_52f5f2bba22384::t_a5031c338d015c 1-25,29,32
+  s_52f5f2bba22384::t_9bb59c3c929ba4 30
+plugins/butler/.claude-plugin/plugin.json
+  s_52f5f2bba22384::t_b7ff4bed03ec65 3-5,10-19
+plugins/standards/.codex-plugin/plugin.json
+  s_52f5f2bba22384::t_96eeaae5b93437 1-3,5,7,17-19,30-31
+  s_52f5f2bba22384::t_b7ff4bed03ec65 4,6,8-16,20-29
+plugins/standards/hooks/hooks.json
+  s_52f5f2bba22384::t_b7ff4bed03ec65 1-76
+.claude-plugin/marketplace.json
+  s_52f5f2bba22384::t_b7ff4bed03ec65 4,18-23,34-41,45,47,49-71
+plugins/standards/commands/standards.md
+  s_52f5f2bba22384::t_ca198e376b06e0 1-7
+plugins/butler/skills/decompose/agents/openai.yaml
+  s_52f5f2bba22384::t_b7ff4bed03ec65 1-5
+plugins/butler/skills/plan/SKILL.md
+  s_52f5f2bba22384::t_633c6696fe2f33 15,27,90,114-120
+marketplace/marketplace.json
+  s_52f5f2bba22384::t_aee326f02c5e40 1-55
+plugins/standards/hooks/lib/git-context.mjs
+  s_52f5f2bba22384::t_8c4752101cc0aa 1-17,26-30,34-52
+  s_52f5f2bba22384::t_00a3297660a3df 18-25,31-33
+plugins/standards/hooks/lib/runtime.mjs
+  s_52f5f2bba22384::t_8c4752101cc0aa 1-97
+plugins/butler/CHANGELOG.md
+  s_52f5f2bba22384::t_455584a937faa3 5-22
+plugins/standards/standards/references/verification.md
+  s_52f5f2bba22384::t_ca198e376b06e0 1-7
+plugins/standards/hooks/scripts/codex.mjs
+  s_52f5f2bba22384::t_8c4752101cc0aa 1-8
+tools/portability/contracts.mjs
+  s_52f5f2bba22384::t_4c8084764fbdd5 1-204
+plugins/standards/hooks/claude.json
+  s_52f5f2bba22384::t_b7ff4bed03ec65 1-76
+tests/fixtures/hooks/claude-plan.json
+  s_52f5f2bba22384::t_8c4752101cc0aa 1-7
+plugins/standards/standards/references/clean-code.md
+  s_52f5f2bba22384::t_ca198e376b06e0 1-7
+CONTRIBUTING.md
+  s_52f5f2bba22384::t_ae32ad1725e438 1-24
+plugins/butler/references/paths.md
+  s_52f5f2bba22384::t_633c6696fe2f33 1-8
+plugins/butler/commands/setup.md
+  s_52f5f2bba22384::t_aee326f02c5e40 12-15
+  s_52f5f2bba22384::t_b2148cb09bbe21 2
+  s_52f5f2bba22384::t_633c6696fe2f33 5,7-8
+plugins/standards/hooks/lib/state.mjs
+  s_52f5f2bba22384::t_8c4752101cc0aa 1-59
+tests/fixtures/hooks/codex-stop.json
+  s_52f5f2bba22384::t_8c4752101cc0aa 1-6
+plugins/butler/skills/intake/agents/openai.yaml
+  s_52f5f2bba22384::t_b7ff4bed03ec65 1-5
+plugins/butler/skills/reschedule/SKILL.md
+  s_52f5f2bba22384::t_633c6696fe2f33 14,40,54-59
+schemas/standards-registry.schema.json
+  s_52f5f2bba22384::t_aee326f02c5e40 1-37
+plugins/standards/CHANGELOG.md
+  s_52f5f2bba22384::t_455584a937faa3 1-14
+plugins/standards/skills/standards-init/SKILL.md
+  s_52f5f2bba22384::t_10bf8fe39584e2 14,18-19
+  s_52f5f2bba22384::t_96eeaae5b93437 1-2,4-7,9,11,20,22,30
+  s_52f5f2bba22384::t_ca198e376b06e0 3,8,10,12-13,15-17,21,23-29,31
+schemas/marketplace.schema.json
+  s_52f5f2bba22384::t_aee326f02c5e40 1-39
+plugins/standards/skills/standards/agents/openai.yaml
+  s_52f5f2bba22384::t_96eeaae5b93437 2-5
+  s_52f5f2bba22384::t_b7ff4bed03ec65 1
+tools/portability/validate-hosts.mjs
+  s_52f5f2bba22384::t_a5031c338d015c 1-41
+schemas/plugin.schema.json
+  s_52f5f2bba22384::t_aee326f02c5e40 1-61
+schemas/standards-overlay.schema.json
+  s_52f5f2bba22384::t_aee326f02c5e40 1-16
+requirements-dev.txt
+  s_52f5f2bba22384::t_85d6b2cdbddc29 1
+plugins/standards/skills/standards/SKILL.md
+  s_52f5f2bba22384::t_10bf8fe39584e2 21,30
+  s_52f5f2bba22384::t_b2148cb09bbe21 19,29
+  s_52f5f2bba22384::t_ca198e376b06e0 3,8-18,20,22-28
+  s_52f5f2bba22384::t_96eeaae5b93437 1-2,4-7
+plugins/standards/standards/registry.json
+  s_52f5f2bba22384::t_ca198e376b06e0 1-29,31-105
+  s_52f5f2bba22384::t_b2148cb09bbe21 30
+tools/portability/validate-release.mjs
+  s_52f5f2bba22384::t_455584a937faa3 1-38
+plugins/butler/skills/setup/SKILL.md
+  s_52f5f2bba22384::t_633c6696fe2f33 3,8-9,13-14,22,30-31,35,52-53,56,64-68
+tools/portability/sync-plugins.mjs
+  s_52f5f2bba22384::t_4c8084764fbdd5 1-234
+plugins/butler/skills/reschedule/agents/openai.yaml
+  s_52f5f2bba22384::t_b7ff4bed03ec65 1-5
+plugins/standards/skills/standards-init/agents/openai.yaml
+  s_52f5f2bba22384::t_b7ff4bed03ec65 1
+  s_52f5f2bba22384::t_96eeaae5b93437 2-5
+plugins/butler/README.md
+  s_52f5f2bba22384::t_455584a937faa3 3,39-40,45-46
+  s_52f5f2bba22384::t_2aca81577df5aa 47
+plugins/standards/commands/standards-init.md
+  s_52f5f2bba22384::t_ca198e376b06e0 1-7
+RELEASING.md
+  s_52f5f2bba22384::t_455584a937faa3 1-16
+plugins/standards/hooks/scripts/claude.mjs
+  s_52f5f2bba22384::t_8c4752101cc0aa 1-8
+tools/portability/smoke-install.mjs
+  s_52f5f2bba22384::t_a5031c338d015c 1-3,5-43,52-53,57-66,76-79,83-98,108-113
+  s_52f5f2bba22384::t_43942c586fdbbc 4,44-51,67-75,99-107
+  s_52f5f2bba22384::t_adbb6cb62b7ed2 54-56,80-82
+CHANGELOG.md
+  s_52f5f2bba22384::t_455584a937faa3 6-17
+tests/validation.test.mjs
+  s_52f5f2bba22384::t_a5031c338d015c 1,3-10,16-24,26-28,44
+  s_52f5f2bba22384::t_0d2c8bc954bdff 2,29-34,36-43
+  s_52f5f2bba22384::t_5aca9922388a62 11-15,25,35
+plugins/butler/skills/plan/agents/openai.yaml
+  s_52f5f2bba22384::t_b7ff4bed03ec65 1-5
+plugins/standards/standards/references/safety.md
+  s_52f5f2bba22384::t_ca198e376b06e0 1-7
+plugins/standards/hooks/lib/adapters.mjs
+  s_52f5f2bba22384::t_8c4752101cc0aa 1-76
+tests/generator.test.mjs
+  s_52f5f2bba22384::t_f2d1f07b292008 1-25,27-60
+  s_52f5f2bba22384::t_152d488d693cd1 26
+plugins/standards/tests/resolver.test.mjs
+  s_52f5f2bba22384::t_152d488d693cd1 1-108
+tests/fixtures/hooks/claude-session.json
+  s_52f5f2bba22384::t_8c4752101cc0aa 1-5
+openspec/changes/archive/2026-07-30-portable-standards-marketplace/.openspec.yaml
+  s_52f5f2bba22384::t_543e4af275bbaf 1-2
+openspec/changes/archive/2026-07-30-portable-standards-marketplace/tasks.md
+  s_d82af08e3f02f4::t_fd7a758815bd3b 1-62
+package-lock.json
+  s_52f5f2bba22384::t_9eaecd23a08bde 1-284
+openspec/changes/archive/2026-07-30-portable-standards-marketplace/design.md
+  s_52f5f2bba22384::t_188e461a28ddde 1-173
+openspec/changes/archive/2026-07-30-portable-standards-marketplace/proposal.md
+  s_52f5f2bba22384::t_923747661e98b0 1-33
+openspec/changes/archive/2026-07-30-portable-standards-marketplace/specs/engineering-standards/spec.md
+  s_52f5f2bba22384::t_f7d9f7eae1a2cb 1-123
+openspec/changes/archive/2026-07-30-portable-standards-marketplace/specs/plugin-portability-validation/spec.md
+  s_52f5f2bba22384::t_54c0d5b4bc3c1a 1-100
+openspec/changes/archive/2026-07-30-portable-standards-marketplace/specs/portable-plugin-marketplace/spec.md
+  s_52f5f2bba22384::t_8c8915372b12fc 1-82
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "70efa9e0fe04078558e5276332817c8034037748",
+  "prompts": {},
+  "sessions": {
+    "s_52f5f2bba22384": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb224-9fd7-7c81-a541-1915dcc01202",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    },
+    "s_d82af08e3f02f4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb21d-f674-7481-a498-564238b047a0",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
