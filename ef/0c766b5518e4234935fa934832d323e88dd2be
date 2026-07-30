@@ -1,0 +1,32 @@
+RELEASING.md
+  s_52f5f2bba22384::t_57c34a3cc43dcd 9-16
+tools/portability/release-tags.mjs
+  s_52f5f2bba22384::t_57c34a3cc43dcd 1-30,44-73,79-161
+  s_52f5f2bba22384::t_25b0bcf26c9c1b 31-43,74-78
+tests/release-tags.test.mjs
+  s_52f5f2bba22384::t_1fdf00b3bf64ec 76-85
+  s_52f5f2bba22384::t_57c34a3cc43dcd 1-75,86-95,106-115
+  s_52f5f2bba22384::t_25b0bcf26c9c1b 96-105
+tools/portability/validate-repository.mjs
+  s_52f5f2bba22384::t_161cb45bfdf19e 51-64
+.github/workflows/validate.yml
+  s_52f5f2bba22384::t_57c34a3cc43dcd 33-60
+tests/validation.test.mjs
+  s_52f5f2bba22384::t_161cb45bfdf19e 54-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "ef0c766b5518e4234935fa934832d323e88dd2be",
+  "prompts": {},
+  "sessions": {
+    "s_52f5f2bba22384": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb224-9fd7-7c81-a541-1915dcc01202",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
