@@ -57,6 +57,22 @@ test("unchanged versions do not backfill missing tags", async () => {
   assert.deepEqual(await planReleaseTags({ root, before: initial, after }), []);
 });
 
+test("zero before revisions do not backfill initial repository tags", async () => {
+  const { root, initial } = await repository();
+  assert.deepEqual(
+    await planReleaseTags({ root, before: "0".repeat(40), after: initial }),
+    [],
+  );
+});
+
+test("unavailable before revisions fail closed", async () => {
+  const { root, initial } = await repository();
+  await assert.rejects(
+    () => planReleaseTags({ root, before: "1".repeat(40), after: initial }),
+    /rev-parse .* failed/,
+  );
+});
+
 test("version transitions create annotated tags on the validated commit", async () => {
   const { root, initial } = await repository();
   await writeRelease(root, "0.2.0");
@@ -71,6 +87,48 @@ test("version transitions create annotated tags on the validated commit", async 
   }]);
   assert.equal(await git(root, ["cat-file", "-t", "example--v0.2.0"]), "tag");
   assert.equal(await git(root, ["rev-parse", "example--v0.2.0^{}"]), after);
+});
+
+test("version transitions push annotated tags to a bare remote", async () => {
+  const { root, initial } = await repository();
+  const remote = await mkdtemp(path.join(os.tmpdir(), "bonbon-release-remote-"));
+  await git(remote, ["init", "--bare", "-q"]);
+  await git(root, ["remote", "add", "origin", remote]);
+  await writeRelease(root, "0.2.0");
+  const after = await commit(root, "release example 0.2.0");
+  await createReleaseTags({ root, before: initial, after });
+  assert.equal(
+    await git(remote, ["cat-file", "-t", "refs/tags/example--v0.2.0"]),
+    "tag",
+  );
+  assert.equal(
+    await git(remote, ["rev-parse", "refs/tags/example--v0.2.0^{}"]),
+    after,
+  );
+});
+
+test("failed atomic pushes clean up newly created local tags", async () => {
+  const { root, initial } = await repository();
+  const remote = await mkdtemp(path.join(os.tmpdir(), "bonbon-release-conflict-"));
+  await git(remote, ["init", "--bare", "-q"]);
+  await git(root, ["remote", "add", "origin", remote]);
+  await git(root, ["tag", "-a", "example--v0.2.0", initial, "-m", "conflict"]);
+  await git(root, ["push", "origin", "refs/tags/example--v0.2.0"]);
+  await git(root, ["tag", "-d", "example--v0.2.0"]);
+  await writeRelease(root, "0.2.0");
+  const after = await commit(root, "release example 0.2.0");
+
+  await assert.rejects(
+    () => createReleaseTags({ root, before: initial, after }),
+    /git push --atomic/,
+  );
+  await assert.rejects(
+    () => git(root, ["rev-parse", "--verify", "refs/tags/example--v0.2.0"]),
+  );
+  assert.equal(
+    await git(remote, ["rev-parse", "refs/tags/example--v0.2.0^{}"]),
+    initial,
+  );
 });
 
 test("reruns accept an immutable tag already on the release commit", async () => {

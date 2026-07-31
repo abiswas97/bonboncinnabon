@@ -42,8 +42,12 @@ function compareVersions(left, right) {
 }
 
 async function fileAt(root, revision, relative, { optional = false } = {}) {
-  if (!revision || ZERO_SHA.test(revision)) return null;
-  return git(root, ["show", `${revision}:${repositoryPath(relative)}`], { optional });
+  const relativePath = repositoryPath(relative);
+  if (optional) {
+    const files = await git(root, ["ls-tree", "--name-only", revision, "--", relativePath]);
+    if (!files.split("\n").includes(relativePath)) return null;
+  }
+  return git(root, ["show", `${revision}:${relativePath}`]);
 }
 
 async function jsonAt(root, revision, relative, options) {
@@ -62,6 +66,8 @@ async function tagTarget(root, tag) {
 
 export async function planReleaseTags({ root = ROOT, before, after }) {
   const releaseCommit = await git(root, ["rev-parse", `${after}^{commit}`]);
+  if (ZERO_SHA.test(before)) return [];
+  const previousCommit = await git(root, ["rev-parse", `${before}^{commit}`]);
   const marketplace = await jsonAt(root, releaseCommit, "marketplace/marketplace.json");
   const releasing = await fileAt(root, releaseCommit, "RELEASING.md");
   const plans = [];
@@ -69,7 +75,7 @@ export async function planReleaseTags({ root = ROOT, before, after }) {
   for (const entry of marketplace.plugins.filter(({ kind }) => kind === "local")) {
     const pluginFile = path.posix.join(repositoryPath(entry.path), "plugin.json");
     const current = await jsonAt(root, releaseCommit, pluginFile);
-    const previous = await jsonAt(root, before, pluginFile, { optional: true });
+    const previous = await jsonAt(root, previousCommit, pluginFile, { optional: true });
     if (previous?.version === current.version) continue;
     if (previous && compareVersions(current.version, previous.version) <= 0) {
       throw new Error(
