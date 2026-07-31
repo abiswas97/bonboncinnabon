@@ -32,6 +32,16 @@
       "reference": "references/clean-code.md"
     },
     {
+      "id": "CODE-COMMENTS",
+      "title": "Keep comments durable",
+      "summary": "Comment only current non-obvious constraints, contracts, safety rationale, or required API behavior; never narrate work history or obvious code.",
+      "class": "review",
+      "lifecycles": ["edit"],
+      "paths": ["**/*.{c,cc,cpp,cs,go,java,js,jsx,kt,kts,mjs,php,py,rb,rs,swift,ts,tsx}"],
+      "roles": ["implementation", "review"],
+      "reference": "references/clean-code.md"
+    },
+    {
       "id": "CODE-NO-PLACEHOLDERS",
       "title": "Do not ship placeholders",
       "summary": "Do not leave TODO implementations, fake success, or silent fallbacks in completed work.",

@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.2] - 2026-07-31
+
+### Added
+
+- Added bounded, edit-time guidance for durable source comments, including
+  legitimate contracts and safety exceptions without heuristic scoring or
+  automatic comment removal.
+
+Release tag: `standards--v0.1.2`.
+
 ## [0.1.1] - 2026-07-31
 
 ### Fixed

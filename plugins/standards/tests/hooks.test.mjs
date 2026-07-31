@@ -194,6 +194,34 @@ test("event output is advisory, bounded, and deduplicated by session", async () 
   assert.deepEqual(Object.keys(JSON.parse(state)).sort(), ["deliveredRuleIds", "host", "sessionHash", "updatedAt"]);
 });
 
+test("Claude and Codex source edits receive durable comment guidance once per session", async () => {
+  const root = await repository();
+  const data = await mkdtemp(path.join(os.tmpdir(), "standards-comments-"));
+  const options = { pluginRoot: PLUGIN_ROOT, env: { PLUGIN_DATA: data } };
+  for (const [host, name] of [
+    ["claude", "claude-edit.json"],
+    ["codex", "codex-patch.json"],
+  ]) {
+    const payload = await fixture(name, { cwd: root, session_id: `${host}-comment-session` });
+    const first = await handleEvent(host, payload, options);
+    assert.match(first.hookSpecificOutput.additionalContext, /CODE-COMMENTS:/);
+    assert(first.hookSpecificOutput.additionalContext.length <= 2_500);
+    const second = await handleEvent(host, payload, options);
+    assert(!second?.hookSpecificOutput.additionalContext.includes("CODE-COMMENTS:"));
+  }
+});
+
+test("prose edits do not receive source comment guidance", async () => {
+  const root = await repository();
+  const payload = await fixture("claude-edit.json", {
+    cwd: root,
+    session_id: "prose-session",
+    tool_input: { file_path: "README.md" },
+  });
+  const response = await handleEvent("claude", payload, { pluginRoot: PLUGIN_ROOT, env: {} });
+  assert(!response?.hookSpecificOutput.additionalContext.includes("CODE-COMMENTS:"));
+});
+
 test("unwritable or absent state remains a non-blocking optimization", async () => {
   const root = await repository();
   const response = await handleEvent("codex", await fixture("codex-prompt-plan.json", { cwd: root }), {
