@@ -42,7 +42,9 @@ the pinned host validators where available, including marketplace catalogs,
 plugin manifests, skills, command frontmatter, purpose-specific hook maps, and
 executable references.
 The Codex manifest MUST explicitly declare its hook map path, and validation MUST
-assert that each host receives only its intended registrations.
+assert that each host receives only its intended registrations. Claude MUST use
+its conventional `hooks/hooks.json` path, while Codex MUST use a distinct,
+explicitly declared hook map so neither host auto-discovers the other's commands.
 
 #### Scenario: Host hook capabilities differ
 
@@ -54,6 +56,12 @@ assert that each host receives only its intended registrations.
 
 - **WHEN** the Codex plugin manifest is generated
 - **THEN** its explicit hook path resolves to the generated Codex hook map
+
+#### Scenario: Claude discovers only Claude hooks
+
+- **WHEN** the shared plugin package is loaded by Claude
+- **THEN** `hooks/hooks.json` contains the Claude hook map, the Claude manifest
+  relies on conventional discovery, and the Codex hook map has a non-default filename
 
 #### Scenario: Generated command invokes plugin code
 

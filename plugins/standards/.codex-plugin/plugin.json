@@ -1,6 +1,6 @@
 {
   "name": "standards",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Portable engineering commandments and low-noise lifecycle guidance for Claude Code and Codex.",
   "author": {
     "name": "Avishek Biswas"
@@ -28,5 +28,5 @@
     ],
     "defaultPrompt": "Show me the engineering standards that apply to this work."
   },
-  "hooks": "./hooks/hooks.json"
+  "hooks": "./hooks/codex-hooks.json"
 }

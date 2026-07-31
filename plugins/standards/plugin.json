@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "standards",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Portable engineering commandments and low-noise lifecycle guidance for Claude Code and Codex.",
   "author": { "name": "Avishek Biswas" },
   "repository": "https://github.com/abiswas97/bonboncinnabon",
@@ -27,7 +27,7 @@
     "commands": ["standards", "standards-init"],
     "hooks": {
       "claude": {
-        "manifest": "hooks/claude.json",
+        "manifest": "hooks/hooks.json",
         "script": "hooks/scripts/claude.mjs",
         "registrations": [
           { "event": "SessionStart", "matcher": "*", "timeout": 10 },
@@ -38,7 +38,7 @@
         ]
       },
       "codex": {
-        "manifest": "hooks/hooks.json",
+        "manifest": "hooks/codex-hooks.json",
         "script": "hooks/scripts/codex.mjs",
         "registrations": [
           { "event": "SessionStart", "matcher": "*", "timeout": 10 },

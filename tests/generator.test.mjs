@@ -30,10 +30,10 @@ test("projection order and host filtering are deterministic", async () => {
   assert.deepEqual(codex.plugins.map(({ name }) => name), ["butler", "standards"]);
 });
 
-test("host hook projections intentionally differ and Codex declares its hook path", async () => {
+test("host hook projections use collision-free discovery and intentionally differ", async () => {
   const projections = await buildProjections({ root: ROOT });
-  const claude = JSON.parse(projections.get("plugins/standards/hooks/claude.json"));
-  const codex = JSON.parse(projections.get("plugins/standards/hooks/hooks.json"));
+  const claude = JSON.parse(projections.get("plugins/standards/hooks/hooks.json"));
+  const codex = JSON.parse(projections.get("plugins/standards/hooks/codex-hooks.json"));
   assert.notDeepEqual(claude, codex);
   assert.deepEqual(Object.keys(claude.hooks).sort(), [
     "PostToolUse",
@@ -50,9 +50,12 @@ test("host hook projections intentionally differ and Codex declares its hook pat
   ]);
   assert.equal(claude.hooks.PreToolUse[0].matcher, "ExitPlanMode");
   assert.equal(codex.hooks.PreToolUse, undefined);
-  const manifest = JSON.parse(projections.get("plugins/standards/.codex-plugin/plugin.json"));
-  assert.equal(manifest.hooks, "./hooks/hooks.json");
-  assert(projections.has(path.posix.join("plugins/standards", manifest.hooks)));
+  const claudeManifest = JSON.parse(projections.get("plugins/standards/.claude-plugin/plugin.json"));
+  const codexManifest = JSON.parse(projections.get("plugins/standards/.codex-plugin/plugin.json"));
+  assert.equal(claudeManifest.hooks, undefined);
+  assert.equal(codexManifest.hooks, "./hooks/codex-hooks.json");
+  assert(projections.has(path.posix.join("plugins/standards", codexManifest.hooks)));
+  assert.equal(projections.has("plugins/standards/hooks/claude.json"), false);
 });
 
 test("single-host plugins generate only eligible host artifacts", async () => {
@@ -69,9 +72,9 @@ test("single-host plugins generate only eligible host artifacts", async () => {
 
   const projections = await buildProjections({ root });
   assert(projections.has("plugins/standards/.claude-plugin/plugin.json"));
-  assert(projections.has("plugins/standards/hooks/claude.json"));
+  assert(projections.has("plugins/standards/hooks/hooks.json"));
   assert.equal(projections.has("plugins/standards/.codex-plugin/plugin.json"), false);
-  assert.equal(projections.has("plugins/standards/hooks/hooks.json"), false);
+  assert.equal(projections.has("plugins/standards/hooks/codex-hooks.json"), false);
   assert.equal(
     [...projections.keys()].some((target) =>
       target.startsWith("plugins/standards/skills/") && target.endsWith("/agents/openai.yaml")),
@@ -115,8 +118,8 @@ test("hook projections are driven by each plugin's canonical host contract", asy
 test("generated hook commands use host plugin roots and timeout shape", async () => {
   const projections = await buildProjections({ root: ROOT });
   for (const [host, target, expectedRoot] of [
-    ["claude", "plugins/standards/hooks/claude.json", "${CLAUDE_PLUGIN_ROOT}"],
-    ["codex", "plugins/standards/hooks/hooks.json", "$PLUGIN_ROOT"],
+    ["claude", "plugins/standards/hooks/hooks.json", "${CLAUDE_PLUGIN_ROOT}"],
+    ["codex", "plugins/standards/hooks/codex-hooks.json", "$PLUGIN_ROOT"],
   ]) {
     const hookMap = JSON.parse(projections.get(target));
     for (const registrations of Object.values(hookMap.hooks)) {

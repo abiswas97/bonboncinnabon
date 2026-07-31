@@ -16,8 +16,8 @@ Do not directly edit these projections:
 - `plugins/<name>/.claude-plugin/plugin.json`
 - `plugins/<name>/.codex-plugin/plugin.json`
 - `plugins/<name>/skills/*/agents/openai.yaml`
-- `plugins/standards/hooks/claude.json`
 - `plugins/standards/hooks/hooks.json`
+- `plugins/standards/hooks/codex-hooks.json`
 
 Run `npm run plugins:sync` after changing canonical metadata and commit the resulting projections. Run `npm run plugins:check` to verify that committed output is current.
 

@@ -38,7 +38,8 @@ function claudeManifest(plugin) {
     license: plugin.license,
     keywords: plugin.tags,
   };
-  if (plugin.components.hooks?.claude) manifest.hooks = `./${plugin.components.hooks.claude.manifest}`;
+  const claudeHooks = plugin.components.hooks?.claude?.manifest;
+  if (claudeHooks && claudeHooks !== "hooks/hooks.json") manifest.hooks = `./${claudeHooks}`;
   return manifest;
 }
 
@@ -188,7 +189,13 @@ async function generatedCandidates(root) {
   const pluginsRoot = path.join(root, "plugins");
   for (const pluginName of await readdir(pluginsRoot)) {
     const pluginRoot = path.join(pluginsRoot, pluginName);
-    for (const relative of [".claude-plugin/plugin.json", ".codex-plugin/plugin.json", "hooks/claude.json", "hooks/hooks.json"]) {
+    for (const relative of [
+      ".claude-plugin/plugin.json",
+      ".codex-plugin/plugin.json",
+      "hooks/claude.json",
+      "hooks/hooks.json",
+      "hooks/codex-hooks.json",
+    ]) {
       if (await exists(path.join(pluginRoot, relative))) candidates.add(`plugins/${pluginName}/${relative}`);
     }
     const skillsRoot = path.join(pluginRoot, "skills");

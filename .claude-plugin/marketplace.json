@@ -58,7 +58,7 @@
     },
     {
       "name": "standards",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "source": "./plugins/standards",
       "description": "Portable engineering commandments and low-noise lifecycle guidance for Claude Code and Codex.",
       "category": "developertools",
