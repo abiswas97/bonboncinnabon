@@ -18,6 +18,6 @@ to the release commit; tags are never moved.
 Current intended tags:
 
 - `butler--v0.11.0`
-- `standards--v0.1.0`
+- `standards--v0.1.1`
 
 Never reuse or move a published tag. Release a corrected patch version instead.

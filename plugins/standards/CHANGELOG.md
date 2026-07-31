@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.1] - 2026-07-31
+
+### Fixed
+
+- Restored Claude's conventional `hooks/hooks.json` package layout and moved
+  the Codex hook map to the explicitly declared `hooks/codex-hooks.json`, so
+  Claude no longer auto-discovers and runs the Codex commands alongside its own.
+
+Release tag: `standards--v0.1.1`.
+
 ## [0.1.0] - 2026-07-30
 
 ### Added
