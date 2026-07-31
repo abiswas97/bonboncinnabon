@@ -1,0 +1,42 @@
+plugins/standards/plugin.json
+  s_52f5f2bba22384::t_11b97fe7e58d50 4,30,41
+plugins/standards/CHANGELOG.md
+  s_52f5f2bba22384::t_11b97fe7e58d50 3-12
+openspec/specs/plugin-portability-validation/spec.md
+  s_52f5f2bba22384::t_11b97fe7e58d50 45-47,60-64
+  s_52f5f2bba22384::t_f2712b1d096db6 65
+tests/generator.test.mjs
+  s_52f5f2bba22384::t_f82ef81bca56c8 33,35-36,53-58,75,77,121-122
+CONTRIBUTING.md
+  s_52f5f2bba22384::t_11b97fe7e58d50 20
+RELEASING.md
+  s_52f5f2bba22384::t_11b97fe7e58d50 21
+tools/portability/sync-plugins.mjs
+  s_52f5f2bba22384::t_11b97fe7e58d50 41-42,192-198
+.claude-plugin/marketplace.json
+  s_52f5f2bba22384::t_883b98cc4fb85e 61
+plugins/standards/.claude-plugin/plugin.json
+  s_52f5f2bba22384::t_73995d0086989c 4,17
+plugins/standards/.codex-plugin/plugin.json
+  s_52f5f2bba22384::t_7941002fb24355 3,31
+plugins/standards/hooks/codex-hooks.json
+  s_52f5f2bba22384::t_36d677e03bd91c 9,21,33,45
+plugins/standards/hooks/hooks.json
+  s_52f5f2bba22384::t_4e054938c9537c 9,21,33,45-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "e74555053500ed16f2d81b8cd1f2f744bebe0bd5",
+  "prompts": {},
+  "sessions": {
+    "s_52f5f2bba22384": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb224-9fd7-7c81-a541-1915dcc01202",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
