@@ -51,3 +51,14 @@ test("clean CI installs the Claude native validator explicitly", async () => {
     /npm run validators:install must follow npm ci --ignore-scripts/,
   );
 });
+
+test("release tag publication remains gated by successful main validation", async () => {
+  const root = await trackedFixture("bonbon-invalid-release-ci-");
+  const workflow = path.join(root, ".github/workflows/validate.yml");
+  const contents = await readFile(workflow, "utf8");
+  await writeFile(workflow, contents.replace("    needs: validate\n", ""));
+  await assert.rejects(
+    () => validateRepository(root),
+    /release-tags must wait for validation/,
+  );
+});

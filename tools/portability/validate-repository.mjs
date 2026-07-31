@@ -48,6 +48,20 @@ export async function validateRepository(root = ROOT) {
       ".github/workflows/validate.yml: npm run validators:install must follow npm ci --ignore-scripts",
     );
   }
+  const releaseJob = workflow.match(/\n  release-tags:\n([\s\S]*)$/)?.[1] ?? "";
+  for (const [fragment, message] of [
+    [
+      "if: github.event_name == 'push' && github.ref == 'refs/heads/main'",
+      "release-tags must run only for pushes to main",
+    ],
+    ["needs: validate", "release-tags must wait for validation"],
+    ["contents: write", "release-tags must declare its scoped tag-write permission"],
+    ["tools/portability/release-tags.mjs", "release-tags must invoke the canonical tag publisher"],
+  ]) {
+    if (!releaseJob.includes(fragment)) {
+      errors.push(`.github/workflows/validate.yml: ${message}`);
+    }
+  }
   const marketplaceFile = path.join(root, "marketplace/marketplace.json");
   let marketplace;
   try {
