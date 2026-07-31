@@ -1,0 +1,23 @@
+tools/portability/release-tags.mjs
+  s_52f5f2bba22384::t_2a1f3321081086 45-50,69-70,78
+tests/release-tags.test.mjs
+  s_52f5f2bba22384::t_e014109a276297 101-104,107-130,132
+  s_52f5f2bba22384::t_2a1f3321081086 60-75,92-100,105-106,131
+  s_52f5f2bba22384::t_d734de354abcea 133
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "3cc69d9697e3b1968fd79292d6f59547cb02d3a9",
+  "prompts": {},
+  "sessions": {
+    "s_52f5f2bba22384": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb224-9fd7-7c81-a541-1915dcc01202",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
