@@ -35,6 +35,13 @@ Supporting standards MUST use stable rule IDs and machine-readable metadata for 
 - **WHEN** lifecycle feedback cites a rule ID
 - **THEN** the Standards skill can resolve that ID to its canonical title and detailed guidance
 
+#### Scenario: Guide comments on a source edit
+
+- **WHEN** a supported source file is edited
+- **THEN** the applicable guidance asks the agent to preserve only current,
+  non-obvious constraints, contracts, safety rationale, or required API behavior
+  and to remove comments that merely narrate work history or obvious code
+
 ### Requirement: Repository standards overlays
 
 Standards SHALL resolve an optional `.standards/standards.json` repository overlay. An overlay MAY extend the defaults, add supporting rules, narrow applicability, or replace supporting defaults, but MUST NOT remove or redefine the commandments.

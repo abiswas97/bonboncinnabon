@@ -47,7 +47,28 @@ test("default rules resolve by lifecycle, role, and path", async () => {
     paths: ["src/main.rs"],
   });
   assert(result.rules.some(({ id }) => id === "CODE-COHESION"));
+  assert(result.rules.some(({ id }) => id === "CODE-COMMENTS"));
   assert(!result.rules.some(({ id }) => id === "DATA-MIGRATION"));
+});
+
+test("durable comment guidance applies to source files but not prose", async () => {
+  const root = await repository();
+  const source = await resolveStandards({
+    pluginRoot: PLUGIN_ROOT,
+    repositoryRoot: root,
+    lifecycle: "edit",
+    role: "implementation",
+    paths: ["src/main.go"],
+  });
+  const prose = await resolveStandards({
+    pluginRoot: PLUGIN_ROOT,
+    repositoryRoot: root,
+    lifecycle: "edit",
+    role: "implementation",
+    paths: ["README.md"],
+  });
+  assert(source.rules.some(({ id }) => id === "CODE-COMMENTS"));
+  assert(!prose.rules.some(({ id }) => id === "CODE-COMMENTS"));
 });
 
 test("overlay extends defaults and overrides matching supporting IDs", async () => {
