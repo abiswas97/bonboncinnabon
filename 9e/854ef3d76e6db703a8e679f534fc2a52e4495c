@@ -1,0 +1,51 @@
+plugins/standards/standards/registry.json
+  s_52f5f2bba22384::t_84447ca3de281d 35-43
+  s_500963eef03f82::t_fa176d3802eb64 34
+plugins/standards/tests/hooks.test.mjs
+  s_52f5f2bba22384::t_84447ca3de281d 198-200,212-224
+  s_52f5f2bba22384::t_9070f52a0c9191 197,201-211
+openspec/specs/engineering-standards/spec.md
+  s_52f5f2bba22384::t_84447ca3de281d 38-44
+plugins/standards/CHANGELOG.md
+  s_52f5f2bba22384::t_84447ca3de281d 3-12
+plugins/standards/standards/references/clean-code.md
+  s_52f5f2bba22384::t_84447ca3de281d 7-18,24-32
+  s_52f5f2bba22384::t_9070f52a0c9191 19-23
+plugins/standards/plugin.json
+  s_52f5f2bba22384::t_84447ca3de281d 4
+plugins/standards/tests/resolver.test.mjs
+  s_52f5f2bba22384::t_84447ca3de281d 50,54-71
+  s_500963eef03f82::t_73071c53d841af 72-73
+RELEASING.md
+  s_52f5f2bba22384::t_84447ca3de281d 21
+.claude-plugin/marketplace.json
+  s_52f5f2bba22384::t_0422becf043dcc 61
+plugins/standards/.claude-plugin/plugin.json
+  s_52f5f2bba22384::t_66c0a8c2679ccd 4
+plugins/standards/.codex-plugin/plugin.json
+  s_52f5f2bba22384::t_e985ea1cb9bdbc 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "9e854ef3d76e6db703a8e679f534fc2a52e4495c",
+  "prompts": {},
+  "sessions": {
+    "s_500963eef03f82": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb8b2-38a9-7602-b680-11b583c7eeb8",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    },
+    "s_52f5f2bba22384": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb224-9fd7-7c81-a541-1915dcc01202",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
