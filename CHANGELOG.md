@@ -3,6 +3,17 @@
 Marketplace-level changes: plugin additions, structure, and conventions. Each
 plugin keeps its own changelog (e.g. `plugins/butler/CHANGELOG.md`).
 
+## 2026-08-21
+
+### Added
+
+- **devlab** `0.4.0` — imported with its standalone Git ancestry and released as a local Claude/Codex plugin with eight shared skills, portable configuration, provider-neutral Notion contracts, enforced task invariants, and a hardened dashboard renderer. Release tag `devlab--v0.4.0`.
+
+### Changed
+
+- Clean-install validation now installs DevLab from the generated marketplace in pinned Claude Code and Codex homes and verifies every packaged skill.
+- Validator pins moved to Claude Code `2.1.238` and Codex `0.149.0`.
+
 ## 2026-07-30
 
 ### Added

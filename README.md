@@ -8,7 +8,7 @@ A portable plugin marketplace for Claude Code and Codex. The repository keeps ho
 |---|---:|---:|---|
 | `butler` | yes | yes | Executive-function-friendly task decomposition and daily planning |
 | `standards` | yes | yes | Ten engineering commandments and scoped, advisory lifecycle guidance |
-| `devlab` | yes | no | External repository; native Codex package not published here |
+| `devlab` | yes | yes | Notion-backed project setup, task workflows, synchronization, and dashboards |
 | `postgres` | yes | no | External repository; native Codex package not published here |
 
 ## Claude Code
@@ -19,6 +19,7 @@ From a Claude Code session:
 /plugin marketplace add abiswas97/bonboncinnabon
 /plugin install standards@bonboncinnabon
 /plugin install butler@bonboncinnabon
+/plugin install devlab@bonboncinnabon
 ```
 
 Or from a shell:
@@ -27,6 +28,7 @@ Or from a shell:
 claude plugin marketplace add abiswas97/bonboncinnabon
 claude plugin install standards@bonboncinnabon
 claude plugin install butler@bonboncinnabon
+claude plugin install devlab@bonboncinnabon
 ```
 
 In the Claude Desktop Code surface, open the plugin manager in a Code session and use the same marketplace and plugin identifiers. Restart Claude after an update so the new package is loaded.
@@ -36,6 +38,7 @@ Refresh or remove:
 ```sh
 claude plugin marketplace update bonboncinnabon
 claude plugin update standards@bonboncinnabon
+claude plugin update devlab@bonboncinnabon
 claude plugin uninstall standards@bonboncinnabon
 ```
 
@@ -50,6 +53,7 @@ not bypass that host confirmation.
 codex plugin marketplace add abiswas97/bonboncinnabon
 codex plugin add standards@bonboncinnabon
 codex plugin add butler@bonboncinnabon
+codex plugin add devlab@bonboncinnabon
 ```
 
 Refresh or remove:
@@ -57,6 +61,7 @@ Refresh or remove:
 ```sh
 codex plugin marketplace upgrade bonboncinnabon
 codex plugin add standards@bonboncinnabon
+codex plugin add devlab@bonboncinnabon
 codex plugin remove standards@bonboncinnabon
 ```
 
@@ -64,7 +69,7 @@ Start a new task after installing or refreshing so Codex reloads the plugin's sk
 
 ## Codex Desktop
 
-Codex Desktop and the CLI share the configured local marketplaces and installed packages. Add the marketplace with the CLI command above, then open **Settings → Plugins**, select Bonboncinnabon, and install Butler or Standards. Start a new task after installation. Hook trust is explicit and may require one-time review in either surface.
+Codex Desktop and the CLI share the configured local marketplaces and installed packages. Add the marketplace with the CLI command above, then open **Settings → Plugins**, select Bonboncinnabon, and install Butler, DevLab, or Standards. Start a new task after installation. Hook trust is explicit and may require one-time review in either surface.
 
 For an imported workspace plugin, use **Refresh** on the plugin to pull a newer marketplace version. Installation availability can depend on workspace policy and role; see OpenAI's current [plugins documentation](https://help.openai.com/en/articles/20001256-plugins-in-codex).
 
@@ -99,7 +104,8 @@ Session state contains only a host name, hashed session identifier, delivered ru
 - Windows support is deferred
 - Language-specific Rust, Python, Go, TypeScript, and other analyzers are deferred; version 1 remains language-neutral
 - Standards has no MCP server
-- `devlab` and `postgres` remain external Claude entries and are deliberately absent from Codex
+- DevLab requires a separately installed and authenticated Notion connector on each host; it never stores connector credentials
+- `postgres` remains an external Claude entry and is deliberately absent from Codex
 
 ## Development
 
@@ -116,7 +122,9 @@ Edit canonical files under `marketplace/`, `plugins/*/plugin.json`, and `plugins
 
 - **Plugin is missing:** upgrade/update the marketplace, confirm the marketplace name is `bonboncinnabon`, and inspect `claude plugin list --available --json` or `codex plugin list --available --json`.
 - **Old skill is still loaded:** restart Claude or start a new Codex task.
-- **Codex does not show `devlab` or `postgres`:** intentional until those repositories publish native Codex packages.
+- **DevLab is missing or still at 0.3.0:** update/upgrade the Bonboncinnabon marketplace, update or install `devlab@bonboncinnabon`, then restart Claude or start a new Codex task.
+- **Codex does not show `postgres`:** intentional until that repository publishes a native Codex package.
+- **DevLab cannot access a project:** verify the active Notion connector is authenticated to the workspace that contains the project; DevLab fails closed instead of writing to another workspace.
 - **Standards repeats guidance:** the host did not provide a stable session ID or writable plugin-data directory; behavior remains correct but deduplication is unavailable.
 - **Standards hooks need review:** confirm the exact current definitions in the host; installing or updating a plugin never auto-approves hook trust.
 - **Butler cannot find its config:** run the setup skill and confirm the host substituted one of the persistent plugin-data tokens described in `plugins/butler/references/paths.md`.
