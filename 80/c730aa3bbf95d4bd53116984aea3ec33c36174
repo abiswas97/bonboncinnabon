@@ -1,0 +1,21 @@
+README.md
+  s_e6afc9cc4f5dea::t_d348ae0388e6f2 11,22,31,41,56,64,72,107-108,125-127
+CHANGELOG.md
+  s_e6afc9cc4f5dea::t_d348ae0388e6f2 6-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "80c730aa3bbf95d4bd53116984aea3ec33c36174",
+  "prompts": {},
+  "sessions": {
+    "s_e6afc9cc4f5dea": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0239f-1212-71e2-8b68-ef12e887a0ea",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
