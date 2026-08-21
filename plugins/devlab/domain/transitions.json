@@ -1,0 +1,9 @@
+{
+  "Backlog": { "normal": ["To Do"], "confirmation": ["Done", "Won't Do"] },
+  "To Do": { "normal": ["In Progress", "Blocked"], "confirmation": ["Done", "Won't Do"] },
+  "In Progress": { "normal": ["In Review", "Blocked", "To Do"], "confirmation": ["Done", "Won't Do"] },
+  "In Review": { "normal": ["Done", "In Progress", "Blocked"], "confirmation": ["Won't Do"] },
+  "Blocked": { "normal": ["To Do", "In Progress"], "confirmation": ["Done", "Won't Do"] },
+  "Done": { "normal": [], "confirmation": ["To Do"] },
+  "Won't Do": { "normal": [], "confirmation": ["Backlog", "To Do"] }
+}

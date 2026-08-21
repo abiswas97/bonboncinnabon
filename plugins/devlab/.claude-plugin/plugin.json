@@ -1,11 +1,19 @@
 {
   "name": "devlab",
-  "version": "0.3.0",
-  "description": "Task-centric project management for Dev Lab repos. Debate-driven task creation, terminal dashboards, and Notion sync.",
+  "displayName": "DevLab",
+  "version": "0.4.0",
+  "description": "Task-centric project management with debate-driven planning, terminal dashboards, and confirmed Notion synchronization.",
   "author": {
-    "name": "Avi Biswas",
-    "email": "avishek.biswas.1997@gmail.com"
+    "name": "Avishek Biswas"
   },
-  "repository": "https://github.com/abiswas97/devlab",
-  "license": "MIT"
+  "repository": "https://github.com/abiswas97/bonboncinnabon",
+  "license": "MIT",
+  "keywords": [
+    "notion",
+    "project-management",
+    "brainstorming",
+    "sync",
+    "dashboard",
+    "tasks"
+  ]
 }

@@ -1,279 +1,152 @@
 #!/usr/bin/env python3
-"""DevLab dashboard renderer. Reads JSON from stdin, outputs ASCII dashboard."""
+"""Render a validated DevLab dashboard from one JSON document on stdin."""
+
+from __future__ import annotations
 
 import json
 import sys
-import argparse
-from datetime import datetime, timedelta
-from collections import defaultdict
+import unicodedata
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
 
-W = 62
+sys.path.insert(0, str(Path(__file__).parents[3] / "scripts"))
+from devlab_contracts import ContractError, velocity
+
+WIDTH = 76
 
 
-def parse_date(s):
-    """Parse ISO date string, return datetime or None."""
-    if not s:
-        return None
+def display_width(text: str) -> int:
+    return sum(0 if unicodedata.combining(char) else 2 if unicodedata.east_asian_width(char) in {"W", "F"} else 1 for char in text)
+
+
+def fit(text: str, width: int) -> str:
+    text = " ".join(str(text).split())
+    result = ""
+    for char in text:
+        if display_width(result + char) > width:
+            break
+        result += char
+    if result != text and width >= 1:
+        while result and display_width(result + "…") > width:
+            result = result[:-1]
+        result += "…"
+    return result + " " * max(0, width - display_width(result))
+
+
+def bar(done: int | float, total: int | float, width: int = 20) -> str:
+    bounded_total = max(0.0, float(total))
+    ratio = 0.0 if bounded_total == 0 else max(0.0, min(1.0, float(done) / bounded_total))
+    filled = round(ratio * width)
+    return "█" * filled + "░" * (width - filled)
+
+
+def parse_timestamp(value: Any, field: str) -> datetime:
+    if not isinstance(value, str) or not value:
+        raise ContractError(f"{field} must be an ISO 8601 timestamp")
     try:
-        return datetime.fromisoformat(s.replace("Z", "+00:00")).replace(tzinfo=None)
-    except (ValueError, TypeError):
-        return None
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as error:
+        raise ContractError(f"{field} must be an ISO 8601 timestamp") from error
+    if parsed.tzinfo is None:
+        raise ContractError(f"{field} must include a timezone")
+    return parsed
 
 
-def compute_velocity(tasks, weeks=4):
-    """Compute points completed per week over last N weeks."""
-    now = datetime.now()
-    weekly = []
-    for w in range(weeks):
-        start = now - timedelta(weeks=w + 1)
-        end = now - timedelta(weeks=w)
-        pts = sum(
-            t.get("story_points", 0) or 0
-            for t in tasks
-            if t.get("status") == "Done"
-            and start <= (parse_date(t.get("end_date")) or datetime.min) < end
-        )
-        weekly.append(pts)
-    weekly.reverse()
-    return weekly
+def validate_document(document: Any) -> dict[str, Any]:
+    if not isinstance(document, dict):
+        raise ContractError("input must be a JSON object")
+    mode = document.get("mode")
+    if mode not in {"project", "overview"}:
+        raise ContractError("mode must be project or overview")
+    collection = "tasks" if mode == "project" else "projects"
+    if not isinstance(document.get(collection, []), list):
+        raise ContractError(f"{collection} must be an array")
+    if mode == "project":
+        for field in ("project_name", "key"):
+            if not isinstance(document.get(field, ""), str):
+                raise ContractError(f"{field} must be a string")
+        velocity(document.get("tasks", []))
+    if "as_of" in document:
+        parse_timestamp(document["as_of"], "as_of")
+    return document
 
 
-def bar(filled, total, width=10):
-    """Render a progress bar."""
-    if total == 0:
-        return "\u2591" * width
-    n = round(filled / total * width)
-    return "\u2593" * n + "\u2591" * (width - n)
+def age_label(value: Any, as_of: datetime) -> str:
+    if value is None:
+        return "—"
+    timestamp = parse_timestamp(value, "task date")
+    delta = as_of.astimezone(timezone.utc) - timestamp.astimezone(timezone.utc)
+    return f"{max(0, delta.days)}d"
 
 
-def row(content):
-    """Pad or truncate content to W and wrap with box borders."""
-    return "\u2551" + content.ljust(W)[:W] + "\u2551"
-
-
-def hdr(left, right=""):
-    """Row with left-aligned and optional right-aligned text (1-char margin)."""
+def line(left: str = "", right: str = "") -> str:
+    inner = WIDTH - 4
     if right:
-        gap = W - len(left) - len(right) - 1
-        return row(left + " " * max(gap, 1) + right + " ")
-    return row(left)
-
-
-def sep_top():
-    return "\u2554" + "\u2550" * W + "\u2557"
-
-
-def sep_mid():
-    return "\u2560" + "\u2550" * W + "\u2563"
-
-
-def sep_bot():
-    return "\u255a" + "\u2550" * W + "\u255d"
-
-
-def blank():
-    return row("")
-
-
-def render_project(data):
-    """Render per-project dashboard."""
-    name = data.get("name", "Unknown")
-    key = data.get("key", "???")
-    tasks = data.get("tasks", [])
-    today = datetime.now().strftime("%Y-%m-%d")
-
-    # Separate epics from workable items (Tasks + Sub-tasks)
-    epics_data = data.get("epics", [])
-    work_items = [t for t in tasks if t.get("level") != "Epic"]
-
-    done = [t for t in work_items if t.get("status") == "Done"]
-    active = [t for t in work_items if t.get("status") == "In Progress"]
-    blocked = [t for t in work_items if t.get("status") == "Blocked"]
-
-    total_tasks = len(work_items)
-    done_count = len(done)
-    total_pts = sum(t.get("story_points", 0) or 0 for t in work_items)
-    done_pts = sum(t.get("story_points", 0) or 0 for t in done)
-
-    velocity = compute_velocity(work_items)
-    avg_vel = sum(velocity) / len(velocity) if velocity else 0
-    last_vel = velocity[-1] if velocity else 0
-
-    types = defaultdict(int)
-    for t in work_items:
-        types[t.get("type", "Other")] += 1
-
-    pct = round(done_count / total_tasks * 100) if total_tasks else 0
-
-    lines = [
-        sep_top(),
-        hdr(f"  DEVLAB :: {name} ({key})", today),
-        sep_mid(),
-        blank(),
-    ]
-
-    prog_bar = bar(done_count, total_tasks, 10)
-    type_str = "  ".join(f"{k}: {v}" for k, v in sorted(types.items()))
-    lines.append(row("  PROGRESS            VELOCITY         BREAKDOWN"))
-    lines.append(row(f"  {prog_bar} {done_count}/{total_tasks:<5}  {avg_vel:.1f} pts/wk avg     {type_str[:20]}"))
-    lines.append(row(f"  {pct}% complete        Last: {last_vel} pts"))
-    lines.append(row(f"  {done_pts} of {total_pts} pts done"))
-    lines.append(blank())
-
-    if epics_data:
-        lines.append(row("  EPICS"))
-        for e in epics_data:
-            ek = e.get("issue_key", "???")
-            en = e.get("name", "")[:28]
-            et = e.get("total_tasks", 0)
-            ed = e.get("done_tasks", 0)
-            ep = e.get("total_pts", 0)
-            edp = e.get("done_pts", 0)
-            es = e.get("status", "")
-            ebar = bar(ed, et, 8)
-            lines.append(row(f"  {ek:<8} {en:<28} {ebar} {ed}/{et}  {edp}/{ep}pt"))
-        lines.append(blank())
-
-    lines.append(row("  ACTIVE NOW"))
-    if active:
-        for t in active[:5]:
-            ik = t.get("issue_key", "???")
-            tn = t.get("name", "")[:30]
-            pts = t.get("story_points", "?")
-            lines.append(row(f"  {ik:<8} {tn:<30} {pts}pts  In Progress"))
-            for st in t.get("sub_tasks", []):
-                sik = st.get("issue_key", "")
-                stn = st.get("name", "")[:26]
-                spts = st.get("story_points", "?")
-                sst = st.get("status", "")
-                mark = "\u25cf" if sst == "Done" else "\u25cc"
-                lines.append(row(f"    \u2514\u2500 {sik}  {mark} {stn:<26} {spts}pt  {sst}"))
+        right = fit(right, inner).rstrip()
+        room = max(1, inner - display_width(right) - 1)
+        body = fit(left, room) + " " + right
     else:
-        lines.append(row("  (none)"))
-    lines.append(blank())
-
-    if blocked:
-        lines.append(row("  BLOCKED"))
-        for t in blocked[:3]:
-            ik = t.get("issue_key", "???")
-            tn = t.get("name", "")[:30]
-            pts = t.get("story_points", "?")
-            bb = t.get("blocked_by", "unknown")
-            lines.append(row(f"  {ik:<8} {tn:<30} {pts}pt  Blocked by {bb}"))
-        lines.append(blank())
-
-    now = datetime.now()
-    attention = []
-    for t in blocked:
-        edited = parse_date(t.get("last_edited"))
-        if edited and (now - edited).days >= 2:
-            attention.append(f"! {t.get('issue_key', '???')}  Blocked {(now - edited).days}d")
-    for t in active:
-        edited = parse_date(t.get("last_edited"))
-        if edited and (now - edited).days >= 5:
-            attention.append(f"! {t.get('issue_key', '???')}  Stale {(now - edited).days}d (no update)")
-
-    if attention:
-        lines.append(row("  ATTENTION NEEDED"))
-        for a in attention[:3]:
-            lines.append(row(f"  {a}"))
-        lines.append(blank())
-
-    courses = data.get("courses", 0)
-    papers = data.get("papers", 0)
-    resources = data.get("resources", 0)
-    if courses or papers or resources:
-        lines.append(row("  LEARNING & RESOURCES"))
-        lines.append(row(f"  Courses: {courses}  Papers: {papers}  Resources: {resources}"))
-        lines.append(blank())
-
-    lines.append(sep_bot())
-    return "\n".join(lines)
+        body = fit(left, inner)
+    return f"│ {body} │"
 
 
-def render_overview(data):
-    """Render cross-project overview dashboard."""
-    projects = data.get("projects", [])
-    knowledge = data.get("knowledge", {})
-    today = datetime.now().strftime("%Y-%m-%d")
+def frame(lines: list[str]) -> str:
+    return "\n".join(["┌" + "─" * (WIDTH - 2) + "┐", *lines, "└" + "─" * (WIDTH - 2) + "┘"])
 
-    col_w = [10, 8, 7, 6, 7, 9]
-    col_names = ["Project", "Status", "Tasks", "Done", "Pts", "Blocked"]
-    tbl_w = sum(col_w) + len(col_w) + 1
 
-    def tbl_sep(left, mid, right, fill="\u2500"):
-        return left + mid.join(fill * c for c in col_w) + right
-
-    def tbl_row(vals):
-        cells = "\u2502".join(f"{v:<{col_w[i]}}" for i, v in enumerate(vals))
-        return "\u2502" + cells + "\u2502"
-
+def render_project(document: dict[str, Any], as_of: datetime) -> str:
+    tasks = document.get("tasks", [])
+    done, total = velocity(tasks)
+    progress = 0 if total == 0 else round(done / total * 100)
     lines = [
-        sep_top(),
-        hdr(f"  DEVLAB :: All Projects", today),
-        sep_mid(),
-        blank(),
-        row("  PROJECT HEALTH"),
-        row("  " + tbl_sep("\u250c", "\u252c", "\u2510")),
-        row("  " + tbl_row(col_names)),
-        row("  " + tbl_sep("\u251c", "\u253c", "\u2524")),
+        line(f"{document.get('project_name', '')} [{document.get('key', '')}]", as_of.isoformat()),
+        line(),
+        line(f"Velocity  {bar(done, total)}  {done}/{total} points ({progress}%)"),
+        line(),
+        line("Executable Tasks", f"{len([task for task in tasks if task['level'] == 'Task'])}"),
     ]
-
-    for p in projects:
-        pn = p.get("name", "?")[:10]
-        ps = p.get("status", "?")[:8]
-        tt = str(p.get("total_tasks", 0))
-        td = str(p.get("done_tasks", 0))
-        tp = f"{p.get('done_pts', 0)}/{p.get('total_pts', 0)}"
-        bl = str(p.get("blocked", 0))
-        lines.append(row("  " + tbl_row([pn, ps, tt, td, tp, bl])))
-
-    lines.append(row("  " + tbl_sep("\u2514", "\u2534", "\u2518")))
-    lines.append(blank())
-
-    lines.append(row("  VELOCITY (last 4 weeks)"))
-    for p in projects:
-        pn = p.get("name", "?")[:10]
-        vel = p.get("velocity_total", 0)
-        vbar = bar(vel, max(p.get("total_pts", 1), 1), 10)
-        lines.append(row(f"  {pn:<10} {vbar}  {vel}pts"))
-    lines.append(blank())
-
-    kr = knowledge.get("resources", 0)
-    kc = knowledge.get("courses", 0)
-    kp = knowledge.get("papers", 0)
-    kt = knowledge.get("tech_stack", 0)
-    lines.append(row("  KNOWLEDGE BASE"))
-    lines.append(row(f"  {kr} resources  {kc} courses  {kp} papers  {kt} tech stack items"))
-    lines.append(blank())
-
-    attention = data.get("attention", [])
-    if attention:
-        lines.append(row("  ATTENTION NEEDED"))
-        for a in attention[:5]:
-            lines.append(row(f"  {a}"))
-        lines.append(blank())
-
-    lines.append(sep_bot())
-    return "\n".join(lines)
+    for task in tasks:
+        if task["level"] != "Task":
+            continue
+        marker = "✓" if task["status"] == "Done" else "×" if task["status"] == "Won't Do" else "•"
+        details = f"{task['status']} · {task['points']}pt"
+        if task["status"] == "Blocked":
+            details += f" · blocked {age_label(task.get('start_date'), as_of)}"
+        lines.append(line(f"{marker} {task.get('issue_key', task['id'])} {task['name']}", details))
+        children = [child for child in tasks if child.get("parent_id") == task["id"]]
+        for child in children:
+            lines.append(line(f"  ↳ {child['name']}", f"{child['points']}pt decomposition"))
+    return frame(lines)
 
 
-def main():
-    parser = argparse.ArgumentParser(description="DevLab dashboard renderer")
-    parser.add_argument("--mode", choices=["project", "overview"], required=True)
-    parser.add_argument("--name", default="Unknown")
-    parser.add_argument("--key", default="???")
-    args = parser.parse_args()
+def render_overview(document: dict[str, Any], as_of: datetime) -> str:
+    lines = [line("DevLab Overview", as_of.isoformat()), line()]
+    projects = document.get("projects", [])
+    if not projects:
+        lines.append(line("No active projects"))
+    for project in projects:
+        name = project.get("project_name", project.get("name", "Unnamed"))
+        tasks = project.get("tasks", [])
+        done, total = velocity(tasks)
+        lines.append(line(name, f"{bar(done, total, 12)} {done}/{total}pt"))
+    return frame(lines)
 
-    data = json.load(sys.stdin)
 
-    if args.mode == "project":
-        data["name"] = args.name
-        data["key"] = args.key
-        print(render_project(data))
-    else:
-        print(render_overview(data))
+def main() -> int:
+    try:
+        document = validate_document(json.load(sys.stdin))
+        as_of = parse_timestamp(document["as_of"], "as_of") if "as_of" in document else datetime.now().astimezone()
+        output = render_project(document, as_of) if document["mode"] == "project" else render_overview(document, as_of)
+    except json.JSONDecodeError as error:
+        print(f"DevLab dashboard input error: malformed JSON at line {error.lineno}, column {error.colno}", file=sys.stderr)
+        return 2
+    except (ContractError, KeyError, TypeError) as error:
+        print(f"DevLab dashboard input error: {error}", file=sys.stderr)
+        return 2
+    print(output)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

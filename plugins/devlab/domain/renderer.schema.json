@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["mode"],
+  "properties": {
+    "mode": { "enum": ["project", "overview"] },
+    "project_name": { "type": "string" },
+    "key": { "type": "string" },
+    "as_of": { "type": "string", "format": "date-time" },
+    "tasks": { "type": "array" },
+    "projects": { "type": "array" }
+  }
+}

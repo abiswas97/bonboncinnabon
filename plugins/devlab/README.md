@@ -1,63 +1,40 @@
-# devlab
+# DevLab
 
-A Claude Code plugin for task-centric project management. Syncs Dev Lab repos with Notion.
+DevLab is a Claude Code and Codex plugin for task-centric project management backed by an independently authenticated Notion connector.
 
-## Commands
+## Install surfaces
 
-| Command | Purpose |
-|---------|---------|
-| `/devlab:setup` | Discover Notion IDs, write `.claude/devlab-notion.yaml` |
-| `/devlab:sync` | Push repo state to Notion |
-| `/devlab:dashboard` | Terminal dashboard (default: project, `all` for cross-project) |
-| `/devlab:brainstorm [topic]` | PM-style brainstorm, outputs a Task or Epic to Notion |
-| `/devlab:task [topic] [--epic <key>]` | Debate-driven task creation with proposer + critic agents |
-| `/devlab:task-pick [--epic <key>]` | Suggest next task by priority and story points |
-| `/devlab:task-close <key>` | Close task with sub-task cascade |
-| `/devlab:task-transition <key> <status>` | Move task status with validation |
+- Claude Code exposes the eight skills through the plugin's `/devlab:<skill>` namespace.
+- Codex exposes the same installed skills through its native skill selector.
 
-## Setup
+Available skills: `setup`, `sync`, `dashboard`, `brainstorm`, `task`, `task-pick`, `task-close`, and `task-transition`.
 
-1. Install the plugin in Claude Code
-2. Ensure the [Notion plugin](https://github.com/anthropics/claude-plugins/tree/main/Notion) is installed and authenticated
-3. Navigate to a project repo with a corresponding Dev Lab page in Notion
-4. Run `/devlab:setup` to discover and save Notion page IDs
+## Configuration
 
-## Per-Project Config
-
-Lives at `.claude/devlab-notion.yaml` in each repo:
+Each project owns `.devlab/config.yaml`:
 
 ```yaml
-project_name: Example Project
+schema_version: 1
+project_name: "Example Project"
 notion:
-  project_page: <uuid>
-  product_spec: <uuid or null>
-  tasks_db: <uuid>
-  task_template: <uuid>
+  project_page: "project-page-id"
+  product_spec: null
+  tasks_db: "tasks-database-id"
+  task_template: "task-template-id"
 sync:
   sources:
+    - AGENTS.md
     - CLAUDE.md
     - openspec/
     - docs/plans/
 ```
 
-## Task Hierarchy
+Setup includes only sources that exist. Existing legacy configuration is previewed and migrated only after confirmation; it is never deleted automatically.
 
-```
-Epic (container)
-  Task (deliverable, default)
-    Sub-task (leaf, one level deep)
-```
+## Safety and portability
 
-- **Epic**: strategic container grouping related Tasks. Not directly workable.
-- **Task**: deliverable work item. Can be standalone or nested under an Epic.
-- **Sub-task**: granular step under a Task. Must have a Parent Issue.
+DevLab maps provider-neutral search, fetch, query, create, and update capabilities to the active authenticated Notion connector. It fails closed when a required capability is unavailable, never substitutes web access, and never stores credentials. All Notion writes require user confirmation.
 
-Use `--epic <key>` with `/devlab:task` and `/devlab:task-pick` to scope to an Epic.
+The canonical plugin metadata is `plugin.json`. Bonboncinnabon's portability generator owns the Claude manifest, Codex manifest, skill UI metadata, and marketplace projections.
 
-## Architecture
-
-```
-commands/    -> User-invocable thin wrappers (/devlab:*)
-skills/      -> Logic + templates + scripts
-agents/      -> Personas spawned by skills (proposer, critic, brainstormer)
-```
+Supported hosts are Claude Code and Codex on macOS and Linux. Windows and public marketplace submission are outside this release.

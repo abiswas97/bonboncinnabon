@@ -1,72 +1,15 @@
 ---
 name: dashboard
-description: >
-  Terminal dashboard showing project health, velocity, and task status.
-  Queries Notion databases and renders ASCII art via bundled Python script.
-user-invocable: false
-allowed-tools: Read, Grep, Glob, Bash
+description: Query validated Notion task data and render deterministic project or cross-project terminal dashboards.
 ---
 
-# DevLab Dashboard
+# DevLab dashboard
 
-<prerequisites>
-  <gate name="config">
-    Read `.claude/devlab-notion.yaml`. Extract all IDs.
-    If missing: STOP. Tell user to run `/devlab:setup`.
-  </gate>
+1. Validate `.devlab/config.yaml`. Read `../../domain/notion-capabilities.md` and require `fetch` and `query`.
+2. Determine whether the user wants the current project or the active-project overview.
+3. Query all relevant task fields, including hierarchy, points, status, dates, blockers, issue key, and project relation. Fetch project metadata needed by the chosen mode.
+4. Construct one JSON document matching `../../domain/renderer.schema.json`. Include `mode`, `project_name`, `key`, tasks or projects, and an optional timezone-aware `as_of` timestamp for deterministic output.
+5. Pass that document directly to `scripts/render.py` through standard input. Do not construct shell source from JSON or user text.
+6. If validation fails, report stderr unchanged. Otherwise present the renderer output as preformatted text.
 
-  <gate name="mode">
-    If $ARGUMENTS contains "all" or "overview": mode = cross-project.
-    Otherwise: mode = per-project (current repo).
-  </gate>
-</prerequisites>
-
-<per-project-mode>
-  <step name="query-tasks">
-    Query Tasks DB via Notion MCP:
-    - Filter: Project matches current project
-    - Fetch all items (Tasks, Sub-tasks, and Epics). Group Epics separately.
-    - Include: Task Name, Status, Story Points, Priority, Type, Level, Labels,
-      Start Date, End Date, Created, Parent Issue, Sub-issues, Blocked By, Issue Key
-  </step>
-
-  <step name="query-project">
-    Fetch the Dev Lab project page:
-    - Extract: Key, Status, Resources, Courses, Papers and Notes, Videos
-  </step>
-
-  <step name="render">
-    Construct a JSON object matching the shape in templates/project.md.
-    Pipe it to the render script:
-
-    ```bash
-    echo '<json_data>' | python3 ${CLAUDE_SKILL_DIR}/scripts/render.py --mode project --name "<project_name>" --key "<project_key>"
-    ```
-
-    Present the script's stdout output to the user as-is (it is pre-formatted ASCII).
-  </step>
-</per-project-mode>
-
-<cross-project-mode>
-  <step name="query-all-projects">
-    Query the Dev Lab DB via Notion MCP:
-    - Fetch all projects with Status "In Progress"
-    - For each project, query its tasks from Tasks DB
-  </step>
-
-  <step name="query-knowledge">
-    Count totals across all projects:
-    - Resources, Courses, Papers and Notes, Tech Stack Items
-  </step>
-
-  <step name="render">
-    Construct a JSON object matching the shape in templates/overview.md.
-    Pipe all data as JSON to the render script:
-
-    ```bash
-    echo '<json_data>' | python3 ${CLAUDE_SKILL_DIR}/scripts/render.py --mode overview
-    ```
-
-    Present stdout to the user.
-  </step>
-</cross-project-mode>
+Only Task-level points contribute to planning and velocity. Sub-task points are displayed as decomposition and never added to the Task again.

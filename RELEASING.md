@@ -17,6 +17,7 @@ to the release commit; tags are never moved.
 
 Current intended tags:
 
+- `devlab--v0.4.0`
 - `butler--v0.11.0`
 - `standards--v0.1.2`
 

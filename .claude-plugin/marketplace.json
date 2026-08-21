@@ -24,13 +24,10 @@
     },
     {
       "name": "devlab",
-      "source": {
-        "source": "github",
-        "repo": "abiswas97/devlab"
-      },
-      "description": "Task-centric project management for Dev Lab repos. Debate-driven task creation, terminal dashboards, and Notion sync.",
+      "version": "0.4.0",
+      "source": "./plugins/devlab",
+      "description": "Task-centric project management with debate-driven planning, terminal dashboards, and confirmed Notion synchronization.",
       "category": "productivity",
-      "homepage": "https://github.com/abiswas97/devlab",
       "tags": [
         "notion",
         "project-management",

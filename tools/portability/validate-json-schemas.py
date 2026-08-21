@@ -45,5 +45,11 @@ validate(
     "plugins/standards/standards/registry.json",
 )
 Draft202012Validator.check_schema(read_json("schemas/standards-overlay.schema.json"))
+for relative in (
+    "plugins/devlab/domain/config.schema.json",
+    "plugins/devlab/domain/renderer.schema.json",
+    "plugins/devlab/domain/task.schema.json",
+):
+    Draft202012Validator.check_schema(read_json(relative))
 
 print("Canonical documents satisfy valid Draft 2020-12 schemas.")

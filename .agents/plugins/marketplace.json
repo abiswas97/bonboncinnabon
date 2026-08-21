@@ -5,6 +5,18 @@
   },
   "plugins": [
     {
+      "name": "devlab",
+      "source": {
+        "source": "local",
+        "path": "./plugins/devlab"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
       "name": "butler",
       "source": {
         "source": "local",

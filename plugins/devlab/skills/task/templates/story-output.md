@@ -47,7 +47,7 @@
 ## {{IF level == Epic: "Child Tasks" ELSE: "Sub-tasks"}}
 
 {{IF level == Epic}}
-> Tasks under this Epic. Each is a separate deliverable created via /devlab:task --epic.
+> Tasks under this Epic. Each is a separate deliverable planned with the task skill in Epic context.
 {{ELSE}}
 > One level deep. If a sub-task needs children, promote it to its own task.
 {{END}}
@@ -58,4 +58,4 @@
 
 ## Log
 
-- {{today_date}}: Task created via /devlab:task debate
+- {{today_date}}: Task created through proposer and critic debate
