@@ -10,7 +10,7 @@
     "plugins:sync": "node tools/portability/sync-plugins.mjs",
     "plugins:check": "node tools/portability/sync-plugins.mjs --check",
     "validators:install": "node node_modules/@anthropic-ai/claude-code/install.cjs",
-    "test": "node --test tests/*.test.mjs plugins/standards/tests/*.test.mjs",
+    "test": "node --test tests/*.test.mjs plugins/standards/tests/*.test.mjs plugins/devlab/tests/*.test.mjs && python3 -m unittest discover -s plugins/devlab/tests -p 'test_*.py'",
     "test:schemas": "python3 tools/portability/validate-json-schemas.py",
     "test:butler": "python3 plugins/butler/scripts/test_chunk_schema.py && python3 plugins/butler/scripts/test_pack_schedule.py",
     "validate:repo": "node tools/portability/validate-repository.mjs",
@@ -19,7 +19,7 @@
     "validate": "npm run plugins:check && npm test && npm run test:schemas && npm run test:butler && npm run validate:repo && npm run validate:hosts && npm run validate:release"
   },
   "devDependencies": {
-    "@anthropic-ai/claude-code": "2.1.220",
-    "@openai/codex": "0.146.0"
+    "@anthropic-ai/claude-code": "2.1.238",
+    "@openai/codex": "0.149.0"
   }
 }

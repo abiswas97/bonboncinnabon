@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "name": "devlab",
+  "version": "0.4.0",
+  "description": "Task-centric project management with debate-driven planning, terminal dashboards, and confirmed Notion synchronization.",
+  "author": { "name": "Avishek Biswas" },
+  "repository": "https://github.com/abiswas97/bonboncinnabon",
+  "license": "MIT",
+  "category": "Productivity",
+  "tags": ["notion", "project-management", "brainstorming", "sync", "dashboard", "tasks"],
+  "hosts": ["claude", "codex"],
+  "components": {
+    "skills": [
+      { "name": "setup", "displayName": "Set Up DevLab", "shortDescription": "Connect this repository to a Notion project", "defaultPrompt": "Use $setup to connect this repository to its Notion project." },
+      { "name": "sync", "displayName": "Sync DevLab", "shortDescription": "Review and sync repository state to Notion", "defaultPrompt": "Use $sync to review and sync repository state to Notion." },
+      { "name": "dashboard", "displayName": "DevLab Dashboard", "shortDescription": "Render project health and task progress", "defaultPrompt": "Use $dashboard to show this project's task dashboard." },
+      { "name": "brainstorm", "displayName": "Brainstorm", "shortDescription": "Shape a product idea into a reviewed task", "defaultPrompt": "Use $brainstorm to shape this idea into a reviewed task." },
+      { "name": "task", "displayName": "Plan Task", "shortDescription": "Plan a task through proposer and critic debate", "defaultPrompt": "Use $task to plan this work through a proposer and critic debate." },
+      { "name": "task-pick", "displayName": "Pick Task", "shortDescription": "Choose the best unblocked task to start", "defaultPrompt": "Use $task-pick to choose the best unblocked task to start." },
+      { "name": "task-close", "displayName": "Close Task", "shortDescription": "Close work without violating task hierarchy", "defaultPrompt": "Use $task-close to safely close a task and its descendants." },
+      { "name": "task-transition", "displayName": "Transition Task", "shortDescription": "Move a task through validated workflow states", "defaultPrompt": "Use $task-transition to move a task to a valid workflow state." }
+    ],
+    "commands": [],
+    "hooks": null
+  },
+  "interface": {
+    "displayName": "DevLab",
+    "shortDescription": "Notion-backed project and task workflows.",
+    "longDescription": "DevLab connects a repository to a Notion project for confirmed synchronization, task planning, safe transitions, and terminal dashboards.",
+    "developerName": "Avishek Biswas",
+    "capabilities": ["Notion project setup", "Task planning and lifecycle", "Project dashboards", "Repository synchronization"],
+    "defaultPrompt": "Help me manage this project's work with DevLab."
+  }
+}

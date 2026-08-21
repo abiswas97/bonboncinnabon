@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "project_name", "notion", "sync"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "project_name": { "type": "string", "minLength": 1 },
+    "notion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project_page", "product_spec", "tasks_db", "task_template"],
+      "properties": {
+        "project_page": { "type": "string", "minLength": 1 },
+        "product_spec": { "type": ["string", "null"] },
+        "tasks_db": { "type": "string", "minLength": 1 },
+        "task_template": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sync": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sources"],
+      "properties": { "sources": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true } }
+    }
+  }
+}

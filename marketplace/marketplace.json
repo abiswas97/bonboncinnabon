@@ -25,19 +25,9 @@
     },
     {
       "name": "devlab",
-      "kind": "external",
-      "hosts": ["claude"],
-      "claudeEntry": {
-        "name": "devlab",
-        "source": {
-          "source": "github",
-          "repo": "abiswas97/devlab"
-        },
-        "description": "Task-centric project management for Dev Lab repos. Debate-driven task creation, terminal dashboards, and Notion sync.",
-        "category": "productivity",
-        "homepage": "https://github.com/abiswas97/devlab",
-        "tags": ["notion", "project-management", "brainstorming", "sync", "dashboard", "tasks"]
-      }
+      "kind": "local",
+      "path": "./plugins/devlab",
+      "hosts": ["claude", "codex"]
     },
     {
       "name": "butler",

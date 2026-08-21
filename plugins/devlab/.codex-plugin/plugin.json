@@ -1,0 +1,33 @@
+{
+  "name": "devlab",
+  "version": "0.4.0",
+  "description": "Task-centric project management with debate-driven planning, terminal dashboards, and confirmed Notion synchronization.",
+  "author": {
+    "name": "Avishek Biswas"
+  },
+  "repository": "https://github.com/abiswas97/bonboncinnabon",
+  "license": "MIT",
+  "keywords": [
+    "notion",
+    "project-management",
+    "brainstorming",
+    "sync",
+    "dashboard",
+    "tasks"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "DevLab",
+    "shortDescription": "Notion-backed project and task workflows.",
+    "longDescription": "DevLab connects a repository to a Notion project for confirmed synchronization, task planning, safe transitions, and terminal dashboards.",
+    "developerName": "Avishek Biswas",
+    "category": "Productivity",
+    "capabilities": [
+      "Notion project setup",
+      "Task planning and lifecycle",
+      "Project dashboards",
+      "Repository synchronization"
+    ],
+    "defaultPrompt": "Help me manage this project's work with DevLab."
+  }
+}

@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 import { execFile } from "node:child_process";
-import { readFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, readFile, rm } from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
@@ -25,16 +26,62 @@ async function pinnedBinary(name) {
   }
 }
 
-async function run(command, args) {
+async function run(command, args, environment = {}) {
   try {
     return await execFileAsync(command, args, {
       cwd: ROOT,
       timeout: 30_000,
       maxBuffer: 1024 * 1024,
-      env: { ...process.env, NO_COLOR: "1" },
+      env: { ...process.env, NO_COLOR: "1", ...environment },
     });
   } catch (error) {
     throw new Error(`${command} ${args.join(" ")} failed:\n${error.stdout ?? ""}${error.stderr ?? error.message}`);
+  }
+}
+
+async function assertSkills(installedPath, skillNames, host) {
+  for (const skill of skillNames) {
+    for (const relative of [
+      `skills/${skill}/SKILL.md`,
+      ...(host === "Codex" ? [`skills/${skill}/agents/openai.yaml`] : []),
+    ]) {
+      try {
+        await access(path.join(installedPath, relative));
+      } catch {
+        throw new Error(`${host} clean install is missing ${relative}`);
+      }
+    }
+  }
+}
+
+async function validateDevlabInstall(claude, codex) {
+  const plugin = await readJson(path.join(ROOT, "plugins/devlab/plugin.json"));
+  const selector = "devlab@bonboncinnabon";
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "bonbon-devlab-install-"));
+  const claudeHome = path.join(temporary, "claude");
+  const codexHome = path.join(temporary, "codex");
+  try {
+    await Promise.all([mkdir(claudeHome), mkdir(codexHome)]);
+    await run(codex.command, ["plugin", "marketplace", "add", ROOT, "--json"], { CODEX_HOME: codexHome });
+    const codexInstall = await run(codex.command, ["plugin", "add", selector, "--json"], { CODEX_HOME: codexHome });
+    const codexResult = JSON.parse(codexInstall.stdout);
+    if (codexResult.version !== plugin.version) {
+      throw new Error(`Codex installed DevLab ${codexResult.version}, expected ${plugin.version}`);
+    }
+    await assertSkills(codexResult.installedPath, plugin.components.skills.map(({ name }) => name), "Codex");
+
+    await run(claude.command, ["plugin", "marketplace", "add", ROOT, "--scope", "user"], { CLAUDE_CONFIG_DIR: claudeHome });
+    await run(claude.command, ["plugin", "install", selector, "--scope", "user", "--yes"], { CLAUDE_CONFIG_DIR: claudeHome });
+    const claudeList = await run(claude.command, ["plugin", "list", "--json"], { CLAUDE_CONFIG_DIR: claudeHome });
+    const claudePayload = JSON.parse(claudeList.stdout);
+    const claudeInstalled = Array.isArray(claudePayload) ? claudePayload : claudePayload.installed;
+    const claudeResult = claudeInstalled.find(({ id }) => id === selector);
+    if (!claudeResult || claudeResult.version !== plugin.version) {
+      throw new Error(`Claude clean install did not resolve ${selector} at ${plugin.version}`);
+    }
+    await assertSkills(claudeResult.installPath, plugin.components.skills.map(({ name }) => name), "Claude");
+  } finally {
+    await rm(temporary, { recursive: true, force: true });
   }
 }
 
@@ -58,4 +105,5 @@ for (const [host, expected, actual] of [
     throw new Error(`Expected pinned ${host} ${expected ?? "(missing)"}, got ${actual}`);
   }
 }
-process.stdout.write("Pinned Claude manifests and Codex CLI contract validated.\n");
+await validateDevlabInstall(claude, codex);
+process.stdout.write("Pinned host contracts and clean DevLab installs validated.\n");
