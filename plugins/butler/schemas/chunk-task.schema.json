@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/abiswas97/bonboncinnabon/blob/main/plugins/butler/schemas/chunk-task.schema.json",
+  "$id": "https://github.com/bonboncinnabon/bonboncinnabon/blob/main/plugins/butler/schemas/chunk-task.schema.json",
   "version": "0.3.1",
   "$comment": "Versioned with the butler plugin release (plugins/butler/CHANGELOG.md). Last schema change: 0.3.1 (priority disambiguation, reminder.triggers array).",
   "title": "Butler chunk task",

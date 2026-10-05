@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/abiswas97/bonboncinnabon/schemas/marketplace.schema.json",
+  "$id": "https://github.com/bonboncinnabon/bonboncinnabon/schemas/marketplace.schema.json",
   "title": "Bonboncinnabon canonical marketplace",
   "type": "object",
   "additionalProperties": false,

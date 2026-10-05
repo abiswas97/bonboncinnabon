@@ -157,7 +157,7 @@ Completes the structured-interview rollout and makes the convention single-sourc
 Review-driven hardening of the 0.3.0 release. No behavior change to scheduling.
 
 ### Fixed
-- Schema `$id`s corrected from the stale `abiswas97/butler` path to the real `abiswas97/bonboncinnabon` monorepo path; all four schemas now carry an explicit `version` pinned to the plugin release (answering "is the schema versioned?").
+- Schema `$id`s corrected from the stale `bonboncinnabon/butler` path to the real `bonboncinnabon/bonboncinnabon` monorepo path; all four schemas now carry an explicit `version` pinned to the plugin release (answering "is the schema versioned?").
 - `chunk-task` `reminder` now models `triggers` as a non-empty array, matching TickTick's `reminders[]` shape (was a single `trigger` string, which couldn't express "at due AND 15m before").
 - Disambiguated the two `priority` fields with `$comment`s — parent-task = TickTick numeric priority (0/1/3/5); chunk-task = must/should/want commitment TAG — so the shared name can't be conflated.
 - Tightened `intake` vs `decompose` trigger descriptions to remove overlapping bare verbs ("break this down" now belongs to decompose); trimmed a behavioral rule out of intake's description.

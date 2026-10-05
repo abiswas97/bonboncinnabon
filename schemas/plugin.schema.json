@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/abiswas97/bonboncinnabon/schemas/plugin.schema.json",
+  "$id": "https://github.com/bonboncinnabon/bonboncinnabon/schemas/plugin.schema.json",
   "title": "Bonboncinnabon canonical local plugin",
   "type": "object",
   "additionalProperties": false,
