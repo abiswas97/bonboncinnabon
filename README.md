@@ -16,7 +16,7 @@ A portable plugin marketplace for Claude Code and Codex. The repository keeps ho
 From a Claude Code session:
 
 ```text
-/plugin marketplace add abiswas97/bonboncinnabon
+/plugin marketplace add bonboncinnabon/bonboncinnabon
 /plugin install standards@bonboncinnabon
 /plugin install butler@bonboncinnabon
 /plugin install devlab@bonboncinnabon
@@ -25,7 +25,7 @@ From a Claude Code session:
 Or from a shell:
 
 ```sh
-claude plugin marketplace add abiswas97/bonboncinnabon
+claude plugin marketplace add bonboncinnabon/bonboncinnabon
 claude plugin install standards@bonboncinnabon
 claude plugin install butler@bonboncinnabon
 claude plugin install devlab@bonboncinnabon
@@ -50,7 +50,7 @@ not bypass that host confirmation.
 ## Codex CLI
 
 ```sh
-codex plugin marketplace add abiswas97/bonboncinnabon
+codex plugin marketplace add bonboncinnabon/bonboncinnabon
 codex plugin add standards@bonboncinnabon
 codex plugin add butler@bonboncinnabon
 codex plugin add devlab@bonboncinnabon

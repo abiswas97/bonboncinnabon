@@ -4,7 +4,7 @@
   "version": "0.1.2",
   "description": "Portable engineering commandments and low-noise lifecycle guidance for Claude Code and Codex.",
   "author": { "name": "Avishek Biswas" },
-  "repository": "https://github.com/abiswas97/bonboncinnabon",
+  "repository": "https://github.com/bonboncinnabon/bonboncinnabon",
   "license": "MIT",
   "category": "DeveloperTools",
   "tags": ["engineering-standards", "code-quality", "architecture", "verification", "hooks"],

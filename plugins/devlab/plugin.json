@@ -4,7 +4,7 @@
   "version": "0.4.0",
   "description": "Task-centric project management with debate-driven planning, terminal dashboards, and confirmed Notion synchronization.",
   "author": { "name": "Avishek Biswas" },
-  "repository": "https://github.com/abiswas97/bonboncinnabon",
+  "repository": "https://github.com/bonboncinnabon/bonboncinnabon",
   "license": "MIT",
   "category": "Productivity",
   "tags": ["notion", "project-management", "brainstorming", "sync", "dashboard", "tasks"],

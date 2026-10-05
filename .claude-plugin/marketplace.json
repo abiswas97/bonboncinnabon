@@ -10,11 +10,11 @@
       "name": "postgres",
       "source": {
         "source": "github",
-        "repo": "abiswas97/postgres-mcp"
+        "repo": "bonboncinnabon/postgres-mcp"
       },
       "description": "PostgreSQL database access with health diagnostics, slow query analysis, and connection monitoring",
       "category": "database",
-      "homepage": "https://github.com/abiswas97/postgres-mcp",
+      "homepage": "https://github.com/bonboncinnabon/postgres-mcp",
       "tags": [
         "postgresql",
         "database",
