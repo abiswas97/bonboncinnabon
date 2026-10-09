@@ -1,0 +1,33 @@
+plugins/gaming/tests/test_checks.py
+  s_4b386d1b6e6dbc::t_77b47fede51b42 402-425
+plugins/gaming/tests/test_sync_tree.py
+  s_4b386d1b6e6dbc::t_28f7fc2713e565 447-463
+plugins/gaming/skills/sync/SKILL.md
+  s_4b386d1b6e6dbc::t_1027926e7c36a7 25
+  s_4b386d1b6e6dbc::t_ac48bb9f3ec054 33
+plugins/gaming/scripts/checks.py
+  s_4b386d1b6e6dbc::t_87c77f35aa8cf9 13,47,428-470,501-507
+  s_4b386d1b6e6dbc::t_77b47fede51b42 40-43
+plugins/gaming/scripts/sync_tree.py
+  s_4b386d1b6e6dbc::t_49a86d63d340c7 16,185-196,198,209,217,236,242-243,262-263,266-269,271
+openspec/changes/add-gaming-plugin/parity.md
+  s_4b386d1b6e6dbc::t_662f90cb806db7 134
+plugins/gaming/references/verification.md
+  s_4b386d1b6e6dbc::t_9fc5208187fada 29-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "2095a58f2fb1d51711701df45af0f9c276ec1f51",
+  "prompts": {},
+  "sessions": {
+    "s_4b386d1b6e6dbc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "71d7b866-a6cc-4f5d-8063-fea1bdd75403",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
