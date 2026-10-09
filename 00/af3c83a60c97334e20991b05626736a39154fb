@@ -1,0 +1,227 @@
+plugins/gaming/references/reviewer.md
+  s_4b386d1b6e6dbc::t_1b41141f3f8659 20
+  s_4b386d1b6e6dbc::t_336c88e5c217ee 28-31,33-36,38-40,42-43
+  s_4b386d1b6e6dbc::t_2407c45b0a09c3 1-12,14-19,21-27,32,37,41,44-52
+  s_4b386d1b6e6dbc::t_d009f46b198e5b 13
+openspec/changes/add-gaming-plugin/proposal.md
+  s_4b386d1b6e6dbc::t_64be6724bd743e 1-34
+openspec/changes/add-gaming-plugin/design.md
+  s_4b386d1b6e6dbc::t_5f19c8dfd6310b 1-29,31,33,35-101,103-132
+  s_4b386d1b6e6dbc::t_b27b2301572595 30,32,34,102
+openspec/changes/add-gaming-plugin/specs/portable-plugin-marketplace/spec.md
+  s_4b386d1b6e6dbc::t_57c0b13a0e3fa4 1-16
+plugins/gaming/skills/sync/SKILL.md
+  s_4b386d1b6e6dbc::t_9ca0f5e2a303eb 42
+  s_4b386d1b6e6dbc::t_ad9dacb4c00db4 26-33,35-38,40-41,43-44
+  s_4b386d1b6e6dbc::t_3abfc46abff553 1-23,25,34,39,45-66
+  s_4b386d1b6e6dbc::t_ddaf7f3c263420 24
+openspec/changes/add-gaming-plugin/specs/frontend-baseline/spec.md
+  s_4b386d1b6e6dbc::t_c17056e3f631b8 1-40
+plugins/gaming/tests/test_snapshot.py
+  s_4b386d1b6e6dbc::t_fd9eb859b045e7 129-130,135,138-139,168-174,217-239,257,262,267-268,270-271,283,294,297-298,303-306,357-364
+  s_4b386d1b6e6dbc::t_46f1c0289229c5 1-128,131-134,136-137,140-167,175-216,240-256,258-261,263-266,269,272-282,284-293,295-296,299-302,307-356,365-375
+plugins/gaming/.gitignore
+  s_4b386d1b6e6dbc::t_215c3061cee669 1-2
+plugins/gaming/tests/test_sync_tree.py
+  s_4b386d1b6e6dbc::t_4078406cf95d39 423-446
+  s_4b386d1b6e6dbc::t_322c91f8beff8a 1-202,227-422,447-448
+  s_4b386d1b6e6dbc::t_7ba350daa263e7 203-226
+package.json
+  s_4b386d1b6e6dbc::t_3d038975073bec 13,16,20
+plugins/gaming/scripts/sync_tree.py
+  s_4b386d1b6e6dbc::t_9af8b9ebf6a398 10-11,106,200,215,244-245,250
+  s_4b386d1b6e6dbc::t_48cac5580256b2 58-62,66-68,93,98-103,105,185,187,197-198,201-205,224,246-247,251
+  s_4b386d1b6e6dbc::t_709bcef36298e7 228-229
+  s_4b386d1b6e6dbc::t_684bf118f6c0cf 16
+  s_4b386d1b6e6dbc::t_c63875d896ec48 1-9,12-15,17-57,63-65,69-92,94-97,104,107-184,186,188-196,199,206-214,216-223,225-227,230-243,248-249,252-259
+plugins/gaming/skills/setup/SKILL.md
+  s_4b386d1b6e6dbc::t_19385fc9afaedc 65
+  s_4b386d1b6e6dbc::t_ea23f70c79a6fe 1-64,66-74
+plugins/gaming/references/library-layout.md
+  s_4b386d1b6e6dbc::t_f15d1579e007ea 42
+  s_4b386d1b6e6dbc::t_fd0387d073b908 1-29,31-41,43-63
+  s_4b386d1b6e6dbc::t_17489a108d814d 30
+RELEASING.md
+  s_4b386d1b6e6dbc::t_8696835ef3197e 23
+plugins/gaming/references/profile.md
+  s_4b386d1b6e6dbc::t_7f881841464ecb 1-18,20-56
+  s_4b386d1b6e6dbc::t_45b27988e9a5a1 19
+plugins/gaming/references/tools/es-de.md
+  s_4b386d1b6e6dbc::t_4fb5e3f45a2a47 33
+  s_4b386d1b6e6dbc::t_3acca6f7324c9d 50-51
+  s_4b386d1b6e6dbc::t_9b1b2b958a2867 1-32,34-49,52
+openspec/changes/add-gaming-plugin/specs/game-sync-and-backup/spec.md
+  s_4b386d1b6e6dbc::t_0c68e2af99179d 1-52,55-69
+  s_4b386d1b6e6dbc::t_5d567777c5497f 53-54
+plugins/gaming/schemas/profile.schema.json
+  s_4b386d1b6e6dbc::t_546f711e94779a 1-24,26-125
+  s_4b386d1b6e6dbc::t_5cffabcce74eac 25
+plugins/gaming/references/device-install.md
+  s_4b386d1b6e6dbc::t_019b17e5b0804a 14,16
+  s_4b386d1b6e6dbc::t_8f543ad0efc9f8 1-13,15,17-28,32-39
+  s_4b386d1b6e6dbc::t_da9bbbd788ae47 29-30
+  s_4b386d1b6e6dbc::t_19385fc9afaedc 31
+plugins/gaming/references/frontend-baseline.md
+  s_4b386d1b6e6dbc::t_8132946fc52899 23-25
+  s_4b386d1b6e6dbc::t_a09937d28e033e 52,54
+  s_4b386d1b6e6dbc::t_9f6d61bb4710c6 1-22,26-51
+  s_4b386d1b6e6dbc::t_19385fc9afaedc 53,55-56
+plugins/gaming/references/verification.md
+  s_4b386d1b6e6dbc::t_2c1acfa32d1e0c 27
+  s_4b386d1b6e6dbc::t_0f32d189204ae1 28
+  s_4b386d1b6e6dbc::t_030ab8d88d9666 1-15,17-22,24-26,30-36,38-51,54-75
+  s_4b386d1b6e6dbc::t_aa453e46e2ba1d 52-53
+  s_4b386d1b6e6dbc::t_c15a06086b7dad 16
+  s_4b386d1b6e6dbc::t_d009f46b198e5b 23,29,76
+  s_4b386d1b6e6dbc::t_19385fc9afaedc 37
+plugins/gaming/scripts/verify_rom.py
+  s_4b386d1b6e6dbc::t_e211ac8a5938b0 8-9,12-16,34,171,191-193
+  s_4b386d1b6e6dbc::t_cc68b1cde4fce1 1-7,10-11,17-33,35-170,172-190,194-201
+plugins/gaming/profile.example.json
+  s_4b386d1b6e6dbc::t_f0dd0700102381 58
+  s_4b386d1b6e6dbc::t_c1f6edeac87254 1-9,11-57,59-113
+  s_4b386d1b6e6dbc::t_9c41dc998afd04 10
+plugins/gaming/skills/onboard/SKILL.md
+  s_4b386d1b6e6dbc::t_19385fc9afaedc 51
+  s_4b386d1b6e6dbc::t_e891e68e9aa4a9 32
+  s_4b386d1b6e6dbc::t_56c4e7440072da 46-48,50,52-53
+  s_4b386d1b6e6dbc::t_268cbf48c2b601 1-29,33-45,54-67
+  s_4b386d1b6e6dbc::t_cf18fb3c4e5877 30
+  s_4b386d1b6e6dbc::t_d009f46b198e5b 31,49
+plugins/gaming/README.md
+  s_4b386d1b6e6dbc::t_d61eb5bb17a938 1-58
+openspec/changes/add-gaming-plugin/parity.md
+  s_4b386d1b6e6dbc::t_50eb63b43d8292 44,96,118,128,133
+  s_4b386d1b6e6dbc::t_37fa1737aa2172 46,48-49,90,97-98,100,144,147-148,151
+  s_4b386d1b6e6dbc::t_19385fc9afaedc 99,114
+  s_4b386d1b6e6dbc::t_9a8ed8a7e0e612 1-43,45,47,50-89,91-95,101-113,115-117,119-127,129-132,134-143,145-146,149-150,152-182
+plugins/gaming/tests/portability.test.mjs
+  s_4b386d1b6e6dbc::t_ebf496e66bbd46 29
+  s_4b386d1b6e6dbc::t_e4a5de4ad69fe2 1-28,30,36,38,40-50,52-53,64
+  s_4b386d1b6e6dbc::t_6de322e14ecb7f 31-35,37,39
+  s_4b386d1b6e6dbc::t_5d72e976e8f33b 51
+  s_4b386d1b6e6dbc::t_aad1320d5386c6 54-63
+plugins/gaming/scripts/gaming_profile.py
+  s_4b386d1b6e6dbc::t_9c41dc998afd04 133-135
+  s_4b386d1b6e6dbc::t_34066f18e08169 1-34,36-132,136-353
+  s_4b386d1b6e6dbc::t_6252cc87fdae89 35
+openspec/changes/add-gaming-plugin/tasks.md
+  s_4b386d1b6e6dbc::t_72e0a4b2a1f86a 1-2,6-8,12-14,19-21,27-29,36-38,41-43,48-51,53-54
+  s_4b386d1b6e6dbc::t_080c83d916f63c 3-5,9-11,15-18,22-26,30-35,39-40,44-47
+  s_4b386d1b6e6dbc::t_28af3996f4153b 52
+marketplace/marketplace.json
+  s_4b386d1b6e6dbc::t_727aecb72be810 43-48
+plugins/gaming/scripts/checks.py
+  s_4b386d1b6e6dbc::t_f90f5e62836722 20-21
+  s_4b386d1b6e6dbc::t_adb45f314f5552 294-297,299,365,417,419
+  s_4b386d1b6e6dbc::t_81fec2b7399c02 11,30-33,309-320,322-333,335-339,342-348,351-353,379,381-385
+  s_4b386d1b6e6dbc::t_26d71dfe1ef8b9 321
+  s_4b386d1b6e6dbc::t_bd4fcc7de210bc 357,361,370-372
+  s_4b386d1b6e6dbc::t_c8d65ee0c2cefe 263-266
+  s_4b386d1b6e6dbc::t_426d7e93a5e779 12,25-28,34-38,51,280-293,298,300-308,349-350,356,358-360,362-364,366-369,373-378,380,386-416,418,420-421,442-445,447-451,458
+  s_4b386d1b6e6dbc::t_2602496e7c0f24 340-341,354-355
+  s_4b386d1b6e6dbc::t_932642ed7d18f1 29,446
+  s_4b386d1b6e6dbc::t_7e7afb62ce3d56 162,191
+  s_4b386d1b6e6dbc::t_a8a9e88bd0c829 334
+  s_4b386d1b6e6dbc::t_d186741efe789c 1-10,13-19,22-24,39-50,52-93,98-101,103-161,163-190,192-262,267-279,422-441,452-457,459-469
+  s_4b386d1b6e6dbc::t_4ac71366a71fc0 94-97,102
+plugins/gaming/tests/test_checks.py
+  s_4b386d1b6e6dbc::t_a8a9e88bd0c829 262-263,318-332,334-337
+  s_4b386d1b6e6dbc::t_2e1e83833a8053 225-233
+  s_4b386d1b6e6dbc::t_273502ca700a4c 258-261,264-289,291-298,301-306,339,355-401
+  s_4b386d1b6e6dbc::t_7e7afb62ce3d56 186
+  s_4b386d1b6e6dbc::t_12b3acbec50c48 172,180
+  s_4b386d1b6e6dbc::t_2a8be04aec8440 307-317,338
+  s_4b386d1b6e6dbc::t_7febf4fc98ead3 299-300
+  s_4b386d1b6e6dbc::t_ca10020c35cbcb 290
+  s_4b386d1b6e6dbc::t_26d71dfe1ef8b9 333
+  s_4b386d1b6e6dbc::t_2602496e7c0f24 340-354
+  s_4b386d1b6e6dbc::t_b5b8063a8d8b19 1-171,173-179,181-185,187-224,234-257,402-403
+openspec/changes/add-gaming-plugin/specs/gaming-profile/spec.md
+  s_4b386d1b6e6dbc::t_c85564ab1fbbcf 1-9,11-19,21-25,27-103
+  s_4b386d1b6e6dbc::t_68411e5a6c9b01 10,20,26
+plugins/gaming/plugin.json
+  s_4b386d1b6e6dbc::t_0f50df7509bea9 1-64
+plugins/gaming/skills/backup/SKILL.md
+  s_4b386d1b6e6dbc::t_d009f46b198e5b 3
+  s_4b386d1b6e6dbc::t_6dac13a61614f3 15
+  s_4b386d1b6e6dbc::t_c7a89c9ee57b45 38-39
+  s_4b386d1b6e6dbc::t_7afbfae6246e69 1-2,4-14,16-29,31-37,40-52
+  s_4b386d1b6e6dbc::t_19385fc9afaedc 30
+plugins/gaming/tests/test_gaming_profile.py
+  s_4b386d1b6e6dbc::t_dfdc7064e9e465 1-96,104-137
+  s_4b386d1b6e6dbc::t_6252cc87fdae89 97-103
+README.md
+  s_4b386d1b6e6dbc::t_f31d8210ba1ab2 12,24,34,60
+plugins/gaming/scripts/esde_baseline.py
+  s_4b386d1b6e6dbc::t_046274115a0d86 1-113
+plugins/gaming/references/acquisition.md
+  s_4b386d1b6e6dbc::t_d009f46b198e5b 14
+  s_4b386d1b6e6dbc::t_e67caf5f50d055 1-13,15-30
+plugins/gaming/skills/configure/SKILL.md
+  s_4b386d1b6e6dbc::t_0093873f80a848 1-51
+plugins/gaming/skills/cheats/SKILL.md
+  s_4b386d1b6e6dbc::t_03e9d64c6cfe0c 1-62
+plugins/gaming/tests/test_verify_rom.py
+  s_4b386d1b6e6dbc::t_a66dcfca16db5a 1-146,160-161
+  s_4b386d1b6e6dbc::t_5b28455433c19e 147-159
+plugins/gaming/scripts/snapshot.py
+  s_4b386d1b6e6dbc::t_15bcf83023eee7 1-5,18-23,26-56,61-75,79-137,144-166,168-188,191-222,224,227,229-252,257-310,312,321,323-324,326,328,338-401,405-406,408,420-445
+  s_4b386d1b6e6dbc::t_8ceb376197b3dc 6-17,24-25,57-60,167,189-190,223,225-226,228,253-256,311,313-320,322,325,327,329-337,402-404,407,409-419
+  s_4b386d1b6e6dbc::t_a3a820c0149c2e 76-78,138-143
+tools/portability/validate-json-schemas.py
+  s_4b386d1b6e6dbc::t_b24e39509fc594 48-52
+openspec/changes/add-gaming-plugin/.openspec.yaml
+  s_4b386d1b6e6dbc::t_a4d27fb77b9e35 1-2
+plugins/gaming/CHANGELOG.md
+  s_4b386d1b6e6dbc::t_9c70ad870658b1 1-19
+plugins/gaming/references/tools/retroarch.md
+  s_4b386d1b6e6dbc::t_6d27045f32019d 1-77
+  s_4b386d1b6e6dbc::t_c5701491512535 78-82
+openspec/changes/add-gaming-plugin/specs/game-library/spec.md
+  s_4b386d1b6e6dbc::t_ebf08c0c3c9151 1-95
+  s_4b386d1b6e6dbc::t_47ff8710bbdd60 96-107
+plugins/gaming/tests/test_esde_baseline.py
+  s_4b386d1b6e6dbc::t_5a0e91e257d33e 1-27,29,32-55,57-112,119-133
+  s_4b386d1b6e6dbc::t_6252cc87fdae89 28,30-31,56,113-118
+openspec/changes/add-gaming-plugin/specs/emulator-customization/spec.md
+  s_4b386d1b6e6dbc::t_1f189592c596cc 1-53
+tests/generator.test.mjs
+  s_4b386d1b6e6dbc::t_38a1a10539794b 17,22,33-34
+.agents/plugins/marketplace.json
+  s_4b386d1b6e6dbc::t_475cba3608ef86 42-53
+.claude-plugin/marketplace.json
+  s_4b386d1b6e6dbc::t_1005b5a89fb2e2 69-83
+plugins/gaming/.claude-plugin/plugin.json
+  s_4b386d1b6e6dbc::t_4ab6e1b64a7ae0 1-19
+plugins/gaming/.codex-plugin/plugin.json
+  s_4b386d1b6e6dbc::t_c97b93d89f014b 1-35
+plugins/gaming/skills/backup/agents/openai.yaml
+  s_4b386d1b6e6dbc::t_1426bfe30f6b1a 1-5
+plugins/gaming/skills/cheats/agents/openai.yaml
+  s_4b386d1b6e6dbc::t_7dad54b4f0086a 1-5
+plugins/gaming/skills/configure/agents/openai.yaml
+  s_4b386d1b6e6dbc::t_baae2e53c40156 1-5
+plugins/gaming/skills/onboard/agents/openai.yaml
+  s_4b386d1b6e6dbc::t_f9743c3b03b58e 1-5
+plugins/gaming/skills/setup/agents/openai.yaml
+  s_4b386d1b6e6dbc::t_1fae4dcf2c89a9 1-5
+plugins/gaming/skills/sync/agents/openai.yaml
+  s_4b386d1b6e6dbc::t_a5c2ef151a59bd 1-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "00af3c83a60c97334e20991b05626736a39154fb",
+  "prompts": {},
+  "sessions": {
+    "s_4b386d1b6e6dbc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "71d7b866-a6cc-4f5d-8063-fea1bdd75403",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Avi <avishek.biswas.1997@gmail.com>"
+    }
+  }
+}
