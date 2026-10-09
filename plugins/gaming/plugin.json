@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "name": "gaming",
+  "version": "0.1.0",
+  "description": "Game library and device workflows: verified onboarding, non-destructive sync, device snapshots, emulator settings and cheats, sharing one profile across hosts.",
+  "author": {
+    "name": "Avi Biswas"
+  },
+  "repository": "https://github.com/bonboncinnabon/bonboncinnabon",
+  "license": "MIT",
+  "category": "Productivity",
+  "tags": ["gaming", "emulation", "es-de", "retroarch", "backup", "library"],
+  "hosts": ["claude", "codex"],
+  "components": {
+    "skills": [
+      {
+        "name": "setup",
+        "displayName": "Gaming Setup",
+        "shortDescription": "Create or update the shared gaming profile",
+        "defaultPrompt": "Use $setup to set up or update my gaming profile."
+      },
+      {
+        "name": "onboard",
+        "displayName": "Onboard Game",
+        "shortDescription": "Add verified games, art and manuals to the library",
+        "defaultPrompt": "Use $onboard to add this game to my library."
+      },
+      {
+        "name": "sync",
+        "displayName": "Sync Library",
+        "shortDescription": "Back up the library and update devices safely",
+        "defaultPrompt": "Use $sync to back up my game library and update my devices."
+      },
+      {
+        "name": "backup",
+        "displayName": "Back Up Device",
+        "shortDescription": "Snapshot a device's emulator setup and saves",
+        "defaultPrompt": "Use $backup to snapshot my device's emulator setup and saves."
+      },
+      {
+        "name": "configure",
+        "displayName": "Configure Emulator",
+        "shortDescription": "Change emulator and frontend settings safely",
+        "defaultPrompt": "Use $configure to change this emulator or frontend setting."
+      },
+      {
+        "name": "cheats",
+        "displayName": "Game Cheats",
+        "shortDescription": "Find, build and install cheats and save edits",
+        "defaultPrompt": "Use $cheats to set up cheats for this game."
+      }
+    ],
+    "commands": [],
+    "hooks": null
+  },
+  "interface": {
+    "displayName": "Gaming",
+    "shortDescription": "Game library, device and emulator workflows.",
+    "longDescription": "Gaming keeps a verified, system-first game library, backs it up without deletions, snapshots devices, records each device's frontend setup as a baseline, and handles emulator settings and cheats. One profile shared by Claude Code and Codex remembers libraries, devices and how to reach them.",
+    "developerName": "Avi Biswas",
+    "capabilities": ["Game onboarding", "Library sync and backup", "Device snapshots", "Frontend baselines", "Emulator configuration", "Cheats and save edits"],
+    "defaultPrompt": "Help me manage my game library and devices."
+  }
+}

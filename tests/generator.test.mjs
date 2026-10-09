@@ -14,10 +14,12 @@ async function fixtureRoot() {
   await mkdir(path.join(root, "plugins/devlab/skills"), { recursive: true });
   await mkdir(path.join(root, "plugins/butler/skills"), { recursive: true });
   await mkdir(path.join(root, "plugins/standards/skills"), { recursive: true });
+  await mkdir(path.join(root, "plugins/gaming/skills"), { recursive: true });
   await cp(path.join(ROOT, "marketplace/marketplace.json"), path.join(root, "marketplace/marketplace.json"));
   await cp(path.join(ROOT, "plugins/devlab/plugin.json"), path.join(root, "plugins/devlab/plugin.json"));
   await cp(path.join(ROOT, "plugins/butler/plugin.json"), path.join(root, "plugins/butler/plugin.json"));
   await cp(path.join(ROOT, "plugins/standards/plugin.json"), path.join(root, "plugins/standards/plugin.json"));
+  await cp(path.join(ROOT, "plugins/gaming/plugin.json"), path.join(root, "plugins/gaming/plugin.json"));
   return root;
 }
 
@@ -28,8 +30,8 @@ test("projection order and host filtering are deterministic", async () => {
   assert.equal([...first.keys()].some((target) => target.startsWith("openspec/specs/")), false);
   const claude = JSON.parse(first.get(".claude-plugin/marketplace.json"));
   const codex = JSON.parse(first.get(".agents/plugins/marketplace.json"));
-  assert.deepEqual(claude.plugins.map(({ name }) => name), ["postgres", "devlab", "butler", "standards"]);
-  assert.deepEqual(codex.plugins.map(({ name }) => name), ["devlab", "butler", "standards"]);
+  assert.deepEqual(claude.plugins.map(({ name }) => name), ["postgres", "devlab", "butler", "standards", "gaming"]);
+  assert.deepEqual(codex.plugins.map(({ name }) => name), ["devlab", "butler", "standards", "gaming"]);
 });
 
 test("host hook projections use collision-free discovery and intentionally differ", async () => {

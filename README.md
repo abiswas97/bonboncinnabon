@@ -9,6 +9,7 @@ A portable plugin marketplace for Claude Code and Codex. The repository keeps ho
 | `butler` | yes | yes | Executive-function-friendly task decomposition and daily planning |
 | `standards` | yes | yes | Ten engineering commandments and scoped, advisory lifecycle guidance |
 | `devlab` | yes | yes | Notion-backed project setup, task workflows, synchronization, and dashboards |
+| `gaming` | yes | yes | Verified game library, non-destructive sync, device snapshots, frontend baselines, emulator settings and cheats |
 | `postgres` | yes | no | External repository; native Codex package not published here |
 
 ## Claude Code
@@ -20,6 +21,7 @@ From a Claude Code session:
 /plugin install standards@bonboncinnabon
 /plugin install butler@bonboncinnabon
 /plugin install devlab@bonboncinnabon
+/plugin install gaming@bonboncinnabon
 ```
 
 Or from a shell:
@@ -29,6 +31,7 @@ claude plugin marketplace add bonboncinnabon/bonboncinnabon
 claude plugin install standards@bonboncinnabon
 claude plugin install butler@bonboncinnabon
 claude plugin install devlab@bonboncinnabon
+claude plugin install gaming@bonboncinnabon
 ```
 
 In the Claude Desktop Code surface, open the plugin manager in a Code session and use the same marketplace and plugin identifiers. Restart Claude after an update so the new package is loaded.
@@ -54,6 +57,7 @@ codex plugin marketplace add bonboncinnabon/bonboncinnabon
 codex plugin add standards@bonboncinnabon
 codex plugin add butler@bonboncinnabon
 codex plugin add devlab@bonboncinnabon
+codex plugin add gaming@bonboncinnabon
 ```
 
 Refresh or remove:

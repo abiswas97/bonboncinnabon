@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/bonboncinnabon/bonboncinnabon/blob/main/plugins/gaming/schemas/profile.schema.json",
+  "title": "Gaming profile",
+  "description": "Shared gaming profile at ${XDG_CONFIG_HOME:-~/.config}/bonboncinnabon/gaming/profile.json. scripts/gaming_profile.py enforces the same rules at runtime, plus credential rejection and one canonical library.",
+  "type": "object",
+  "required": ["schema_version", "timezone", "libraries", "backup_targets", "devices", "collections", "policies", "preferences"],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": { "const": 1 },
+    "timezone": { "type": "string", "description": "IANA timezone used for snapshot and run timestamps." },
+    "libraries": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["root"],
+        "additionalProperties": true,
+        "properties": {
+          "root": { "$ref": "#/$defs/absolutePath" },
+          "volume": { "$ref": "#/$defs/absolutePath", "description": "Mount point that must be mounted before writing." },
+          "canonical": { "type": "boolean" },
+          "extra_sources": { "type": "array", "items": { "$ref": "#/$defs/absolutePath" }, "description": "Other folders to search before downloading." },
+          "off_limits": { "type": "array", "items": { "$ref": "#/$defs/absolutePath" }, "description": "Folders on the same drive that no skill reads from or writes to." },
+          "notes": { "$ref": "#/$defs/notes" }
+        }
+      }
+    },
+    "backup_targets": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["kind", "enabled", "library"],
+        "additionalProperties": true,
+        "properties": {
+          "kind": { "type": "string" },
+          "enabled": { "type": "boolean" },
+          "library": { "$ref": "#/$defs/id" },
+          "scope": { "type": "string" },
+          "local_mirror": { "$ref": "#/$defs/absolutePath" },
+          "verify": { "type": "object", "additionalProperties": { "type": "boolean" } }
+        }
+      }
+    },
+    "devices": {
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["label", "connect"],
+        "additionalProperties": true,
+        "properties": {
+          "label": { "type": "string", "minLength": 1 },
+          "platform": { "type": "string" },
+          "connect": {
+            "type": "object",
+            "required": ["method"],
+            "properties": {
+              "method": { "enum": ["ssh", "local"] },
+              "ssh_alias": { "type": "string", "minLength": 1 },
+              "hints": { "type": "array", "items": { "type": "string" } }
+            },
+            "if": { "properties": { "method": { "const": "ssh" } } },
+            "then": { "required": ["ssh_alias"] }
+          },
+          "paths": { "type": "object", "additionalProperties": { "type": "string" } },
+          "systems": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["emulator"],
+              "properties": {
+                "emulator": { "type": "string" },
+                "core": { "type": "string" },
+                "folder": { "type": "string" }
+              }
+            }
+          },
+          "emulators": { "type": "object", "additionalProperties": { "type": "object" } },
+          "frontend": {
+            "type": "object",
+            "properties": {
+              "app": { "type": "string" },
+              "home": { "type": "string" },
+              "settings_file": { "type": "string" },
+              "requires_stopped_confirmation": { "type": "boolean" },
+              "snapshot": { "type": "string", "description": "Library-relative folder holding Current and Prepared." },
+              "baseline": {
+                "type": "object",
+                "properties": {
+                  "settings": { "type": "object", "additionalProperties": { "type": "string" } },
+                  "notes": { "type": "array", "items": { "type": "string" } }
+                }
+              }
+            }
+          },
+          "install_opt_in": { "type": "boolean" },
+          "notes": { "$ref": "#/$defs/notes" }
+        }
+      }
+    },
+    "collections": { "type": "object" },
+    "policies": { "type": "object", "additionalProperties": { "type": "boolean" } },
+    "preferences": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "absolutePath": { "type": "string", "pattern": "^/" },
+    "notes": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "required": ["date", "text"],
+        "additionalProperties": false,
+        "properties": {
+          "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+          "text": { "type": "string", "minLength": 1, "maxLength": 300 }
+        }
+      }
+    }
+  }
+}

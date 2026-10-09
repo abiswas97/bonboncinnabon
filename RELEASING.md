@@ -20,5 +20,6 @@ Current intended tags:
 - `devlab--v0.4.0`
 - `butler--v0.11.0`
 - `standards--v0.1.2`
+- `gaming--v0.1.0`
 
 Never reuse or move a published tag. Release a corrected patch version instead.
