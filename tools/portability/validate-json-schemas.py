@@ -45,6 +45,11 @@ validate(
     "plugins/standards/standards/registry.json",
 )
 Draft202012Validator.check_schema(read_json("schemas/standards-overlay.schema.json"))
+validate(
+    "plugins/gaming/schemas/profile.schema.json",
+    read_json("plugins/gaming/profile.example.json"),
+    "plugins/gaming/profile.example.json",
+)
 for relative in (
     "plugins/devlab/domain/config.schema.json",
     "plugins/devlab/domain/renderer.schema.json",

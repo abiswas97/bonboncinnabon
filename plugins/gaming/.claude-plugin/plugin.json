@@ -1,0 +1,19 @@
+{
+  "name": "gaming",
+  "displayName": "Gaming",
+  "version": "0.1.0",
+  "description": "Game library and device workflows: verified onboarding, non-destructive sync, device snapshots, emulator settings and cheats, sharing one profile across hosts.",
+  "author": {
+    "name": "Avi Biswas"
+  },
+  "repository": "https://github.com/bonboncinnabon/bonboncinnabon",
+  "license": "MIT",
+  "keywords": [
+    "gaming",
+    "emulation",
+    "es-de",
+    "retroarch",
+    "backup",
+    "library"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "name": "gaming",
+  "version": "0.1.0",
+  "description": "Game library and device workflows: verified onboarding, non-destructive sync, device snapshots, emulator settings and cheats, sharing one profile across hosts.",
+  "author": {
+    "name": "Avi Biswas"
+  },
+  "repository": "https://github.com/bonboncinnabon/bonboncinnabon",
+  "license": "MIT",
+  "keywords": [
+    "gaming",
+    "emulation",
+    "es-de",
+    "retroarch",
+    "backup",
+    "library"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Gaming",
+    "shortDescription": "Game library, device and emulator workflows.",
+    "longDescription": "Gaming keeps a verified, system-first game library, backs it up without deletions, snapshots devices, records each device's frontend setup as a baseline, and handles emulator settings and cheats. One profile shared by Claude Code and Codex remembers libraries, devices and how to reach them.",
+    "developerName": "Avi Biswas",
+    "category": "Productivity",
+    "capabilities": [
+      "Game onboarding",
+      "Library sync and backup",
+      "Device snapshots",
+      "Frontend baselines",
+      "Emulator configuration",
+      "Cheats and save edits"
+    ],
+    "defaultPrompt": "Help me manage my game library and devices."
+  }
+}

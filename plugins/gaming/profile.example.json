@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "timezone": "Europe/London",
+  "libraries": {
+    "main": {
+      "root": "/Volumes/GameDrive/Games",
+      "volume": "/Volumes/GameDrive",
+      "canonical": true,
+      "extra_sources": ["/Volumes/GameDrive/Old Handheld Library"],
+      "off_limits": ["/Volumes/GameDrive/Unrelated Backups"],
+      "notes": []
+    }
+  },
+  "backup_targets": {
+    "cloud": {
+      "kind": "google-drive",
+      "enabled": true,
+      "library": "main",
+      "scope": "Entire library plus device recovery snapshots",
+      "folder_id": "cloud-folder-id",
+      "folder_url": "https://drive.google.com/drive/folders/cloud-folder-id",
+      "local_mirror": "/Users/you/Library/CloudStorage/GoogleDrive-you@example.com/My Drive/Games",
+      "verify": {
+        "local_bytes": true,
+        "cloud_presence": true,
+        "cloud_bytes_required_for_full_claim": true
+      }
+    }
+  },
+  "devices": {
+    "handheld": {
+      "label": "Android Handheld",
+      "platform": "android",
+      "connect": {
+        "method": "ssh",
+        "ssh_alias": "handheld",
+        "hints": ["Wake the device and turn on its VPN if SSH times out."]
+      },
+      "paths": {
+        "roms": "/storage/SDCARD/ROMs",
+        "saves": "/storage/emulated/0/Emulation/Saves",
+        "states": "/storage/emulated/0/Emulation/States",
+        "bios": "/storage/emulated/0/RetroArch/system",
+        "device_backups": "/storage/emulated/0/Emulation/Backups"
+      },
+      "systems": {
+        "gba": { "emulator": "retroarch", "core": "mgba", "folder": "gba" },
+        "gb": { "emulator": "retroarch", "core": "gambatte", "folder": "gb" }
+      },
+      "emulators": {
+        "retroarch": {
+          "version": "1.21",
+          "package": "com.retroarch.aarch64",
+          "config": "/storage/emulated/0/Android/data/com.retroarch.aarch64/files/retroarch.cfg",
+          "config_dirs": ["/storage/emulated/0/RetroArch/config", "/storage/emulated/0/RetroArch/autoconfig"],
+          "config_keys": ["rgui_config_directory", "input_remapping_directory", "joypad_autoconfig_dir", "core_options_path"],
+          "config_extensions": [".cfg", ".opt", ".rmp", ".slangp", ".glslp", ".cgp"],
+          "data_keys": ["savefile_directory", "savestate_directory", "system_directory"],
+          "cheats_dir": "/storage/emulated/0/RetroArch/cheats"
+        }
+      },
+      "frontend": {
+        "app": "es-de",
+        "home": "/storage/SDCARD/ES-DE",
+        "settings_file": "/storage/SDCARD/ES-DE/settings/es_settings.xml",
+        "requires_stopped_confirmation": true,
+        "snapshot": "Frontends/ES-DE/Android Handheld",
+        "baseline": {
+          "settings": {
+            "ThemeSet": "theme-folder-name",
+            "ThemeVariant": "variant-name",
+            "CollectionShowSystemInfo": "true"
+          },
+          "notes": ["Custom collections stay grouped; game lists use still images."]
+        }
+      },
+      "install_opt_in": false,
+      "notes": [
+        { "date": "2026-01-01", "text": "Example durable fact about this device." }
+      ]
+    },
+    "desktop": {
+      "label": "Desktop",
+      "platform": "macos",
+      "connect": { "method": "local" },
+      "paths": {},
+      "systems": {
+        "ps2": { "emulator": "pcsx2" }
+      },
+      "emulators": {
+        "pcsx2": { "version": "2.0" }
+      },
+      "install_opt_in": false,
+      "notes": []
+    }
+  },
+  "collections": {
+    "upkeep": true,
+    "review_on_every_addition": true,
+    "rules": [
+      { "name": "cozy", "includes": "Gentle games such as farming and puzzle titles." }
+    ]
+  },
+  "policies": {
+    "no_automatic_deletions": true,
+    "preserve_conflicts": true,
+    "recovery_before_overwrite": true,
+    "no_timestamp_winner_for_saves": true
+  },
+  "preferences": [
+    "Play windowed rather than fullscreen."
+  ]
+}

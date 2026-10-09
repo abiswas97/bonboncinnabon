@@ -66,6 +66,21 @@
         "verification",
         "hooks"
       ]
+    },
+    {
+      "name": "gaming",
+      "version": "0.1.0",
+      "source": "./plugins/gaming",
+      "description": "Game library and device workflows: verified onboarding, non-destructive sync, device snapshots, emulator settings and cheats, sharing one profile across hosts.",
+      "category": "productivity",
+      "tags": [
+        "gaming",
+        "emulation",
+        "es-de",
+        "retroarch",
+        "backup",
+        "library"
+      ]
     }
   ]
 }

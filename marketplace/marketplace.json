@@ -40,6 +40,12 @@
       "kind": "local",
       "path": "./plugins/standards",
       "hosts": ["claude", "codex"]
+    },
+    {
+      "name": "gaming",
+      "kind": "local",
+      "path": "./plugins/gaming",
+      "hosts": ["claude", "codex"]
     }
   ]
 }
