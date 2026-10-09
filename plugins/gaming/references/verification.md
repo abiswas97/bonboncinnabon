@@ -26,7 +26,8 @@ Scripts establish mechanical facts, and one fresh reviewer checks the judgment c
 | Manifest entries exist with recorded sizes and hashes | `scripts/checks.py manifest ROOT [--hash]` |
 | Manifest kept every earlier key and entry | `scripts/checks.py manifest-preserved OLD NEW [--moved OLD=NEW] [--updated PATH]` |
 | Files on a device match the library | `scripts/checks.py device-hashes --device ID --map MAP.json` |
-| Non-destructive copy with hash proof | `scripts/sync_tree.py SOURCE DEST EVIDENCE [--apply] [--preserve-conflicts] [--recovery-root PATH] [--exclude NAME]` |
+| New and changed files for a cloud mirror, without downloading | `scripts/checks.py delta SOURCE TARGET [--exclude NAME] [--since DATE] [--list FILE]` |
+| Non-destructive copy with hash proof | `scripts/sync_tree.py SOURCE DEST EVIDENCE [--apply] [--preserve-conflicts] [--recovery-root PATH] [--exclude NAME] [--only LIST]` |
 | Read-only device snapshot | `scripts/snapshot.py --device ID --scope config\|full` |
 | Frontend settings match the baseline | `scripts/esde_baseline.py check --settings FILE --device ID` |
 

@@ -399,5 +399,29 @@ class DeviceHashesTest(TempTest):
         self.assertIn("absolute device paths", err)
 
 
+class DeltaTest(TempTest):
+    def test_lists_new_resized_and_recent_files_only(self):
+        src, dst = self.dir / "src", self.dir / "dst"
+        for rel, data in (("a.gba", b"same"), ("b.gba", b"grown!"), ("Staging/x.part", b"skip"), ("._a.gba", b"m")):
+            self.write(f"src/{rel}", data)
+        self.write("src/new/c.gba", b"new")
+        self.write("dst/a.gba", b"same")
+        self.write("dst/b.gba", b"old")
+        old = 1_000_000_000
+        os.utime(src / "a.gba", (old, old))
+        listing = self.dir / "delta.txt"
+        code, out, _ = run("delta", src, dst, "--exclude", "Staging", "--since", "2026-01-01", "--list", listing)
+        self.assertEqual(code, 0)
+        report = json.loads(out)
+        self.assertEqual({e["relative"]: e["reason"] for e in report["delta"]},
+                         {"b.gba": "size-differs", "new/c.gba": "new"})
+        self.assertEqual(report["unchanged_by_name_and_size"], 1)
+        self.assertEqual(listing.read_text().splitlines(), ["b.gba", "new/c.gba"])
+        os.utime(src / "a.gba", None)
+        code, out, _ = run("delta", src, dst, "--exclude", "Staging", "--since", "2026-01-01")
+        self.assertIn({"relative": "a.gba", "reason": "changed-since", "bytes": 4, "target_online_only": False},
+                      json.loads(out)["delta"])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -10,6 +10,7 @@ Usage:
   checks.py manifest ROOT [--hash]
   checks.py manifest-preserved OLD NEW [--moved OLDPATH=NEWPATH]... [--updated PATH|/KEY/PATH]...
   checks.py device-hashes --device ID --map FILE
+  checks.py delta SOURCE TARGET [--exclude NAME]... [--since YYYY-MM-DD] [--list FILE]
 
 mounted     The library root exists and, when given, its volume is a mount point.
             --library reads root and volume from the gaming profile.
@@ -36,9 +37,14 @@ device-hashes
             file, read through snapshot.py's backend for the profile device,
             must have the same SHA-256 as its local file. Contents are never
             printed.
+delta       Source files the target lacks, holds at a different size, or that
+            changed since --since (local midnight). Only metadata is read at
+            the target, so online-only cloud files are never downloaded.
+            --list writes the paths for sync_tree.py --only.
 """
 
 import argparse
+import datetime
 import hashlib
 import json
 import os
@@ -419,6 +425,49 @@ def device_hashes(args):
     return report, failure if summary["mismatch"] or summary["missing"] else None
 
 
+# delta ------------------------------------------------------------------------
+
+def delta(args):
+    """List source files a cloud mirror lacks, holds at another size, or that changed since a date.
+
+    Only metadata is read at the target, so online-only cloud files are never downloaded.
+    """
+    since = datetime.date.fromisoformat(args.since) if args.since else None
+    cutoff = datetime.datetime.combine(since, datetime.time()).timestamp() if since else None
+    entries, unchanged = [], 0
+    for folder, dirs, names in os.walk(args.source):
+        if os.path.samefile(folder, args.source):
+            dirs[:] = [name for name in dirs if name not in args.exclude]
+            names = [name for name in names if name not in args.exclude]
+        dirs.sort()
+        for name in sorted(names):
+            if _is_metadata(name):
+                continue
+            path = os.path.join(folder, name)
+            rel = os.path.relpath(path, args.source).replace(os.sep, "/")
+            info, target = os.stat(path), os.path.join(args.target, rel)
+            if not os.path.exists(target):
+                reason = "new"
+            elif os.path.getsize(target) != info.st_size:
+                reason = "size-differs"
+            elif cutoff is not None and info.st_mtime >= cutoff:
+                reason = "changed-since"
+            else:
+                unchanged += 1
+                continue
+            entry = {"relative": rel, "reason": reason, "bytes": info.st_size}
+            if reason != "new":
+                there = os.stat(target)
+                entry["target_online_only"] = there.st_blocks * 512 < there.st_size
+            entries.append(entry)
+    if args.list:
+        with open(args.list, "w", encoding="utf-8") as file:
+            file.writelines(entry["relative"] + "\n" for entry in entries)
+    report = {"source": args.source, "target": args.target, "since": args.since,
+              "unchanged_by_name_and_size": unchanged, "delta": entries}
+    return report, None
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     commands = parser.add_subparsers(dest="command", required=True)
@@ -449,6 +498,13 @@ def main(argv=None):
     hashes.add_argument("--device", required=True, metavar="ID")
     hashes.add_argument("--map", required=True, metavar="FILE")
     hashes.set_defaults(run=device_hashes)
+    changes = commands.add_parser("delta")
+    changes.add_argument("source")
+    changes.add_argument("target")
+    changes.add_argument("--exclude", action="append", default=[], metavar="NAME")
+    changes.add_argument("--since", metavar="YYYY-MM-DD")
+    changes.add_argument("--list", metavar="FILE", help="write the delta paths for sync_tree.py --only")
+    changes.set_defaults(run=delta)
     args = parser.parse_args(argv)
     if args.command == "mounted" and args.library and args.volume:
         parser.error("--volume goes with --root; --library reads the volume from the profile")

@@ -22,6 +22,7 @@ The plugin root is two folders above this file. Run scripts as `python3 <plugin 
 1. **Check and discover (read-only).**
    - Run `checks.py mounted --library <id>`.
    - Ground each cloud target before writing: check that the local mirror exists, and confirm the folder (id, name, location) with the cloud connector. Without a connector, write nothing to that target and report it as pending.
+   - Check free space where each local mirror lives. Desktop sync clients can keep every mirrored file on the internal disk, so the copy needs at least the size of the new and changed files.
    - Run `checks.py manifest <root>`, and run the baseline drift check for each device's frontend.
 2. **Library first.** Open a run ledger under `<root>/Staging/<run id>/` (see `verification.md`), and keep script evidence in its `evidence/` folder. Then update the library itself before copying it anywhere:
    1. Copy `library-manifest.json` to `<run>/manifest-before.json`.
@@ -29,6 +30,7 @@ The plugin root is two folders above this file. Run scripts as `python3 <plugin 
    3. Copy the profile to `<root>/Tools/profile.json` and compare hashes.
 3. **Change set.**
    - For each folder target, run `sync_tree.py <root> <target> <run>/evidence/<target>.json --exclude Staging` without `--apply`. This covers every folder and the root-level files, and conflict copies land in `<target>/Recovery/Previous Cloud Files/`. Add `--exclude` for anything else outside the target's scope.
+   - If a cloud mirror keeps some files online-only (a file's allocated size is below its real size), hashing unchanged files downloads them. Build the change set with `checks.py delta <root> <target> --exclude Staging --since <date of the last verified run> --list <run>/delta.txt`, which reads only names and sizes at the target, and add `--only <run>/delta.txt` to `sync_tree.py`. Report the unchanged files as checked by name and size only.
    - The library is authoritative for its own `library-manifest.json` and `Tools/profile.json`, so conflicts on those two are expected. When they are the only conflicts, apply with `--preserve-conflicts`, and the target keeps the old copy in its recovery folder. Any other conflict waits for the owner to name the authoritative copy.
    - Device targets do not use `sync_tree.py`. They go through `references/device-install.md`: SSH or SCP by alias, its reviewer gate on the install plan, then its "After writing" checks.
    - Show the owner the plan: counts, conflicts, collection edits and pending frontend writes.

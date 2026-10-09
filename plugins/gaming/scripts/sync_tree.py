@@ -13,7 +13,7 @@ Nothing is ever deleted, and the evidence never claims cloud presence.
 
 Usage:
   sync_tree.py SOURCE DESTINATION EVIDENCE [--apply] [--preserve-conflicts]
-               [--recovery-root PATH] [--exclude NAME]...
+               [--recovery-root PATH] [--exclude NAME]... [--only LIST]
 """
 
 import argparse
@@ -182,9 +182,20 @@ def total_bytes(rows):
     return sum(row["bytes"] for row in rows)
 
 
-def reverify(source, files, rows, skip=()):
+def select(files, only):
+    """Keep only the listed relative paths; every listed path must be in the source."""
+    if only is None:
+        return files
+    present = {str(relative) for relative in files}
+    missing = sorted(only - present)
+    if missing:
+        raise SyncError(f"listed path not in source: {missing[0]}")
+    return [relative for relative in files if str(relative) in only]
+
+
+def reverify(source, files, rows, skip=(), only=None):
     """Refuse if the source tree, or any file read earlier, changed during the run."""
-    if inventory(source, skip)[0] != files:
+    if select(inventory(source, skip)[0], only) != files:
         raise SyncError("source inventory changed")
     for row in rows:
         path = source / row["relative"]
@@ -195,7 +206,7 @@ def reverify(source, files, rows, skip=()):
 
 
 def sync(source, destination, evidence, apply=False, preserve_conflicts=False, recovery_root=None,
-         exclude=()):
+         exclude=(), only=None):
     source, destination, evidence = (Path(p).resolve() for p in (source, destination, evidence))
     recovery_root = Path(recovery_root).resolve() if recovery_root else destination / RECOVERY
     exclude = tuple(exclude)
@@ -203,6 +214,7 @@ def sync(source, destination, evidence, apply=False, preserve_conflicts=False, r
         raise SyncError("--exclude takes a top-level name, not a path")
     check_roots(source, destination, evidence, recovery_root, exclude)
     files, excluded = inventory(source, exclude)
+    files = select(files, only)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     rows = []
     last = time.monotonic()
@@ -221,12 +233,14 @@ def sync(source, destination, evidence, apply=False, preserve_conflicts=False, r
             print(json.dumps({"verified_files": len(rows), "total_files": len(files),
                               "bytes_processed": total_bytes(rows)}), flush=True)
             last = time.monotonic()
-    reverify(source, files, rows, exclude)
+    reverify(source, files, rows, exclude, only)
     result = {"status": "local-copy-verified" if apply else "plan", "source": str(source),
               "destination": str(destination), "files": rows, "excluded_filesystem_metadata": excluded,
               "cloud_presence_verified": False, "cloud_hashes_verified": False}
     if exclude:
         result["excluded_top_level"] = list(exclude)
+    if only is not None:
+        result["only_listed_paths"] = len(only)
     write_evidence(evidence, result)
     print(json.dumps({"status": result["status"], "files": len(rows), "bytes": total_bytes(rows),
                       "conflicts": sum(row["action"] == "conflict" for row in rows)}), flush=True)
@@ -245,10 +259,16 @@ def main(argv=None):
                         help="where preserved conflicts go; default DESTINATION/Recovery/Previous Cloud Files")
     parser.add_argument("--exclude", action="append", default=[], metavar="NAME",
                         help="leave out this top-level entry of SOURCE; EVIDENCE may live inside it")
+    parser.add_argument("--only", metavar="LIST",
+                        help="file of relative paths, one per line; sync only these (see checks.py delta)")
     args = parser.parse_args(argv)
     try:
+        only = None
+        if args.only:
+            with open(args.only, encoding="utf-8") as file:
+                only = {line.rstrip("\n") for line in file if line.strip()}
         sync(args.source, args.destination, args.evidence, args.apply, args.preserve_conflicts,
-             args.recovery_root, args.exclude)
+             args.recovery_root, args.exclude, only)
     except (SyncError, OSError) as error:
         print(f"sync_tree: {error}", file=sys.stderr)
         return 1

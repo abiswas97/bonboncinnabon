@@ -444,5 +444,22 @@ class SyncTreeTest(unittest.TestCase):
         self.assertIn("top-level name", err)
 
 
+    def test_only_syncs_listed_paths_and_refuses_unknown_ones(self):
+        write(self.source / "new.gba", b"new")
+        write(self.source / "big/untouched.iso", b"unchanged")
+        write(self.dest / "big/untouched.iso", b"unchanged")
+        listing = write(self.tmp / "delta.txt", b"new.gba\n")
+        with mock.patch.object(st, "digest", wraps=st.digest) as spy:
+            code, _, err = self.cli("--apply", "--only", str(listing))
+        self.assertEqual((code, err), (0, ""))
+        self.assertTrue((self.dest / "new.gba").is_file())
+        self.assertNotIn(self.dest / "big/untouched.iso", [call.args[0] for call in spy.call_args_list])
+        self.assertEqual(json.loads(self.evidence.read_text())["only_listed_paths"], 1)
+        write(self.tmp / "delta.txt", b"missing.gba\n")
+        code, _, err = self.cli("--only", str(listing))
+        self.assertEqual(code, 1)
+        self.assertIn("listed path not in source: missing.gba", err)
+
+
 if __name__ == "__main__":
     unittest.main()

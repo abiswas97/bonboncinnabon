@@ -131,6 +131,7 @@ Approved change: rows O3, O6 and G10 move from a model verifier at every stage t
 | T8 | Status `plan` or `local-copy-verified`; cloud flags false | scr:sync_tree + test |
 | T9 | Plan by default, `--apply` to write | scr:sync_tree + test |
 | T10 | (new) Whole-tree runs can leave out top-level entries such as `Staging/`, and keep their evidence there | scr:sync_tree `--exclude` + test |
+| T11 | (new) Cloud mirrors with online-only files are synced as a delta (names and sizes at the target, hashes only for new or changed files) so nothing is downloaded | scr:checks `delta`, scr:sync_tree `--only` + tests, sk:sync |
 
 ## retrobackup
 
